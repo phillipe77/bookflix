@@ -1,7 +1,10 @@
-const API_BASE = 'https://back-bookflix.vercel.app/api/books'; // Este é o endereço onde seu backend está rodando
+const API_BASE = 'https://back-bookflix.vercel.app/api/books'; // Certifique-se de que esta URL esteja correta
 
 const basicFetch = async(endpoint) => {
     const req = await fetch(`${API_BASE}${endpoint}`);
+    if (!req.ok) {
+        throw new Error(`Failed to fetch ${endpoint}: ${req.statusText}`);
+    }
     const json = await req.json();
     return json;
 }
