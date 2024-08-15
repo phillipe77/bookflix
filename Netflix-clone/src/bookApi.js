@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api/books'; // Este é o endereço onde seu backend está rodando
+const API_BASE = 'https://bookflix-1ej1.vercel.app'; // Este é o endereço onde seu backend está rodando
 
 const basicFetch = async(endpoint) => {
     const req = await fetch(`${API_BASE}${endpoint}`);
