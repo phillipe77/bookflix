@@ -2,19 +2,21 @@ import React from 'react';
 import './Header.css';
 import bookflixLogo from './bookflix.jpg';
 
-export default ({black}) => {
+const Header = ({ black }) => {
     return (
         <header className={black ? 'black' : ''}>
             <div className="logo">
-                <a href="#">
+                <button onClick={() => {}} className="link-button">
                     <img src={bookflixLogo} alt="bookflix"/>
-                </a>
+                </button>
             </div>
             <div className="user">
-                <a href="#">
+                <button onClick={() => {}} className="link-button">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="UserImage"/>
-                </a>
+                </button>
             </div>
         </header>
     );
 }
+
+export default Header;
