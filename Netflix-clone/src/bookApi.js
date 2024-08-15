@@ -6,7 +6,8 @@ const basicFetch = async(endpoint) => {
     return json;
 }
 
-export default {
+// Criação do objeto 'bookApi' e exportação
+const bookApi = {
     getHomeList: async() => { 
         return [
             {
@@ -32,3 +33,5 @@ export default {
         return info;
     }
 }
+
+export default bookApi;
