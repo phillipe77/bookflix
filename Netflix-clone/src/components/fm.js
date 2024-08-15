@@ -1,6 +1,5 @@
 import React from 'react';
 import './fm.css';
-import { Switch, Route, Link } from 'react-router-dom';
 import bannerImage from './banner.jpg';
 
 const Fm = ({ item }) => {
