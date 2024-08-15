@@ -1,0 +1,45 @@
+/* src/components/BookDetails.css */
+.book-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.book-info {
+    text-align: center;
+}
+
+.book-cover {
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-info h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.book-info p {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.pdf-viewer {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.pdf-container {
+    width: 100%;
+    height: 800px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
