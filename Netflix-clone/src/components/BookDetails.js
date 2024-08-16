@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
-import { Document, Page, pdfjs } from 'react-pdf'; // Importações do react-pdf
+import { Document, Page, pdfjs } from 'react-pdf'; // Certifique-se de que 'Document' e 'Page' sejam importados uma única vez
 import './BookDetails.css';
 
 // Configurando o caminho do worker
