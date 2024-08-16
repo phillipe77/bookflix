@@ -54,6 +54,7 @@ const BookDetails = () => {
                         title="PDF Viewer"
                         width="100%" 
                         height="800px"
+                        sandbox="allow-same-origin allow-scripts allow-popups"
                         style={{ border: 'none' }}
                     />
                 </div>
