@@ -3,12 +3,10 @@ import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
 import { Document, Page, pdfjs } from 'react-pdf'; // Importações do react-pdf
 import './BookDetails.css';
-
-// Importando o pdfjsLib para configurar o workerSrc
-import { GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
+import { Document, Page, pdfjs } from 'react-pdf'; // Certifique-se de que essa linha esteja presente
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.entry';
 
-pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;  // Configurando o caminho do worker
+pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;  // Conf
 
 const BookDetails = () => {
     const { id } = useParams();
