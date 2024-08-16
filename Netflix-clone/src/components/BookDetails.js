@@ -38,10 +38,7 @@ const BookDetails = () => {
         return <div>Livro não encontrado!</div>;
     }
 
-    // Configuração dos documentos para o DocViewer
-    const docs = [
-        { uri: book.pdfUrl }
-    ];
+    const docs = [{ uri: book.pdfUrl }]; // Array de documentos para o DocViewer
 
     return (
         <div className="book-details">
@@ -54,7 +51,12 @@ const BookDetails = () => {
             </div>
             <div className="pdf-viewer">
                 <h2>Leia o Livro:</h2>
-                <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} />
+                <div className="pdf-container">
+                    <DocViewer 
+                        documents={docs} 
+                        pluginRenderers={DocViewerRenderers} 
+                    />
+                </div>
             </div>
         </div>
     );
