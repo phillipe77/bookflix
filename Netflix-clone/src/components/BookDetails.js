@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
-import { Document, Page, pdfjs } from 'react-pdf';
-import './BookDetails.css';
+import { Page, Text, View, Document, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 
-// Defina o workerSrc diretamente como uma string
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'row',
+        backgroundColor: '#E4E4E4'
+    },
+    section: {
+        margin: 10,
+        padding: 10,
+        flexGrow: 1
+    }
+});
 
 const BookDetails = () => {
     const { id } = useParams();
@@ -40,6 +48,19 @@ const BookDetails = () => {
         return <div>Livro não encontrado!</div>;
     }
 
+    const MyDocument = () => (
+        <Document>
+            <Page size="A4" style={styles.page}>
+                <View style={styles.section}>
+                    <Text>{book.title}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>{book.description}</Text>
+                </View>
+            </Page>
+        </Document>
+    );
+
     return (
         <div className="book-details">
             <div className="book-info">
@@ -51,11 +72,9 @@ const BookDetails = () => {
             </div>
             <div className="pdf-viewer">
                 <h2>Leia o Livro:</h2>
-                <div className="pdf-container">
-                    <Document file={book.pdfUrl}>
-                        <Page pageNumber={1} />
-                    </Document>
-                </div>
+                <PDFViewer width="100%" height="800">
+                    <MyDocument />
+                </PDFViewer>
             </div>
         </div>
     );
