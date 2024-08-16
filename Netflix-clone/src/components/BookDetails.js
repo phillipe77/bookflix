@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
 import './BookDetails.css';
+import { Document, Page } from 'react-pdf';
 
 const BookDetails = () => {
     const { id } = useParams();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -24,6 +27,10 @@ const BookDetails = () => {
 
         fetchBook();
     }, [id]);
+
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+    };
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -49,14 +56,25 @@ const BookDetails = () => {
             <div className="pdf-viewer">
                 <h2>Leia o Livro:</h2>
                 <div className="pdf-container">
-                    <iframe 
-                        src={book.pdfUrl} 
-                        title="PDF Viewer"
-                        width="100%" 
-                        height="800px"
-                        sandbox="allow-same-origin allow-scripts allow-popups"
-                        style={{ border: 'none' }}
-                    />
+                    <Document
+                        file={book.pdfUrl}
+                        onLoadSuccess={onDocumentLoadSuccess}
+                    >
+                        <Page pageNumber={pageNumber} />
+                    </Document>
+                    <p>Página {pageNumber} de {numPages}</p>
+                    <button
+                        disabled={pageNumber <= 1}
+                        onClick={() => setPageNumber(pageNumber - 1)}
+                    >
+                        Anterior
+                    </button>
+                    <button
+                        disabled={pageNumber >= numPages}
+                        onClick={() => setPageNumber(pageNumber + 1)}
+                    >
+                        Próximo
+                    </button>
                 </div>
             </div>
         </div>
