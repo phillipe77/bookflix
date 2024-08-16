@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
-import { Document, Page, pdfjs } from 'react-pdf'; // Certifique-se de que 'Document' e 'Page' sejam importados uma única vez
+import { Document, Page, pdfjs } from 'react-pdf';
 import './BookDetails.css';
 
-// Configurando o caminho do worker
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.entry';
-
-pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
+// Defina o workerSrc diretamente como uma string
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const BookDetails = () => {
     const { id } = useParams();
