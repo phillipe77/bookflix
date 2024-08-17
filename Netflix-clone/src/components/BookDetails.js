@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
 import { Viewer, Worker, ScrollMode, ViewMode } from '@react-pdf-viewer/core';
-import { toolbarPlugin } from '@react-pdf-viewer/toolbar';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/toolbar/lib/styles/index.css';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -13,8 +13,36 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const toolbarPluginInstance = toolbarPlugin();
-    const { Toolbar } = toolbarPluginInstance;
+    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+        toolbarPlugin: {
+            // Customize the toolbar to remove the "open" button
+            renderToolbar: (Toolbar) => (
+                <Toolbar>
+                    {(props) => {
+                        const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
+                        return (
+                            <>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <GoToFirstPage />
+                                    <GoToPreviousPage />
+                                    <PageNumber />
+                                    <GoToNextPage />
+                                    <GoToLastPage />
+                                    <ZoomOut />
+                                    <ZoomIn />
+                                    <Search />
+                                    <Print />
+                                    <Download />
+                                    {/* Removendo o botão de Upload/Open */}
+                                    {/* <Open /> */}
+                                </div>
+                            </>
+                        );
+                    }}
+                </Toolbar>
+            ),
+        },
+    });
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -57,43 +85,12 @@ const BookDetails = () => {
                 <div className="pdf-viewer-container">
                     <div className="pdf-viewer">
                         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                            <Toolbar>
-                                {(props) => {
-                                    const { 
-                                        ZoomIn, 
-                                        ZoomOut, 
-                                        Print, 
-                                        Download, 
-                                        Search, 
-                                        GoToFirstPage, 
-                                        GoToLastPage, 
-                                        GoToNextPage, 
-                                        GoToPreviousPage, 
-                                        CurrentPageInput, 
-                                        NumberOfPages 
-                                    } = props;
-                                    return (
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <GoToFirstPage />
-                                            <GoToPreviousPage />
-                                            <CurrentPageInput /> / <NumberOfPages />
-                                            <GoToNextPage />
-                                            <GoToLastPage />
-                                            <ZoomOut />
-                                            <ZoomIn />
-                                            <Search />
-                                            <Print />
-                                            <Download />
-                                        </div>
-                                    );
-                                }}
-                            </Toolbar>
                             <Viewer
                                 fileUrl={book.pdfUrl}
                                 defaultScale={1.0}
                                 scrollMode={ScrollMode.Vertical}
                                 viewMode={ViewMode.SinglePage}
-                                plugins={[toolbarPluginInstance]}
+                                plugins={[defaultLayoutPluginInstance]}
                                 theme="dark"
                             />
                         </Worker>
