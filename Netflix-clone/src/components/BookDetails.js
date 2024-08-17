@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
-import { Viewer } from '@react-pdf-viewer/core';
+import { Viewer, Worker, ScrollMode, ViewMode } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -10,6 +12,9 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Plugin para layout padrão com barra de ferramentas e barra lateral
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -47,10 +52,21 @@ const BookDetails = () => {
                 <p><strong>Descrição:</strong> {book.description}</p>
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
-            <div className="pdf-viewer">
+            <div className="pdf-viewer-section">
                 <h2>Leia o Livro:</h2>
-                <div className="pdf-container" style={{ height: '750px', border: '1px solid rgba(0, 0, 0, 0.3)' }}>
-                    <Viewer fileUrl={book.pdfUrl} />
+                <div className="pdf-viewer-container">
+                    <div className="pdf-viewer">
+                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                            <Viewer
+                                fileUrl={book.pdfUrl}
+                                defaultScale={1.0}
+                                scrollMode={ScrollMode.Wrapped}
+                                viewMode={ViewMode.DualPageWithCover}
+                                plugins={[defaultLayoutPluginInstance]}
+                                theme="dark"
+                            />
+                        </Worker>
+                    </div>
                 </div>
             </div>
         </div>
