@@ -5,10 +5,12 @@
     flex-direction: column;
     align-items: center;
     padding: 40px;
-    max-width: 1000px;  /* Aumentando a largura máxima */
+    max-width: 1000px;  /* Mantendo a largura máxima */
     margin: 0 auto;
-    color: #fff;
-    background-color: #f4f4f4;
+    color: #333;  /* Alterando a cor do texto para melhorar o contraste */
+    background-color: #f9f9f9;  /* Ajustando o fundo para um cinza claro */
+    border-radius: 10px;  /* Adicionando bordas arredondadas ao contêiner */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);  /* Adicionando uma sombra suave */
 }
 
 .book-info {
@@ -17,21 +19,33 @@
 }
 
 .book-cover {
-    width: 200px;
+    width: 250px;  /* Aumentando um pouco a capa para melhor visualização */
     height: auto;
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.book-info h1 {
+    font-size: 2.5rem;  /* Reduzindo um pouco o tamanho do título */
+    margin-bottom: 10px;
+    color: #444;  /* Cor do título */
+}
+
+.book-info p {
+    font-size: 1.2rem;  /* Ajustando o tamanho da fonte das descrições */
+    margin-bottom: 10px;
+    color: #555;  /* Cor das descrições */
+}
+
 .pdf-viewer-section {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;  /* Ajustando a margem superior */
 }
 
 .pdf-viewer-container {
     width: 100%;
-    height: 95vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,12 +53,13 @@
     padding: 20px;
     box-sizing: border-box;
     border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .pdf-viewer {
     width: 100%;
     height: 100%;
-    max-width: 900px;  /* Aumentando a largura máxima do visualizador */
+    max-width: 900px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     overflow: hidden;
