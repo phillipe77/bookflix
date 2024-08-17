@@ -19,7 +19,7 @@ const BookDetails = () => {
             renderToolbar: (Toolbar) => (
                 <Toolbar>
                     {(props) => {
-                        const { Download, Open, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
+                        const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
                         return (
                             <>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
