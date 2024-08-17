@@ -5,6 +5,7 @@ import { Viewer, Worker, ScrollMode, ViewMode } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { toolbarPlugin } from '@react-pdf-viewer/toolbar';
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -13,34 +14,35 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Criando um plugin de barra de ferramentas personalizada
+    const toolbarPluginInstance = toolbarPlugin();
+    const { Toolbar } = toolbarPluginInstance;
+
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
-        toolbarPlugin: {
-            // Customize the toolbar to remove the "open" button
-            renderToolbar: (Toolbar) => (
-                <Toolbar>
+        renderToolbar: (ToolbarSlot) => {
+            return (
+                <ToolbarSlot>
                     {(props) => {
                         const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
                         return (
                             <>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <GoToFirstPage />
-                                    <GoToPreviousPage />
-                                    <PageNumber />
-                                    <GoToNextPage />
-                                    <GoToLastPage />
-                                    <ZoomOut />
-                                    <ZoomIn />
-                                    <Search />
-                                    <Print />
-                                    <Download />
-                                    {/* Removendo o botão de Upload/Open */}
-                                    {/* <Open /> */}
-                                </div>
+                                <GoToFirstPage />
+                                <GoToPreviousPage />
+                                <PageNumber />
+                                <GoToNextPage />
+                                <GoToLastPage />
+                                <ZoomOut />
+                                <ZoomIn />
+                                <Search />
+                                <Print />
+                                <Download />
+                                {/* Removendo o botão de Upload/Open */}
+                                {/* <Open /> */}
                             </>
                         );
                     }}
-                </Toolbar>
-            ),
+                </ToolbarSlot>
+            );
         },
     });
 
@@ -90,7 +92,7 @@ const BookDetails = () => {
                                 defaultScale={1.0}
                                 scrollMode={ScrollMode.Vertical}
                                 viewMode={ViewMode.SinglePage}
-                                plugins={[defaultLayoutPluginInstance]}
+                                plugins={[toolbarPluginInstance, defaultLayoutPluginInstance]}
                                 theme="dark"
                             />
                         </Worker>
