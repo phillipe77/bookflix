@@ -13,7 +13,6 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Plugin para layout padrão com barra de ferramentas e barra lateral
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
     useEffect(() => {
@@ -60,8 +59,8 @@ const BookDetails = () => {
                             <Viewer
                                 fileUrl={book.pdfUrl}
                                 defaultScale={1.0}
-                                scrollMode={ScrollMode.Wrapped}
-                                viewMode={ViewMode.DualPageWithCover}
+                                scrollMode={ScrollMode.Vertical} // Modo de rolagem vertical
+                                viewMode={ViewMode.SinglePage}  // Modo de visualização de página única
                                 plugins={[defaultLayoutPluginInstance]}
                                 theme="dark"
                             />
