@@ -31,7 +31,7 @@
 
 .pdf-viewer-container {
     width: 100%;
-    height: 100vh;  /* Reduzindo a altura para evitar que ocupe toda a tela */
+    height: 95vh;  /* Reduzindo a altura para evitar que ocupe toda a tela */
     display: flex;
     justify-content: center;
     align-items: center;
