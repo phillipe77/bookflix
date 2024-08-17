@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import "@cyntler/react-doc-viewer/dist/index.css";
+import { Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -38,8 +38,6 @@ const BookDetails = () => {
         return <div>Livro não encontrado!</div>;
     }
 
-    const docs = [{ uri: book.pdfUrl }]; // Array de documentos para o DocViewer
-
     return (
         <div className="book-details">
             <div className="book-info">
@@ -51,11 +49,8 @@ const BookDetails = () => {
             </div>
             <div className="pdf-viewer">
                 <h2>Leia o Livro:</h2>
-                <div className="pdf-container">
-                    <DocViewer 
-                        documents={docs} 
-                        pluginRenderers={DocViewerRenderers} 
-                    />
+                <div className="pdf-container" style={{ height: '750px', border: '1px solid rgba(0, 0, 0, 0.3)' }}>
+                    <Viewer fileUrl={book.pdfUrl} />
                 </div>
             </div>
         </div>
