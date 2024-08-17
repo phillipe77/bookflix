@@ -13,7 +13,36 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+        toolbarPlugin: {
+            // Customize the toolbar to remove the "open" button
+            renderToolbar: (Toolbar) => (
+                <Toolbar>
+                    {(props) => {
+                        const { Download, Open, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
+                        return (
+                            <>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <GoToFirstPage />
+                                    <GoToPreviousPage />
+                                    <PageNumber />
+                                    <GoToNextPage />
+                                    <GoToLastPage />
+                                    <ZoomOut />
+                                    <ZoomIn />
+                                    <Search />
+                                    <Print />
+                                    <Download />
+                                    {/* Removendo o botão de Upload/Open */}
+                                    {/* <Open /> */}
+                                </div>
+                            </>
+                        );
+                    }}
+                </Toolbar>
+            ),
+        },
+    });
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -59,8 +88,8 @@ const BookDetails = () => {
                             <Viewer
                                 fileUrl={book.pdfUrl}
                                 defaultScale={1.0}
-                                scrollMode={ScrollMode.Vertical} // Modo de rolagem vertical
-                                viewMode={ViewMode.SinglePage}  // Modo de visualização de página única
+                                scrollMode={ScrollMode.Vertical}
+                                viewMode={ViewMode.SinglePage}
                                 plugins={[defaultLayoutPluginInstance]}
                                 theme="dark"
                             />
