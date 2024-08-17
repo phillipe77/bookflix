@@ -56,7 +56,7 @@ const BookDetails = () => {
                 <h2>Leia o Livro:</h2>
                 <div className="pdf-viewer-container">
                     <div className="pdf-viewer">
-                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                             <Viewer
                                 fileUrl={book.pdfUrl}
                                 defaultScale={1.0}
