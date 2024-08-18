@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import bookflixLogo from './bookflix.jpg';
+import bookflixLogo from './bookflix.png';
 
 const Header = ({ black }) => {
     return (
