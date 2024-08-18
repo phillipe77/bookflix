@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from 'react';
 import bookApi from './bookApi';
 import MV from './components/MV';
-import Fm from './components/fm';
 import Header from './components/Header';
-import BookDetails from './components/BookDetails';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Importações do react-pdf-viewer
 import { Worker } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css'; // Importação dos estilos necessários
+import '@react-pdf-viewer/core/lib/styles/index.css';
+
+// Lazy loading para o componente BookDetails
+const BookDetails = lazy(() => import('./components/BookDetails'));
+const Fm = lazy(() => import('./components/Fm')); // Lazy loading para o componente Fm
 
 const App = () => {
     const [bookList, setBookList] = useState([]); 
     const [featureData, setFeatureData] = useState([]);
     const [blackHeader, setBlackHeader] = useState(false);
 
+    // Carrega os dados dos livros uma vez
     useEffect(() => {
         const loadAll = async () => {
             let list = await bookApi.getHomeList();
@@ -31,19 +32,28 @@ const App = () => {
         loadAll();
     }, []);
 
-    useEffect(() => {
-        const scrollListener = () => {
-            if (window.scrollY > 15) {
-                setBlackHeader(true);
-            } else {
-                setBlackHeader(false);
-            }
-        };
-        window.addEventListener('scroll', scrollListener);
-        return () => {
-            window.removeEventListener('scroll', scrollListener);
-        };
+    // Memoriza o valor de bookList para evitar re-renderizações desnecessárias
+    const memoizedBookList = useMemo(() => {
+        return bookList.map((item, key) => (
+            <MV key={key} title={item.title} items={item.items} />
+        ));
+    }, [bookList]);
+
+    // Usa callback memoizada para o listener de scroll
+    const handleScroll = useCallback(() => {
+        if (window.scrollY > 15) {
+            setBlackHeader(true);
+        } else {
+            setBlackHeader(false);
+        }
     }, []);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
 
     return (
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
@@ -53,12 +63,10 @@ const App = () => {
                     <Routes>
                         {/* Rota para a página inicial */}
                         <Route path="/" element={
-                            <>
+                            <Suspense fallback={<div>Loading...</div>}>
                                 {featureData && <Fm item={featureData} />}
                                 <section className="lists">
-                                    {bookList.map((item, key) => (
-                                        <MV key={key} title={item.title} items={item.items} />
-                                    ))}
+                                    {memoizedBookList}
                                 </section>
                                 <footer>
                                     Desenvolvido por Phillipe Linhares<br />
@@ -74,11 +82,15 @@ const App = () => {
                                         />
                                     </div>
                                 )}
-                            </>
+                            </Suspense>
                         } />
                         
                         {/* Rota para a página de detalhes do livro */}
-                        <Route path="/book/:id" element={<BookDetails />} />
+                        <Route path="/book/:id" element={
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <BookDetails />
+                            </Suspense>
+                        } />
                     </Routes>
                 </div>
             </Router>

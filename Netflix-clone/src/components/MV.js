@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './MV.css';
 
-const MV = ({ title, items }) => {
+const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
@@ -24,14 +24,24 @@ const MV = ({ title, items }) => {
         };
     }, []);
 
-    const handleLeftClick = () => {
+    const handleLeftClick = useCallback(() => {
         listRef.current.scrollLeft -= 300;
-    };
+    }, []);
 
-    const handleRightClick = () => {
+    const handleRightClick = useCallback(() => {
         const maxScrollLeft = listRef.current.scrollWidth - listRef.current.clientWidth;
         listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
-    };
+    }, []);
+
+    const renderedItems = useMemo(() => (
+        items.length > 0 && items.map((item, key) => (
+            <div key={key} className="MV--item">
+                <Link to={`/book/${item._id}`}>
+                    <img src={item.coverUrl} alt={item.title} />
+                </Link>
+            </div>
+        ))
+    ), [items]);
 
     return (
         <div className='MV'>
@@ -48,17 +58,11 @@ const MV = ({ title, items }) => {
             )}
             <div className="MV--listarea" ref={listRef}>
                 <div className="MV--list">
-                    {items.length > 0 && items.map((item, key) => (
-                        <div key={key} className="MV--item">
-                            <Link to={`/book/${item._id}`}>
-                                <img src={item.coverUrl} alt={item.title} />
-                            </Link>
-                        </div>
-                    ))}
+                    {renderedItems}
                 </div>
             </div>
         </div>
     );
-};
+});
 
 export default MV;
