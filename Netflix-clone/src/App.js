@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import bookApi from './bookApi';
 import MV from './components/MV';
+import Fm from './components/fm';
 import Header from './components/Header';
 import BookDetails from './components/BookDetails';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Importações do react-pdf-viewer
 import { Worker } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/core/lib/styles/index.css'; // Importação dos estilos necessários
 
 const App = () => {
     const [bookList, setBookList] = useState([]); 
-    const [featureData, setFeatureData] = useState(null);
+    const [featureData, setFeatureData] = useState([]);
     const [blackHeader, setBlackHeader] = useState(false);
 
     useEffect(() => {
@@ -48,6 +51,7 @@ const App = () => {
                 <div className="page">
                     <Header black={blackHeader} />
                     <Routes>
+                        {/* Rota para a página inicial */}
                         <Route path="/" element={
                             <>
                                 {featureData && <Fm item={featureData} />}
@@ -72,6 +76,8 @@ const App = () => {
                                 )}
                             </>
                         } />
+                        
+                        {/* Rota para a página de detalhes do livro */}
                         <Route path="/book/:id" element={<BookDetails />} />
                     </Routes>
                 </div>
