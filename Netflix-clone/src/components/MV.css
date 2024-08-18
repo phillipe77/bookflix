@@ -12,10 +12,37 @@
 }
 
 .MV--listarea {
+    position: relative;
     overflow-x: auto; /* Permitir rolagem horizontal */
     overflow-y: hidden; /* Impedir rolagem vertical */
     white-space: nowrap; /* Impedir quebra de linha dos itens */
     padding-left: 0px;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    display: none; /* Escondido por padrão */
+    z-index: 1;
+}
+
+.carousel-nav.left-nav {
+    left: 0;
+}
+
+.carousel-nav.right-nav {
+    right: 0;
+}
+
+.MV--listarea:hover .carousel-nav {
+    display: block; /* Exibe os botões ao passar o mouse */
 }
 
 .MV--list {
@@ -27,33 +54,24 @@
 }
 
 .MV--item {
-    display: inline-block; /* Garantir que os itens estejam alinhados em uma linha */
-    width: 150px; /* Ajuste conforme necessário */
+    display: inline-block;
+    width: 150px; /* Tamanho consistente para todas as capas */
     height: 230px;
     cursor: pointer;
     margin-right: 10px;
     background-color: #fff;
+    vertical-align: top; /* Alinha os itens ao topo */
 }
-
-
 
 .MV--item img {
     width: 100%;
-    height: auto; /* Mantém a proporção da imagem */
-    object-fit: cover; /* Garante que a imagem preencha o contêiner */
-    transform: scale(0.9);
-    transition: all ease 0.2s;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease-in-out;
 }
-
 
 .MV--item img:hover {
-    transform: scale(1);
-}
-@media (max-width: 1024px) {
-    .MV--item {
-        width: 120px; /* Reduzir o tamanho dos itens para caber na tela */
-        height: 180px;
-    }
+    transform: scale(1.05); /* Aumenta ligeiramente o tamanho da capa ao passar o mouse */
 }
 
 @media (max-width: 768px) {
@@ -66,7 +84,6 @@
         height: 150px;
     }
 }
-
 
 body {
     overflow-x: hidden;
