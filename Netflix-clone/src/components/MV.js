@@ -8,17 +8,19 @@ const MV = ({ title, items }) => {
     const [canScrollRight, setCanScrollRight] = useState(false);
 
     useEffect(() => {
+        const listElement = listRef.current;
+
         const handleScroll = () => {
-            const { scrollLeft, scrollWidth, clientWidth } = listRef.current;
+            const { scrollLeft, scrollWidth, clientWidth } = listElement;
             setCanScrollLeft(scrollLeft > 0);
             setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
         };
 
         handleScroll(); // Para verificar no início
-        listRef.current.addEventListener('scroll', handleScroll);
+        listElement.addEventListener('scroll', handleScroll);
 
         return () => {
-            listRef.current.removeEventListener('scroll', handleScroll);
+            listElement.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
