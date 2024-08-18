@@ -27,7 +27,7 @@
 }
 
 .MV--list {
-    width: 99999px;
+    display: flex;
     padding-left: 20px;
     padding-top: 0px;
     color: #999;
@@ -45,7 +45,6 @@
     transform: scale(1);
 }
 
-/* Estilos para os botões de navegação */
 .MV--left, .MV--right {
     position: absolute;
     top: 0;
@@ -53,11 +52,10 @@
     width: 40px;
     display: flex;
     align-items: center;
-    justify-content: center; /* Ajuste na largura das capas dos livros */
+    justify-content: center;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.5);
     transition: opacity 0.2s ease;
-    opacity: 0;
     z-index: 1;
 }
 
@@ -67,14 +65,4 @@
 
 .MV--right {
     right: 0;
-}
-
-.MV.show-arrows .MV--left,
-.MV.show-arrows .MV--right {
-    opacity: 1;
-}
-
-.MV--left img, .MV--right img {
-    width: 24px;
-    height: 24px;
 }
