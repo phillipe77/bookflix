@@ -4,6 +4,7 @@
     padding-right: 0px;
     padding-left: 0px;
     margin-top: 0px;
+    position: relative;
 }
 
 .MV h2 {
@@ -18,11 +19,11 @@
 
 .MV--item {
     display: inline-block;
-    width: 150px; /* Ajuste na largura das capas dos livros */
-    height: 230px; /* Adicionada altura para padronizar o tamanho das imagens */
+    width: 150px;
+    height: 230px;
     cursor: pointer;
-    margin-right: 10px; /* Adicionado espaçamento entre os itens */
-    background-color: #fff; /* Adiciona um fundo branco para garantir visibilidade */
+    margin-right: 10px;
+    background-color: #fff;
 }
 
 .MV--list {
@@ -34,12 +35,46 @@
 
 .MV--item img {
     width: 100%;
-    height: 100%; /* Garante que a imagem preencha a altura do contêiner */
-    object-fit: cover; /* Preenche o contêiner da imagem, cortando as bordas se necessário */
+    height: 100%;
+    object-fit: cover;
     transform: scale(0.9);
     transition: all ease 0.2s;
 }
 
 .MV--item img:hover {
     transform: scale(1);
+}
+
+/* Estilos para os botões de navegação */
+.MV--left, .MV--right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    z-index: 1;
+}
+
+.MV--left {
+    left: 0;
+}
+
+.MV--right {
+    right: 0;
+}
+
+.MV.show-arrows .MV--left,
+.MV.show-arrows .MV--right {
+    opacity: 1;
+}
+
+.MV--left img, .MV--right img {
+    width: 24px;
+    height: 24px;
 }
