@@ -1,4 +1,4 @@
-const API_BASE = 'https://back-bookflix.vercel.app/api/books'; // Certifique-se de que esta URL esteja correta
+const API_BASE = 'https://back-bookflix.vercel.app/api/books';
 
 const basicFetch = async(endpoint) => {
     const req = await fetch(`${API_BASE}${endpoint}`);
@@ -9,7 +9,6 @@ const basicFetch = async(endpoint) => {
     return json;
 }
 
-// Criação do objeto 'bookApi' e exportação
 const bookApi = {
     getHomeList: async() => { 
         return [
@@ -22,6 +21,31 @@ const bookApi = {
                 slug: 'commentaries',
                 title: 'Comentários Bíblicos',
                 items: await basicFetch('/?category=Comentário Bíblico')
+            },
+            {
+                slug: 'theology',
+                title: 'Teologia',
+                items: await basicFetch('/?category=Teologia')
+            },
+            {
+                slug: 'missions',
+                title: 'Missões',
+                items: await basicFetch('/?category=Missões')
+            },
+            {
+                slug: 'discipleship',
+                title: 'Discipulado',
+                items: await basicFetch('/?category=Discipulado')
+            },
+            {
+                slug: 'prayer',
+                title: 'Oração',
+                items: await basicFetch('/?category=Oração')
+            },
+            {
+                slug: 'worship',
+                title: 'Adoração',
+                items: await basicFetch('/?category=Adoração')
             },
             // Adicione outras categorias conforme necessário
         ];
