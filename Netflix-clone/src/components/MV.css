@@ -13,7 +13,7 @@
 }
 
 .MV--listarea {
-    overflow-x: hidden; /* Esconde a barra de rolagem inferior */
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
     padding-left: 0px;
     position: relative;
 }
@@ -57,8 +57,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.7); /* Mais escuro e mais opaco */
-    border-radius: 50%; /* Torna os botões circulares */
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -69,15 +69,20 @@
 }
 
 .MV--left {
-    left: -20px; /* Deixa o botão levemente fora da área visível */
+    left: -20px;
 }
 
 .MV--right {
-    right: -20px; /* Deixa o botão levemente fora da área visível */
+    right: -20px;
 }
 
 .MV--left img, .MV--right img {
     width: 24px;
     height: 24px;
     filter: invert(1); /* Deixa a seta branca */
+}
+
+/* Remover a barra de rolagem horizontal na página principal */
+body {
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal da página */
 }
