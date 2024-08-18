@@ -13,26 +13,26 @@
 }
 
 .MV--listarea {
-    overflow-x: auto; /* Permite rolagem horizontal */
-    overflow-y: hidden; /* Esconde rolagem vertical */
+    overflow-x: hidden; /* Esconde a barra de rolagem inferior */
     padding-left: 0px;
     position: relative;
 }
 
 .MV--item {
     display: inline-block;
-    width: 150px; /* Mantenha o tamanho original */
-    height: 230px; /* Mantenha o tamanho original */
+    width: 150px;
+    height: 230px;
     cursor: pointer;
     margin-right: 10px;
     background-color: #fff;
 }
 
 .MV--list {
-    display: inline-flex; /* Usando flexbox para itens em linha */
+    display: inline-flex;
     padding-left: 20px;
     padding-top: 0px;
     color: #999;
+    scroll-behavior: smooth; /* Faz a rolagem suave */
 }
 
 .MV--item img {
@@ -49,14 +49,16 @@
 
 .MV--left, .MV--right {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
+    transform: translateY(-50%);
     width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7); /* Mais escuro e mais opaco */
+    border-radius: 50%; /* Torna os botões circulares */
     z-index: 1;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -67,14 +69,15 @@
 }
 
 .MV--left {
-    left: 0;
+    left: -20px; /* Deixa o botão levemente fora da área visível */
 }
 
 .MV--right {
-    right: 0;
+    right: -20px; /* Deixa o botão levemente fora da área visível */
 }
 
 .MV--left img, .MV--right img {
     width: 24px;
     height: 24px;
+    filter: invert(1); /* Deixa a seta branca */
 }

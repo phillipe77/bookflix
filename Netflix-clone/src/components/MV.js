@@ -16,7 +16,7 @@ const MV = ({ title, items }) => {
             setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
         };
 
-        updateScrollState(); // Verifica o estado de rolagem no início
+        updateScrollState();
         listElement.addEventListener('scroll', updateScrollState);
 
         return () => {
@@ -25,12 +25,12 @@ const MV = ({ title, items }) => {
     }, []);
 
     const handleLeftClick = () => {
-        listRef.current.scrollLeft -= 300; // Ajuste o valor conforme necessário
+        listRef.current.scrollLeft -= 300;
     };
 
     const handleRightClick = () => {
         const maxScrollLeft = listRef.current.scrollWidth - listRef.current.clientWidth;
-        listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft); // Ajuste o valor conforme necessário
+        listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
     };
 
     return (
