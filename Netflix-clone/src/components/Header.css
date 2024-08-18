@@ -27,7 +27,6 @@ header {
     height: 100%; /* Ajusta a imagem para preencher todo o contêiner */
     max-height: 70px; /* Define uma altura máxima, se necessário */
     width: auto; /* Mantém a proporção da imagem */
-    background: transparent; /* Garante que o fundo seja transparente */
 }
 .user{
     height: 50px;
