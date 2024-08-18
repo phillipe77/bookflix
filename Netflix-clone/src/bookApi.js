@@ -13,11 +13,6 @@ const bookApi = {
     getHomeList: async() => { 
         return [
             {
-                slug: 'all',
-                title: 'Todos os Livros',
-                items: await basicFetch('/')
-            },
-            {
                 slug: 'commentaries',
                 title: 'Comentários Bíblicos',
                 items: await basicFetch('/?category=Comentário Bíblico')
