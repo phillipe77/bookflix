@@ -7,9 +7,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 
-// Lazy loading para o componente BookDetails
+// Lazy loading para os componentes
 const BookDetails = lazy(() => import('./components/BookDetails'));
-const Fm = lazy(() => import('./components/Fm')); // Lazy loading para o componente Fm
+const Fm = lazy(() => import('./components/fm'));
 
 const App = () => {
     const [bookList, setBookList] = useState([]); 
