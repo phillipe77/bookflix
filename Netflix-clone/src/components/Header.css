@@ -19,12 +19,14 @@ header {
 }
 
 .logo{
-    height: 25px;
+    height: 40px;
 
 
 }
-.logo img{
-    height: 150%;
+.logo img {
+    height: 100%; /* Ajusta a imagem para preencher todo o contêiner */
+    max-height: 70px; /* Define uma altura máxima, se necessário */
+    width: auto; /* Mantém a proporção da imagem */
 }
 .user{
     height: 50px;
