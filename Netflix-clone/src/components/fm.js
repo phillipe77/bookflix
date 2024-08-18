@@ -11,13 +11,13 @@ const Fm = ({ item }) => {
         }}>
             <div className="vertical--fade">
                 <div className="horizontal--fade">
-                    <div className="title">BookFlix: Sua Biblioteca Cristã Digital</div>
+                    <div className="title">Logos: Biblioteca Cristã Digital</div>
                     <div className="info">
-                        <div className="seasons">Milhares de livros cristãos</div>
+                        <div className="seasons">Livros cristãos</div>
                         <div className='ano'>Conteúdo Sempre Atualizado</div>
                     </div>
                     <div className='description'>
-                        Encontre uma grande coleção de livros cristãos que vão te inspirar, edificar você, sua família, seu ministério e sua igreja. No BookFlix, você tem acesso a obras clássicas e contemporâneas que abordam temas teológicos, estudos bíblicos, discipulados, batalhas espirituais, devocionais e muito outros.
+                        Compartilhando alguns materiais pessoais pra edificação!
                     </div>
                     <div className='buttons'>
                         <button onClick={() => window.location.href = 'explorar'} className="playBtn">► Explorar</button>
