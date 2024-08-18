@@ -86,3 +86,48 @@
 body {
     overflow-x: hidden; /* Esconde a barra de rolagem horizontal da página */
 }
+
+/* Media Queries para Dispositivos Móveis */
+@media (max-width: 768px) {
+    .MV h2 {
+        margin: 0px 0px 0px 15px;
+        font-size: 24px;
+    }
+
+    .MV--item {
+        width: 120px; /* Reduzindo a largura para caber melhor em telas menores */
+        height: 180px; /* Reduzindo a altura proporcionalmente */
+    }
+
+    .MV--left, .MV--right {
+        width: 30px;
+        height: 30px;
+    }
+
+    .MV--left img, .MV--right img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .MV h2 {
+        margin: 0px 0px 0px 10px;
+        font-size: 20px;
+    }
+
+    .MV--item {
+        width: 100px; /* Mais redução para telas muito pequenas */
+        height: 150px; 
+    }
+
+    .MV--left, .MV--right {
+        width: 25px;
+        height: 25px;
+    }
+
+    .MV--left img, .MV--right img {
+        width: 16px;
+        height: 16px;
+    }
+}
