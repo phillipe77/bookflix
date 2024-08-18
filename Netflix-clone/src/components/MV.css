@@ -13,24 +13,23 @@
 }
 
 .MV--listarea {
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-x: auto; /* Permite rolagem horizontal */
+    overflow-y: hidden; /* Esconde rolagem vertical */
     padding-left: 0px;
     position: relative;
 }
 
 .MV--item {
     display: inline-block;
-    width: 150px;
-    height: 230px;
+    width: 150px; /* Mantenha o tamanho original */
+    height: 230px; /* Mantenha o tamanho original */
     cursor: pointer;
     margin-right: 10px;
     background-color: #fff;
 }
 
 .MV--list {
-    display: flex;
-    transition: transform 0.2s ease-in-out;
+    display: inline-flex; /* Usando flexbox para itens em linha */
     padding-left: 20px;
     padding-top: 0px;
     color: #999;
