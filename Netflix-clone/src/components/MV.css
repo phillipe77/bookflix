@@ -13,7 +13,8 @@
 }
 
 .MV--listarea {
-    overflow-x: hidden;
+    overflow-x: hidden; /* Esconde a barra de rolagem */
+    overflow-y: hidden; /* Garante que não haverá rolagem vertical */
     padding-left: 0px;
 }
 
@@ -55,8 +56,13 @@
     justify-content: center;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.5);
-    transition: opacity 0.2s ease;
     z-index: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.MV:hover .MV--left, .MV:hover .MV--right {
+    opacity: 1;
 }
 
 .MV--left {
@@ -65,4 +71,9 @@
 
 .MV--right {
     right: 0;
+}
+
+.MV--left img, .MV--right img {
+    width: 24px;
+    height: 24px;
 }

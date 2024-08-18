@@ -29,7 +29,8 @@ const MV = ({ title, items }) => {
     };
 
     const handleRightClick = () => {
-        listRef.current.scrollLeft += 150;
+        const maxScrollLeft = listRef.current.scrollWidth - listRef.current.clientWidth;
+        listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 150, maxScrollLeft);
     };
 
     return (
