@@ -1,3 +1,16 @@
+/* Ajustes Gerais */
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden; /* Para evitar rolagem horizontal desnecessária */
+}
+
+/* Responsividade para elementos da classe MV */
 .MV {
     margin: 5px;
     padding-bottom: 0px;
@@ -5,34 +18,35 @@
     padding-left: 0px;
     margin-top: 0px;
     position: relative;
+    width: 100%;
 }
 
 .MV h2 {
-    margin: 0px 0px 0px 30px;
-    font-size: 30px;
+    margin: 10px 0px 10px 15px;
+    font-size: 24px; /* Ajuste do tamanho da fonte para dispositivos móveis */
 }
 
 .MV--listarea {
-    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
+    overflow-x: scroll; /* Permitir rolagem horizontal */
     padding-left: 0px;
     position: relative;
 }
 
 .MV--item {
     display: inline-block;
-    width: 150px;
-    height: 230px;
+    width: 120px; /* Ajuste na largura das capas dos livros para caber mais na tela */
+    height: 180px; /* Ajuste na altura para manter proporção */
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 5px; /* Espaçamento reduzido entre os itens */
     background-color: #fff;
 }
 
 .MV--list {
     display: inline-flex;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-top: 0px;
     color: #999;
-    scroll-behavior: smooth; /* Faz a rolagem suave */
+    scroll-behavior: smooth;
 }
 
 .MV--item img {
@@ -47,17 +61,18 @@
     transform: scale(1);
 }
 
+/* Ajustes para botões de navegação em dispositivos móveis */
 .MV--left, .MV--right {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
     z-index: 1;
     opacity: 0;
@@ -69,56 +84,28 @@
 }
 
 .MV--left {
-    left: -20px;
+    left: 5px; /* Reduzido para caber melhor em telas pequenas */
 }
 
 .MV--right {
-    right: -20px;
+    right: 5px; /* Reduzido para caber melhor em telas pequenas */
 }
 
 .MV--left img, .MV--right img {
-    width: 24px;
-    height: 24px;
-    filter: invert(1); /* Deixa a seta branca */
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
 }
 
-/* Remover a barra de rolagem horizontal na página principal */
-body {
-    overflow-x: hidden; /* Esconde a barra de rolagem horizontal da página */
-}
-
-/* Media Queries para Dispositivos Móveis */
+/* Media Query para dispositivos móveis */
 @media (max-width: 768px) {
     .MV h2 {
-        margin: 0px 0px 0px 15px;
-        font-size: 24px;
+        font-size: 20px; /* Reduz o tamanho da fonte em telas menores */
     }
 
     .MV--item {
-        width: 120px; /* Reduzindo a largura para caber melhor em telas menores */
-        height: 180px; /* Reduzindo a altura proporcionalmente */
-    }
-
-    .MV--left, .MV--right {
-        width: 30px;
-        height: 30px;
-    }
-
-    .MV--left img, .MV--right img {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .MV h2 {
-        margin: 0px 0px 0px 10px;
-        font-size: 20px;
-    }
-
-    .MV--item {
-        width: 100px; /* Mais redução para telas muito pequenas */
-        height: 150px; 
+        width: 100px; /* Ajuste na largura das capas dos livros para telas menores */
+        height: 150px; /* Ajuste na altura para telas menores */
     }
 
     .MV--left, .MV--right {
@@ -127,7 +114,7 @@ body {
     }
 
     .MV--left img, .MV--right img {
-        width: 16px;
-        height: 16px;
+        width: 15px;
+        height: 15px;
     }
 }
