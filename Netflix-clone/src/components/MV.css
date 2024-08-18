@@ -12,29 +12,29 @@
 }
 
 .MV--listarea {
-    overflow-x: auto; /* Permitir rolagem horizontal caso os itens ultrapassem a largura */
+    overflow-x: auto; /* Permitir rolagem horizontal */
+    overflow-y: hidden; /* Impedir rolagem vertical */
+    white-space: nowrap; /* Impedir quebra de linha dos itens */
     padding-left: 0px;
 }
 
-
-.MV--item {
-    display: inline-block;
-    width: 150px; /* Ajuste na largura das capas dos livros */
-    height: 230px; /* Adicionada altura para padronizar o tamanho das imagens */
-    cursor: pointer;
-    margin-right: 10px; /* Adicionado espaçamento entre os itens */
-    background-color: #fff; /* Adiciona um fundo branco para garantir visibilidade */
-}
-
 .MV--list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap; /* Manter os itens em uma única linha */
-    width: auto; /* Ajustar a largura conforme necessário */
+    display: inline-flex; /* Utilizar flexbox para alinhar itens horizontalmente */
+    width: auto;
     padding-left: 20px;
     padding-top: 0px;
     color: #999;
 }
+
+.MV--item {
+    display: inline-block; /* Garantir que os itens estejam alinhados em uma linha */
+    width: 150px; /* Ajuste conforme necessário */
+    height: 230px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #fff;
+}
+
 
 
 .MV--item img {
@@ -49,12 +49,24 @@
 .MV--item img:hover {
     transform: scale(1);
 }
-@media(max-width: 1024px) {
+@media (max-width: 1024px) {
     .MV--item {
-        width: 120px; /* Ajustar o tamanho das capas dos livros em telas menores */
+        width: 120px; /* Reduzir o tamanho dos itens para caber na tela */
         height: 180px;
     }
 }
+
+@media (max-width: 768px) {
+    .MV--listarea {
+        padding-left: 0px;
+    }
+
+    .MV--item {
+        width: 100px;
+        height: 150px;
+    }
+}
+
 
 body {
     overflow-x: hidden;
