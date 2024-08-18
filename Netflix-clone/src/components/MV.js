@@ -10,17 +10,18 @@ const MV = ({ title, items }) => {
     useEffect(() => {
         const listElement = listRef.current;
 
-        const handleScroll = () => {
+        const updateScrollState = () => {
             const { scrollLeft, scrollWidth, clientWidth } = listElement;
             setCanScrollLeft(scrollLeft > 0);
             setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
         };
 
-        handleScroll(); // Para verificar no início
-        listElement.addEventListener('scroll', handleScroll);
+        updateScrollState(); // Verifica o estado de rolagem no início
+        listElement.addEventListener('scroll', updateScrollState);
 
+        // Remove o event listener ao desmontar
         return () => {
-            listElement.removeEventListener('scroll', handleScroll);
+            listElement.removeEventListener('scroll', updateScrollState);
         };
     }, []);
 

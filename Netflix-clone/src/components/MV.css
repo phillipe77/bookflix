@@ -13,9 +13,10 @@
 }
 
 .MV--listarea {
-    overflow-x: hidden; /* Esconde a barra de rolagem */
-    overflow-y: hidden; /* Garante que não haverá rolagem vertical */
+    overflow-x: hidden;
+    overflow-y: hidden;
     padding-left: 0px;
+    position: relative;
 }
 
 .MV--item {
@@ -29,6 +30,7 @@
 
 .MV--list {
     display: flex;
+    transition: transform 0.2s ease-in-out;
     padding-left: 20px;
     padding-top: 0px;
     color: #999;
