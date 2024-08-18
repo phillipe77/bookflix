@@ -12,79 +12,34 @@
 }
 
 .MV--listarea {
-    position: relative;
-    overflow-x: auto; /* Permitir rolagem horizontal */
-    overflow-y: hidden; /* Impedir rolagem vertical */
-    white-space: nowrap; /* Impedir quebra de linha dos itens */
+    overflow-x: hidden;
     padding-left: 0px;
 }
 
-.carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-    font-size: 24px;
+.MV--item {
+    display: inline-block;
+    width: 150px; /* Ajuste na largura das capas dos livros */
+    height: 230px; /* Adicionada altura para padronizar o tamanho das imagens */
     cursor: pointer;
-    padding: 10px;
-    display: none; /* Escondido por padrão */
-    z-index: 1;
-}
-
-.carousel-nav.left-nav {
-    left: 0;
-}
-
-.carousel-nav.right-nav {
-    right: 0;
-}
-
-.MV--listarea:hover .carousel-nav {
-    display: block; /* Exibe os botões ao passar o mouse */
+    margin-right: 10px; /* Adicionado espaçamento entre os itens */
+    background-color: #fff; /* Adiciona um fundo branco para garantir visibilidade */
 }
 
 .MV--list {
-    display: inline-flex; /* Utilizar flexbox para alinhar itens horizontalmente */
-    width: auto;
+    width: 99999px;
     padding-left: 20px;
     padding-top: 0px;
     color: #999;
 }
 
-.MV--item {
-    display: inline-block;
-    width: 150px; /* Tamanho consistente para todas as capas */
-    height: 230px;
-    cursor: pointer;
-    margin-right: 10px;
-    background-color: #fff;
-    vertical-align: top; /* Alinha os itens ao topo */
-}
-
 .MV--item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.2s ease-in-out;
+    height: 100%; /* Garante que a imagem preencha a altura do contêiner */
+    object-fit: cover; /* Preenche o contêiner da imagem, cortando as bordas se necessário */
+    transform: scale(0.9);
+    transition: all ease 0.2s;
 }
 
 .MV--item img:hover {
-    transform: scale(1.05); /* Aumenta ligeiramente o tamanho da capa ao passar o mouse */
-}
-
-@media (max-width: 768px) {
-    .MV--listarea {
-        padding-left: 0px;
-    }
-
-    .MV--item {
-        width: 100px;
-        height: 150px;
-    }
-}
-
-body {
-    overflow-x: hidden;
+    transform: scale(1);
 }
