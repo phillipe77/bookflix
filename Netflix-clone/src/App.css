@@ -15,25 +15,25 @@ body {
 }
 
 .lists {
-  margin-top: -180px; /* Ajuste para dar mais espaço em telas menores */
-  padding: 0 10px; /* Ajuste de padding para centralizar conteúdo */
+  margin-top: -220px;
 }
 
 footer {
-  margin: 20px 0;
+  margin: 50px 0;
   text-align: center;
-  font-size: 16px; /* Reduz o tamanho da fonte no rodapé em telas menores */
+  font-size: 20px;
 }
 
-
-/* Media Query para dispositivos móveis */
+/* Media Queries para Dispositivos Móveis */
 @media (max-width: 768px) {
   .lists {
-      margin-top: -150px;
-      padding: 0 5px;
+    margin-top: -180px; /* Ajuste para evitar sobreposição em telas menores */
   }
 
   footer {
-      font-size: 14px; /* Fonte menor para rodapé em dispositivos móveis */
+    margin: 30px 0;
+    font-size: 18px; /* Reduzindo um pouco o tamanho da fonte em dispositivos menores */
   }
 }
+
+
