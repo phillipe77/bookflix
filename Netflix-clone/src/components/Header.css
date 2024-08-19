@@ -40,6 +40,7 @@ header {
     object-fit: cover; /* Garante que a imagem se ajuste ao container sem distorcer */
     box-shadow: none; /* Remove qualquer sombra que possa estar criando a borda */
     border: none; /* Remove qualquer borda que possa estar presente */
+    background-color: transparent; /* Remove qualquer cor de fundo residual */
 }
 
 .user img:hover {
