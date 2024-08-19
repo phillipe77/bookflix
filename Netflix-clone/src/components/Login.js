@@ -8,12 +8,7 @@ const Login = ({ onLogin }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Acessando as credenciais do arquivo .env
-        const storedUsername = process.env.REACT_APP_USERNAME;
-        const storedPassword = process.env.REACT_APP_PASSWORD;
-
-        if (username === storedUsername && password === storedPassword) {
+        if (username === 'solascriptura' && password === 'Hagionlogos@') {
             onLogin(true);
         } else {
             alert('Usuário ou senha incorretos');
