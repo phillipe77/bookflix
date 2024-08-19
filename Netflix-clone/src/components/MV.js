@@ -59,17 +59,21 @@ const MV = React.memo(({ title, items = [] }) => {
                 onTouchMove={handleTouchMove}
             >
                 <div className="MV--list">
-                    {items.length > 0 && items.map((item, key) => (
-                        <div key={key} className="MV--item">
-                            <Link to={`/book/${item._id}`}>
-                                <img 
-                                    src={item.coverUrl} 
-                                    alt={item.title} 
-                                    onError={(e) => handleImageError(e, item.coverUrl)} 
-                                />
-                            </Link>
-                        </div>
-                    ))}
+                    {items.length > 0 ? (
+                        items.map((item, key) => (
+                            <div key={key} className="MV--item">
+                                <Link to={`/book/${item._id}`}>
+                                    <img 
+                                        src={item.coverUrl} 
+                                        alt={item.title} 
+                                        onError={(e) => handleImageError(e, item.coverUrl)} 
+                                    />
+                                </Link>
+                            </div>
+                        ))
+                    ) : (
+                        <div>No items to display</div>
+                    )}
                 </div>
             </div>
             {canScrollLeft && (
@@ -84,6 +88,7 @@ const MV = React.memo(({ title, items = [] }) => {
             )}
         </div>
     );
+    
 });
 
 export default MV;
