@@ -26,7 +26,7 @@ const App = () => {
             const cachedList = localStorage.getItem('bookList');
             if (cachedList) {
                 const parsedList = JSON.parse(cachedList);
-                console.log('Cached Book List:', parsedList);  // Log do cache
+                console.log('Cached Book List:', parsedList);
                 setBookList(parsedList);
             } else {
                 const loadAll = async () => {
@@ -43,7 +43,7 @@ const App = () => {
                     }
 
                     const list = await response.json();
-                    console.log('Fetched Book List:', list);  // Log dos dados recebidos
+                    console.log('Fetched Book List:', list);
                     setBookList(list);
                     localStorage.setItem('bookList', JSON.stringify(list));
 
@@ -63,7 +63,7 @@ const App = () => {
     // Memoriza o valor de bookList para evitar re-renderizações desnecessárias
     const memoizedBookList = useMemo(() => {
         return bookList.map((item, key) => {
-            console.log(`Rendering MV for: ${item.title}`);  // Log para verificar o mapeamento
+            console.log(`Rendering MV for: ${item.title}`);
             return <MV key={key} title={item.title} items={item.items} />;
         });
     }, [bookList]);
