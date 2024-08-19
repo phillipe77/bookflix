@@ -65,17 +65,9 @@ header {
 
 .user button {
     border: none;
-    padding: 0;
     background: none;
     cursor: pointer;
     outline: none; /* Remove a borda que aparece no foco */
-}
-
-.user button img {
-    height: 100%;
-    width: auto;
-    border-radius: 5px;
-    transition: transform 0.3s ease;
 }
 
 .user button:focus, .user button:active {
