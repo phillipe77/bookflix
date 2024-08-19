@@ -1,47 +1,41 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import './Login.css';
-import bookflixLogo from './bookflix.png';
-import { useNavigate } from 'react-router-dom';
+import bookflixLogo from './bookflix.png'; // Use o seu logotipo
 
-const Login = ({ setIsAuthenticated }) => {
-    const [email, setEmail] = useState('');
+const Login = ({ onLogin }) => {
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
 
-    const handleLogin = (event) => {
-        event.preventDefault();
-        // Simulação de autenticação
-        if (email === 'user@example.com' && password === 'password') {
-            setIsAuthenticated(true);
-            navigate('/'); // Redireciona para a página principal após o login
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Simulação de autenticação simples
+        if (username === 'user' && password === 'password') {
+            onLogin(true);
         } else {
-            alert('Credenciais inválidas');
+            alert('Usuário ou senha incorretos');
         }
     };
 
     return (
-        <div className="login-container">
-            <div className="login-logo">
-                <img src={bookflixLogo} alt="Logos" />
+        <div className="login-page">
+            <div className="login-container">
+                <img src={bookflixLogo} alt="bookflix" className="login-logo" />
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        type="text" 
+                        placeholder="Username" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
+                    />
+                    <input 
+                        type="password" 
+                        placeholder="Password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                    />
+                    <button type="submit">Login</button>
+                </form>
             </div>
-            <form onSubmit={handleLogin}>
-                <input 
-                    type="email" 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
-                />
-                <input 
-                    type="password" 
-                    placeholder="Senha" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required 
-                />
-                <button type="submit">Login</button>
-            </form>
         </div>
     );
 };
