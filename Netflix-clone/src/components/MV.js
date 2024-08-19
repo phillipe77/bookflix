@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './MV.css';
 
@@ -6,7 +6,7 @@ const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-    const touchStartXRef = useRef(0);
+    const touchStartXRef = useRef(0); // Ref para armazenar a posição inicial do toque
 
     useEffect(() => {
         const listElement = listRef.current;
@@ -34,6 +34,7 @@ const MV = React.memo(({ title, items }) => {
         listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
     }, []);
 
+    // Funções para lidar com os eventos de toque
     const handleTouchStart = useCallback((event) => {
         touchStartXRef.current = event.touches[0].clientX;
     }, []);
@@ -41,12 +42,13 @@ const MV = React.memo(({ title, items }) => {
     const handleTouchMove = useCallback((event) => {
         const touchMoveX = event.touches[0].clientX;
         const touchDiff = touchStartXRef.current - touchMoveX;
-        listRef.current.scrollLeft += touchDiff * 2;
+        listRef.current.scrollLeft += touchDiff * 2; // Multiplica a diferença para aumentar a sensibilidade
         touchStartXRef.current = touchMoveX;
     }, []);
 
-    const handleImageError = (e, fallbackUrl) => {
-        e.target.src = fallbackUrl;
+    // Função para lidar com erros de carregamento de imagens
+    const handleImageError = (e, coverUrl) => {
+        e.target.src = coverUrl; // Substitui a imagem por uma URL de fallback
     };
 
     return (
