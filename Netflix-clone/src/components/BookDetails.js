@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
 import { Viewer, Worker, ScrollMode, ViewMode } from '@react-pdf-viewer/core';
@@ -13,9 +13,9 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Instancia o plugin de layout padrão com uma barra de ferramentas personalizada
-    const defaultLayoutPluginInstance = useMemo(() => defaultLayoutPlugin({
+    const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
+            // Customize the toolbar to remove the "open" button
             renderToolbar: (Toolbar) => (
                 <Toolbar>
                     {(props) => {
@@ -33,6 +33,8 @@ const BookDetails = () => {
                                     <Search />
                                     <Print />
                                     <Download />
+                                    {/* Removendo o botão de Upload/Open */}
+                                    {/* <Open /> */}
                                 </div>
                             </>
                         );
@@ -40,37 +42,22 @@ const BookDetails = () => {
                 </Toolbar>
             ),
         },
-    }), []);
+    });
 
-    // Busca os dados do livro
     useEffect(() => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
                 setBook(bookData);
+                setLoading(false);
             } catch (err) {
                 setError('Erro ao buscar informações do livro');
-            } finally {
                 setLoading(false);
             }
         };
 
         fetchBook();
     }, [id]);
-
-    // Função para entrar em tela cheia
-    const enterFullScreen = useCallback(() => {
-        const elem = document.documentElement; // Para tela cheia da página inteira
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) { // Para Firefox
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) { // Para Chrome, Safari e Opera
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { // Para IE/Edge
-            elem.msRequestFullscreen();
-        }
-    }, []);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -92,9 +79,6 @@ const BookDetails = () => {
                 <p><strong>Autor:</strong> {book.author}</p>
                 <p><strong>Descrição:</strong> {book.description}</p>
                 <p><strong>Categoria:</strong> {book.category}</p>
-                <button onClick={enterFullScreen} className="fullscreen-btn">
-                    Tela Cheia
-                </button>
             </div>
             <div className="pdf-viewer-section">
                 <h2>Leia o Livro:</h2>
