@@ -66,3 +66,20 @@ header {
     opacity: 1;
     visibility: visible;
 }
+
+.logout-button {
+    background-color: transparent; /* Remove a cor de fundo */
+    border: none; /* Remove a borda */
+    padding: 0; /* Remove o padding para eliminar qualquer espaço extra */
+    box-shadow: none; /* Remove qualquer sombra */
+    display: flex; /* Garante que a imagem seja centralizada */
+    align-items: center; /* Alinha verticalmente a imagem */
+    justify-content: center; /* Alinha horizontalmente a imagem */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+}
+
+.logout-button img {
+    width: 100%; /* Garante que a imagem preencha o botão */
+    height: auto; /* Mantém a proporção da imagem */
+    border-radius: 5px; /* Mantém o estilo de borda arredondada */
+}
