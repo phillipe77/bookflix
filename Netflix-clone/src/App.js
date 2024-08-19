@@ -2,53 +2,48 @@ import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from
 import bookApi from './bookApi';
 import MV from './components/MV';
 import Header from './components/Header';
-import Login from './components/Login'; // Adicionei o componente de Login
 import './App.css';
-import { BrowserRouter as Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 
+// Lazy loading para os componentes
 const BookDetails = lazy(() => import('./components/BookDetails'));
 const Fm = lazy(() => import('./components/fm'));
+const Login = lazy(() => import('./components/Login'));
 
 const App = () => {
     const [bookList, setBookList] = useState([]); 
     const [featureData, setFeatureData] = useState([]);
     const [blackHeader, setBlackHeader] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticação
+    const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
 
-    const handleLogin = (status) => {
-        setIsAuthenticated(status);
-        // Poderia salvar no local storage para persistir o login
-        localStorage.setItem('isAuthenticated', status);
-    };
-
-    const handleLogout = () => {
-        setIsAuthenticated(false);
-        localStorage.removeItem('isAuthenticated');
-    };
-
+    // Carrega os dados dos livros uma vez
     useEffect(() => {
-        const loadAll = async () => {
-            let list = await bookApi.getHomeList();
-            setBookList(list);
-            
-            let allBooks = list[0].items;
-            let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
-            let chosen = allBooks[randomChosen];
-            let chosenInfo = await bookApi.getBookInfo(chosen._id);
+        if (isAuthenticated) {
+            const loadAll = async () => {
+                let list = await bookApi.getHomeList();
+                setBookList(list);
 
-            setFeatureData(chosenInfo);
-        };
-        loadAll();
-    }, []);
+                let allBooks = list[0].items;
+                let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
+                let chosen = allBooks[randomChosen];
+                let chosenInfo = await bookApi.getBookInfo(chosen._id);
 
+                setFeatureData(chosenInfo);
+            };
+            loadAll();
+        }
+    }, [isAuthenticated]);
+
+    // Memoriza o valor de bookList para evitar re-renderizações desnecessárias
     const memoizedBookList = useMemo(() => {
         return bookList.map((item, key) => (
             <MV key={key} title={item.title} items={item.items} />
         ));
     }, [bookList]);
 
+    // Usa callback memoizada para o listener de scroll
     const handleScroll = useCallback(() => {
         if (window.scrollY > 15) {
             setBlackHeader(true);
@@ -64,17 +59,26 @@ const App = () => {
         };
     }, [handleScroll]);
 
-    useEffect(() => {
-        const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-        setIsAuthenticated(authStatus);
-    }, []);
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');
+        setIsAuthenticated(false);
+    };
+
+    if (!isAuthenticated) {
+        return (
+            <Suspense fallback={<div>Loading...</div>}>
+                <Login onLogin={() => setIsAuthenticated(true)} />
+            </Suspense>
+        );
+    }
 
     return (
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-            {isAuthenticated ? (
+            <Router>
                 <div className="page">
                     <Header black={blackHeader} onLogout={handleLogout} />
                     <Routes>
+                        {/* Rota para a página inicial */}
                         <Route path="/" element={
                             <Suspense fallback={<div>Loading...</div>}>
                                 {featureData && <Fm item={featureData} />}
@@ -96,16 +100,19 @@ const App = () => {
                                 )}
                             </Suspense>
                         } />
+                        
+                        {/* Rota para a página de detalhes do livro */}
                         <Route path="/book/:id" element={
                             <Suspense fallback={<div>Loading...</div>}>
                                 <BookDetails />
                             </Suspense>
                         } />
+
+                        {/* Rota para redirecionamento se não estiver autenticado */}
+                        <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </div>
-            ) : (
-                <Login onLogin={handleLogin} />
-            )}
+            </Router>
         </Worker>
     );
 };

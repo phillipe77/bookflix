@@ -10,7 +10,8 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
         // Simulação de autenticação simples
         if (username === 'user' && password === 'password') {
-            onLogin(true);
+            localStorage.setItem('isAuthenticated', 'true');
+            onLogin();
         } else {
             alert('Usuário ou senha incorretos');
         }
@@ -20,22 +21,20 @@ const Login = ({ onLogin }) => {
         <div className="login-page">
             <div className="login-container">
                 <img src={bookflixLogo} alt="bookflix" className="login-logo" />
-                <form onSubmit={handleSubmit} className="login-form">
+                <form onSubmit={handleSubmit}>
                     <input 
                         type="text" 
                         placeholder="Username" 
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)} 
-                        className="login-input"
                     />
                     <input 
                         type="password" 
                         placeholder="Password" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
-                        className="login-input"
                     />
-                    <button type="submit" className="login-button">Login</button>
+                    <button type="submit">Login</button>
                 </form>
             </div>
         </div>
