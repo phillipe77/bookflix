@@ -25,13 +25,9 @@ header {
     height: 100%;
 }
 
-.user button:focus, .user button:active {
-    outline: none; /* Remove a borda no foco e no estado ativo */
-    box-shadow: none; /* Remove qualquer sombra de caixa que possa aparecer */
-}
 .user {
-    height: 60px; /* Garantindo que a altura seja igual à do logo */
-    width: 60px; /* Mantendo a proporção quadrada */
+    height: 50px; /* Garantindo que a altura seja igual à do logo */
+    width: 50px; /* Mantendo a proporção quadrada */
     cursor: pointer;
     position: relative;
 }
@@ -41,6 +37,9 @@ header {
     width: 100%; /* Garantindo que a imagem preencha o espaço disponível */
     border-radius: 5px;
     transition: transform 0.3s ease;
+    object-fit: cover; /* Garante que a imagem se ajuste ao container sem distorcer */
+    box-shadow: none; /* Remove qualquer sombra que possa estar criando a borda */
+    border: none; /* Remove qualquer borda que possa estar presente */
 }
 
 .user img:hover {
@@ -66,5 +65,3 @@ header {
     opacity: 1;
     visibility: visible;
 }
-
-
