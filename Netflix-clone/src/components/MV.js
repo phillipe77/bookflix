@@ -6,6 +6,7 @@ const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
+    const touchStartXRef = useRef(0); // Ref para armazenar a posição inicial do toque
 
     useEffect(() => {
         const listElement = listRef.current;
@@ -33,6 +34,18 @@ const MV = React.memo(({ title, items }) => {
         listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
     }, []);
 
+    // Funções para lidar com os eventos de toque
+    const handleTouchStart = useCallback((event) => {
+        touchStartXRef.current = event.touches[0].clientX;
+    }, []);
+
+    const handleTouchMove = useCallback((event) => {
+        const touchMoveX = event.touches[0].clientX;
+        const touchDiff = touchStartXRef.current - touchMoveX;
+        listRef.current.scrollLeft += touchDiff;
+        touchStartXRef.current = touchMoveX;
+    }, []);
+
     const renderedItems = useMemo(() => (
         items.length > 0 && items.map((item, key) => (
             <div key={key} className="MV--item">
@@ -56,7 +69,12 @@ const MV = React.memo(({ title, items }) => {
                     <img src="/right-arrow.svg" alt="Right" />
                 </div>
             )}
-            <div className="MV--listarea" ref={listRef}>
+            <div
+                className="MV--listarea"
+                ref={listRef}
+                onTouchStart={handleTouchStart} // Inicia o rastreamento do toque
+                onTouchMove={handleTouchMove} // Permite o deslize
+            >
                 <div className="MV--list">
                     {renderedItems}
                 </div>
