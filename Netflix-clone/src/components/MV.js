@@ -6,6 +6,7 @@ const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
+    const touchStartXRef = useRef(0);
 
     useEffect(() => {
         const listElement = listRef.current;
@@ -33,17 +34,32 @@ const MV = React.memo(({ title, items }) => {
         listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
     }, []);
 
-    // Função para lidar com erros de carregamento de imagens
+    const handleTouchStart = useCallback((event) => {
+        touchStartXRef.current = event.touches[0].clientX;
+    }, []);
+
+    const handleTouchMove = useCallback((event) => {
+        const touchMoveX = event.touches[0].clientX;
+        const touchDiff = touchStartXRef.current - touchMoveX;
+        listRef.current.scrollLeft += touchDiff * 2;
+        touchStartXRef.current = touchMoveX;
+    }, []);
+
     const handleImageError = (e, coverUrl) => {
-        e.target.src = coverUrl || '/default-image-path.jpg'; // Substitua '/default-image-path.jpg' pela sua imagem de fallback
+        e.target.src = coverUrl || '/default-image-path.jpg';
     };
 
     return (
         <div className='MV'>
             <h2>{title}</h2>
-            <div className="MV--listarea" ref={listRef}>
+            <div 
+                className="MV--listarea" 
+                ref={listRef} 
+                onTouchStart={handleTouchStart} 
+                onTouchMove={handleTouchMove}
+            >
                 <div className="MV--list">
-                    {items.length > 0 && items.map((item, key) => (
+                    {Array.isArray(items) && items.length > 0 && items.map((item, key) => (
                         <div key={key} className="MV--item">
                             <Link to={`/book/${item._id}`}>
                                 <img 
