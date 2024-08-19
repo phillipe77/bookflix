@@ -6,7 +6,7 @@ const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-    const touchStartXRef = useRef(0); // Ref para armazenar a posição inicial do toque
+    const touchStartXRef = useRef(0);
 
     useEffect(() => {
         const listElement = listRef.current;
@@ -42,15 +42,20 @@ const MV = React.memo(({ title, items }) => {
     const handleTouchMove = useCallback((event) => {
         const touchMoveX = event.touches[0].clientX;
         const touchDiff = touchStartXRef.current - touchMoveX;
-        listRef.current.scrollLeft += touchDiff * 3; // Multiplica a diferença para aumentar a sensibilidade
+        listRef.current.scrollLeft += touchDiff * 3;
         touchStartXRef.current = touchMoveX;
     }, []);
+
+    // Função para lidar com erros de carregamento de imagens
+    const handleImageError = (e) => {
+        e.target.src = '/path/to/default-image.jpg'; // Substitua pelo caminho da sua imagem de fallback
+    };
 
     const renderedItems = useMemo(() => (
         items.length > 0 && items.map((item, key) => (
             <div key={key} className="MV--item">
                 <Link to={`/book/${item._id}`}>
-                    <img src={item.coverUrl} alt={item.title} />
+                    <img src={item.coverUrl} alt={item.title} onError={handleImageError} />
                 </Link>
             </div>
         ))
@@ -72,8 +77,8 @@ const MV = React.memo(({ title, items }) => {
             <div
                 className="MV--listarea"
                 ref={listRef}
-                onTouchStart={handleTouchStart} // Inicia o rastreamento do toque
-                onTouchMove={handleTouchMove} // Permite o deslize
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
             >
                 <div className="MV--list">
                     {renderedItems}
