@@ -25,6 +25,10 @@ header {
     height: 100%;
 }
 
+.user button:focus, .user button:active {
+    outline: none; /* Remove a borda no foco e no estado ativo */
+    box-shadow: none; /* Remove qualquer sombra de caixa que possa aparecer */
+}
 .user {
     height: 60px; /* Garantindo que a altura seja igual à do logo */
     width: 60px; /* Mantendo a proporção quadrada */
@@ -63,15 +67,4 @@ header {
     visibility: visible;
 }
 
-.user button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    outline: none; /* Remove a borda que aparece no foco */
-}
-
-.user button:focus, .user button:active {
-    outline: none; /* Remove a borda no foco e no estado ativo */
-    box-shadow: none; /* Remove qualquer sombra de caixa que possa aparecer */
-}
 
