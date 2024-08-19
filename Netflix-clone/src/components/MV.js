@@ -6,7 +6,6 @@ const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-    const touchStartXRef = useRef(0); // Ref para armazenar a posição inicial do toque
 
     useEffect(() => {
         const listElement = listRef.current;
@@ -32,18 +31,6 @@ const MV = React.memo(({ title, items }) => {
     const handleRightClick = useCallback(() => {
         const maxScrollLeft = listRef.current.scrollWidth - listRef.current.clientWidth;
         listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
-    }, []);
-
-    // Funções para lidar com os eventos de toque
-    const handleTouchStart = useCallback((event) => {
-        touchStartXRef.current = event.touches[0].clientX;
-    }, []);
-
-    const handleTouchMove = useCallback((event) => {
-        const touchMoveX = event.touches[0].clientX;
-        const touchDiff = touchStartXRef.current - touchMoveX;
-        listRef.current.scrollLeft += touchDiff * 2; // Multiplica a diferença para aumentar a sensibilidade
-        touchStartXRef.current = touchMoveX;
     }, []);
 
     // Função para lidar com erros de carregamento de imagens
