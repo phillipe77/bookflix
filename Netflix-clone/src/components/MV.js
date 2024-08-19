@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import './MV.css';
 
-const MV = React.memo(({ title, items = [] }) => {
+const MV = React.memo(({ title, items }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
@@ -34,7 +34,6 @@ const MV = React.memo(({ title, items = [] }) => {
         listRef.current.scrollLeft = Math.min(listRef.current.scrollLeft + 300, maxScrollLeft);
     }, []);
 
-    // Funções para lidar com os eventos de toque
     const handleTouchStart = useCallback((event) => {
         touchStartXRef.current = event.touches[0].clientX;
     }, []);
@@ -42,28 +41,32 @@ const MV = React.memo(({ title, items = [] }) => {
     const handleTouchMove = useCallback((event) => {
         const touchMoveX = event.touches[0].clientX;
         const touchDiff = touchStartXRef.current - touchMoveX;
-        listRef.current.scrollLeft += touchDiff * 3;
+        listRef.current.scrollLeft += touchDiff * 2;
         touchStartXRef.current = touchMoveX;
     }, []);
 
-    // Função para lidar com erros de carregamento de imagens
-    const handleImageError = (e) => {
-        e.target.src = '/path/to/default-image.jpg'; // Substitua pelo caminho da sua imagem de fallback
+    const handleImageError = (e, fallbackUrl) => {
+        e.target.src = fallbackUrl;
     };
-
-    const renderedItems = useMemo(() => (
-        items.length > 0 && items.map((item, key) => (
-            <div key={key} className="MV--item">
-                <Link to={`/book/${item._id}`}>
-                    <img src={item.coverUrl} alt={item.title} onError={handleImageError} />
-                </Link>
-            </div>
-        ))
-    ), [items]);
 
     return (
         <div className='MV'>
             <h2>{title}</h2>
+            <div className="MV--listarea" ref={listRef}>
+                <div className="MV--list">
+                    {items.length > 0 && items.map((item, key) => (
+                        <div key={key} className="MV--item">
+                            <Link to={`/book/${item._id}`}>
+                                <img 
+                                    src={item.coverUrl} 
+                                    alt={item.title} 
+                                    onError={(e) => handleImageError(e, item.coverUrl)} 
+                                />
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            </div>
             {canScrollLeft && (
                 <div className="MV--left" onClick={handleLeftClick}>
                     <img src="/left-arrow.svg" alt="Left" />
@@ -74,16 +77,6 @@ const MV = React.memo(({ title, items = [] }) => {
                     <img src="/right-arrow.svg" alt="Right" />
                 </div>
             )}
-            <div
-                className="MV--listarea"
-                ref={listRef}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-            >
-                <div className="MV--list">
-                    {renderedItems}
-                </div>
-            </div>
         </div>
     );
 });
