@@ -11,40 +11,54 @@ header {
     padding: 0 40px;
     background: transparent;
     transition: all ease 0.9s;
-    
-    
 }
-.black{
+
+.black {
     background-color: #141414;
 }
 
-.logo{
-    height: 60px;
-
-
-}
-.logo img {
-    height: 100%; /* Ajusta a imagem para preencher todo o contêiner */
-    max-height: 70px; /* Define uma altura máxima, se necessário */
-    width: auto; /* Mantém a proporção da imagem */
-}
-.user{
+.logo {
     height: 50px;
-
 }
-.user img{
+
+.logo img {
+    height: 100%;
+}
+
+.user {
+    height: 40px;
+    cursor: pointer;
+    position: relative;
+}
+
+.user img {
     height: 100%;
     border-radius: 5px;
-
-}
-.logout-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.logout-button img {
-    height: 100%;
+.user img:hover {
+    transform: scale(1.1);
 }
 
+.user::after {
+    content: "Logoff";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e50914;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.user:hover::after {
+    opacity: 1;
+    visibility: visible;
+}

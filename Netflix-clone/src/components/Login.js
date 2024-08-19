@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
-import bookflixLogo from './bookflix.png'; // Use o seu logotipo
+import bookflixLogo from './bookflix.png';
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
@@ -8,10 +8,8 @@ const Login = ({ onLogin }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Simulação de autenticação simples
         if (username === 'user' && password === 'password') {
-            localStorage.setItem('isAuthenticated', 'true');
-            onLogin();
+            onLogin(true);
         } else {
             alert('Usuário ou senha incorretos');
         }
