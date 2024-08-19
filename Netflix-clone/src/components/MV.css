@@ -16,6 +16,8 @@
     overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
     padding-left: 0px;
     position: relative;
+    scroll-behavior: smooth; /* Faz a rolagem suave */
+    -webkit-overflow-scrolling: touch; /* Melhora o scroll em dispositivos móveis */
 }
 
 .MV--item {
@@ -33,6 +35,7 @@
     padding-top: 0px;
     color: #999;
     scroll-behavior: smooth; /* Faz a rolagem suave */
+    white-space: nowrap; /* Garante que os itens não quebrem a linha */
 }
 
 .MV--item img {
