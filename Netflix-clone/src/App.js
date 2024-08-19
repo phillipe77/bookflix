@@ -8,22 +8,18 @@ import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
-// Adicionando as importações que estavam faltando
-const Fm = lazy(() => import('./components/fm')); // Certifique-se de que o caminho esteja correto
-const BookDetails = lazy(() => import('./components/BookDetails')); // Certifique-se de que o caminho esteja correto
-const Login = lazy(() => import('./components/Login')); // Certifique-se de que o caminho esteja correto
-
-const API_BASE = 'https://back-bookflix.vercel.app/api/books';
+const Fm = lazy(() => import('./components/fm'));
+const BookDetails = lazy(() => import('./components/BookDetails'));
+const Login = lazy(() => import('./components/Login'));
 
 const App = () => {
     const [bookList, setBookList] = useState([]);
     const [featureData, setFeatureData] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
-    // Função que busca os livros da API
     const loadAll = async () => {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${API_BASE}`, { 
+        const response = await fetch('https://back-bookflix.vercel.app/api/books', { 
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
@@ -35,7 +31,6 @@ const App = () => {
         }
 
         const list = await response.json();
-        console.log('Fetched Book List:', list); // Verifique se o JSON dos livros é mostrado aqui corretamente.
         setBookList(list);
         localStorage.setItem('bookList', JSON.stringify(list));
 

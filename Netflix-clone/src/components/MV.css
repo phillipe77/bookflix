@@ -1,0 +1,128 @@
+.MV {
+    margin: 5px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-top: 0px;
+    position: relative;
+}
+
+.MV h2 {
+    margin: 0px 0px 0px 30px;
+    font-size: 30px;
+}
+
+.MV--listarea {
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
+    padding-left: 0px;
+    position: relative;
+    scroll-behavior: smooth; /* Faz a rolagem suave */
+    -webkit-overflow-scrolling: touch; /* Melhora o scroll em dispositivos móveis */
+}
+
+.MV--item {
+    display: inline-block;
+    width: 150px;
+    height: 230px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #fff;
+    flex-shrink: 0; /* Evita que os itens encolham */
+}
+
+.MV--list {
+    display: inline-flex;
+    padding-left: 20px;
+    padding-top: 0px;
+    color: #999;
+    scroll-behavior: smooth; /* Faz a rolagem suave */
+    white-space: nowrap; /* Garante que os itens não quebrem a linha */
+}
+
+.MV--item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(0.9);
+    transition: all ease 0.2s;
+}
+
+.MV--item img:hover {
+    transform: scale(1);
+}
+
+.MV--left, .MV--right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.MV:hover .MV--left, .MV:hover .MV--right {
+    opacity: 1;
+}
+
+.MV--left {
+    left: -20px;
+}
+
+.MV--right {
+    right: -20px;
+}
+
+.MV--left img, .MV--right img {
+    width: 24px;
+    height: 24px;
+    filter: invert(1); /* Deixa a seta branca */
+}
+
+/* Remover a barra de rolagem horizontal na página principal */
+body {
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal da página */
+}
+
+@media (max-width: 768px) {
+    .MV h2 {
+        font-size: 24px; /* Ajuste do tamanho do título */
+    }
+
+    .MV--item {
+        width: 120px;
+        height: 180px; /* Reduz o tamanho das miniaturas */
+    }
+
+    .MV--list {
+        padding-left: 10px; /* Diminui o padding em telas menores */
+    }
+
+    .MV--left, .MV--right {
+        width: 30px;
+        height: 30px; /* Ajusta o tamanho dos botões de navegação */
+    }
+
+    .MV--left img, .MV--right img {
+        width: 18px;
+        height: 18px; /* Ajusta o tamanho das setas */
+    }
+}
+
+@media (max-width: 480px) {
+    .MV h2 {
+        font-size: 20px; /* Tamanho ainda menor para títulos */
+    }
+
+    .MV--item {
+        width: 100px;
+        height: 150px; /* Tamanho ainda menor para miniaturas */
+    }
+}
