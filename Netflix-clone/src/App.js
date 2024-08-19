@@ -10,57 +10,47 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const API_BASE = 'https://back-bookflix.vercel.app/api/books';
 
-// Lazy loading para os componentes
-const BookDetails = lazy(() => import('./components/BookDetails'));
-const Fm = lazy(() => import('./components/fm'));
-const Login = lazy(() => import('./components/Login'));
-
 const App = () => {
-    const [bookList, setBookList] = useState([]); 
+    const [bookList, setBookList] = useState([]);
     const [featureData, setFeatureData] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
-    // Carrega os dados dos livros uma vez e usa cache
+    // Função que busca os livros da API
+    const loadAll = async () => {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_BASE}`, { 
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            console.error("Erro ao buscar livros:", response.statusText);
+            return;
+        }
+
+        const list = await response.json();
+        console.log('Fetched Book List:', list); // Verifique se o JSON dos livros é mostrado aqui corretamente.
+        setBookList(list);
+        localStorage.setItem('bookList', JSON.stringify(list));
+
+        if (list.length > 0 && list[0].items && list[0].items.length > 0) {
+            let allBooks = list[0].items;
+            let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
+            let chosen = allBooks[randomChosen];
+            let chosenInfo = await bookApi.getBookInfo(chosen._id);
+            setFeatureData(chosenInfo);
+        }
+    };
+
+    // Use o useEffect para chamar a função loadAll quando o componente for montado
     useEffect(() => {
         if (isAuthenticated) {
-            const cachedList = localStorage.getItem('bookList');
-            if (cachedList) {
-                const parsedList = JSON.parse(cachedList);
-                console.log('Cached Book List:', parsedList);
-                setBookList(parsedList);
-            } else {
-                const loadAll = async () => {
-                    const token = localStorage.getItem('token');
-                    const response = await fetch(`${API_BASE}`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                        },
-                    });
-
-                    if (!response.ok) {
-                        console.error("Erro ao buscar livros:", response.statusText);
-                        return;
-                    }
-
-                    const list = await response.json();
-                    console.log('Fetched Book List:', list);
-                    setBookList(list);
-                    localStorage.setItem('bookList', JSON.stringify(list));
-
-                    if (list.length > 0 && list[0].items && list[0].items.length > 0) {
-                        let allBooks = list[0].items;
-                        let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
-                        let chosen = allBooks[randomChosen];
-                        let chosenInfo = await bookApi.getBookInfo(chosen._id);
-                        setFeatureData(chosenInfo);
-                    }
-                };
-                loadAll();
-            }
+            loadAll();
         }
     }, [isAuthenticated]);
 
-    // Memoriza o valor de bookList para evitar re-renderizações desnecessárias
+    // Restante do código do App.js (Não modifique)
     const memoizedBookList = useMemo(() => {
         return bookList.map((item, key) => {
             console.log(`Rendering MV for: ${item.title}`);

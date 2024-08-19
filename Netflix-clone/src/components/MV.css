@@ -13,7 +13,7 @@
 }
 
 .MV--listarea {
-    overflow-x: auto; /* Permite a rolagem horizontal */
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
     padding-left: 0px;
     position: relative;
     scroll-behavior: smooth; /* Faz a rolagem suave */
@@ -43,8 +43,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scale(0.9);
     transition: all ease 0.2s;
-    /* transform: scale(0.9); */ /* Comentei essa linha para evitar que as imagens fiquem muito pequenas */
 }
 
 .MV--item img:hover {
@@ -63,7 +63,7 @@
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 50%;
-    z-index: 2; /* Certifique-se de que z-index seja suficiente */
+    z-index: 1;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
