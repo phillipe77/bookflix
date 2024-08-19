@@ -15,28 +15,23 @@ const BookDetails = () => {
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
-            // Customize the toolbar to remove the "open" button
             renderToolbar: (Toolbar) => (
                 <Toolbar>
                     {(props) => {
                         const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
                         return (
-                            <>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <GoToFirstPage />
-                                    <GoToPreviousPage />
-                                    <PageNumber />
-                                    <GoToNextPage />
-                                    <GoToLastPage />
-                                    <ZoomOut />
-                                    <ZoomIn />
-                                    <Search />
-                                    <Print />
-                                    <Download />
-                                    {/* Removendo o botão de Upload/Open */}
-                                    {/* <Open /> */}
-                                </div>
-                            </>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <GoToFirstPage />
+                                <GoToPreviousPage />
+                                <PageNumber />
+                                <GoToNextPage />
+                                <GoToLastPage />
+                                <ZoomOut />
+                                <ZoomIn />
+                                <Search />
+                                <Print />
+                                <Download />
+                            </div>
                         );
                     }}
                 </Toolbar>
@@ -48,9 +43,18 @@ const BookDetails = () => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
-                setBook(bookData);
+                
+                // Verifique o que está vindo na resposta
+                console.log("Book Data:", bookData);
+
+                if (bookData && bookData.pdfUrl) {
+                    setBook(bookData);
+                } else {
+                    throw new Error("Informações do livro estão incompletas.");
+                }
                 setLoading(false);
             } catch (err) {
+                console.error(err);
                 setError('Erro ao buscar informações do livro');
                 setLoading(false);
             }
