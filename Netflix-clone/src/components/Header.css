@@ -37,7 +37,6 @@ header {
     border-radius: 5px;
 
 }
-/* Header.css */
 .logout-button {
     background: none;
     border: none;
@@ -47,5 +46,5 @@ header {
 
 .logout-button img {
     height: 100%;
-    border-radius: 5px;
 }
+

@@ -11,9 +11,9 @@ const Header = ({ black, onLogout }) => {
                 </a>
             </div>
             <div className="user" onClick={onLogout}>
-                <a href="#">
+                <button className="logout-button">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="UserImage" />
-                </a>
+                </button>
             </div>
         </header>
     );
