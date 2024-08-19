@@ -37,3 +37,15 @@ header {
     border-radius: 5px;
 
 }
+/* Header.css */
+.logout-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.logout-button img {
+    height: 100%;
+    border-radius: 5px;
+}
