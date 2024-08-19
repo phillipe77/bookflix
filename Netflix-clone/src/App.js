@@ -8,7 +8,9 @@ import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
-const API_BASE = 'https://back-bookflix.vercel.app/api/books'; // Defina a URL base aqui
+
+const API_BASE = 'https://back-bookflix.vercel.app/api/books';
+
 
 // Lazy loading para os componentes
 const BookDetails = lazy(() => import('./components/BookDetails'));
@@ -29,7 +31,7 @@ const App = () => {
             } else {
                 const loadAll = async () => {
                     const token = localStorage.getItem('token'); // Obtém o token JWT
-                    const response = await fetch(`${API_BASE}`, { // Usa a URL base
+                    const response = await fetch(`${API_BASE}`, { // Removei o '/api/books' extra, pois API_BASE já contém a URL base
                         headers: {
                             'Authorization': `Bearer ${token}`, // Envia o token no cabeçalho
                         },
