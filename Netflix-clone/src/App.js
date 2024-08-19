@@ -75,7 +75,6 @@ const App = () => {
                                         <footer>
                                             Desenvolvido por Phillipe Linhares<br />
                                             GitHub: https://github.com/phillipe77<br />
-                                            Direito de imagem para Netflix<br />
                                         </footer>
                                         {bookList.length <= 0 && (
                                             <div className="loading">
