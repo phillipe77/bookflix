@@ -6,6 +6,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
+import { SpeedInsights } from '@vercel/speed-insights/react';  // Importando SpeedInsights
 
 // Lazy loading para os componentes
 const BookDetails = lazy(() => import('./components/BookDetails'));
@@ -106,6 +107,7 @@ const App = () => {
                             <Route path="*" element={<Navigate to="/login" />} />
                         </Routes>
                     )}
+                    <SpeedInsights /> {/* Adiciona o componente SpeedInsights */}
                 </div>
             </Router>
         </Worker>
