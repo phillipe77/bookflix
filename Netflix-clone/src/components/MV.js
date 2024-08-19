@@ -42,7 +42,7 @@ const MV = React.memo(({ title, items }) => {
     const handleTouchMove = useCallback((event) => {
         const touchMoveX = event.touches[0].clientX;
         const touchDiff = touchStartXRef.current - touchMoveX;
-        listRef.current.scrollLeft += touchDiff;
+        listRef.current.scrollLeft += touchDiff * 3; // Multiplica a diferença para aumentar a sensibilidade
         touchStartXRef.current = touchMoveX;
     }, []);
 
