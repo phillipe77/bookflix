@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './MV.css';
 
@@ -48,7 +48,7 @@ const MV = React.memo(({ title, items }) => {
 
     // Função para lidar com erros de carregamento de imagens
     const handleImageError = (e, coverUrl) => {
-        e.target.src = coverUrl; // Substitui a imagem por uma URL de fallback
+        e.target.src = coverUrl || '/default-image-path.jpg'; // Substitua '/default-image-path.jpg' pela sua imagem de fallback
     };
 
     return (
