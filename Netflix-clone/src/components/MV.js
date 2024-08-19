@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import './MV.css';
 
-const MV = React.memo(({ title, items }) => {
+const MV = React.memo(({ title, items = [] }) => {
     const listRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
