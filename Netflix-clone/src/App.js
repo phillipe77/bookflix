@@ -27,7 +27,7 @@ const App = () => {
             } else {
                 const loadAll = async () => {
                     const token = localStorage.getItem('token'); // Obtém o token JWT
-                    const response = await fetch('/api/books', {
+                    const response = await fetch(`${API_BASE}`, { // Removei o '/api/books' extra, pois API_BASE já contém a URL base
                         headers: {
                             'Authorization': `Bearer ${token}`, // Envia o token no cabeçalho
                         },
