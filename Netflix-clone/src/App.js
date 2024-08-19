@@ -8,9 +8,7 @@ import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
-
 const API_BASE = 'https://back-bookflix.vercel.app/api/books';
-
 
 // Lazy loading para os componentes
 const BookDetails = lazy(() => import('./components/BookDetails'));
@@ -27,13 +25,15 @@ const App = () => {
         if (isAuthenticated) {
             const cachedList = localStorage.getItem('bookList');
             if (cachedList) {
-                setBookList(JSON.parse(cachedList));
+                const parsedList = JSON.parse(cachedList);
+                console.log('Cached Book List:', parsedList);  // Log do cache
+                setBookList(parsedList);
             } else {
                 const loadAll = async () => {
-                    const token = localStorage.getItem('token'); // Obtém o token JWT
-                    const response = await fetch(`${API_BASE}`, { // Removei o '/api/books' extra, pois API_BASE já contém a URL base
+                    const token = localStorage.getItem('token');
+                    const response = await fetch(`${API_BASE}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`, // Envia o token no cabeçalho
+                            'Authorization': `Bearer ${token}`,
                         },
                     });
 
@@ -43,15 +43,17 @@ const App = () => {
                     }
 
                     const list = await response.json();
+                    console.log('Fetched Book List:', list);  // Log dos dados recebidos
                     setBookList(list);
                     localStorage.setItem('bookList', JSON.stringify(list));
 
-                    let allBooks = list[0].items;
-                    let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
-                    let chosen = allBooks[randomChosen];
-                    let chosenInfo = await bookApi.getBookInfo(chosen._id);
-
-                    setFeatureData(chosenInfo);
+                    if (list.length > 0 && list[0].items && list[0].items.length > 0) {
+                        let allBooks = list[0].items;
+                        let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
+                        let chosen = allBooks[randomChosen];
+                        let chosenInfo = await bookApi.getBookInfo(chosen._id);
+                        setFeatureData(chosenInfo);
+                    }
                 };
                 loadAll();
             }
@@ -60,13 +62,14 @@ const App = () => {
 
     // Memoriza o valor de bookList para evitar re-renderizações desnecessárias
     const memoizedBookList = useMemo(() => {
-        return bookList.map((item, key) => (
-            <MV key={key} title={item.title} items={item.items} />
-        ));
+        return bookList.map((item, key) => {
+            console.log(`Rendering MV for: ${item.title}`);  // Log para verificar o mapeamento
+            return <MV key={key} title={item.title} items={item.items} />;
+        });
     }, [bookList]);
 
     const handleLogout = () => {
-        localStorage.removeItem('token'); // Remove o token JWT ao deslogar
+        localStorage.removeItem('token');
         setIsAuthenticated(false);
     };
 
