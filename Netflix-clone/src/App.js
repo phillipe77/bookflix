@@ -17,43 +17,29 @@ const App = () => {
     const [featureData, setFeatureData] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
-    const loadAll = async () => {
-        const token = localStorage.getItem('token');
-        const response = await fetch('https://back-bookflix.vercel.app/api/books', { 
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-
-        if (!response.ok) {
-            console.error("Erro ao buscar livros:", response.statusText);
-            return;
-        }
-
-        const list = await response.json();
-        setBookList(list);
-        localStorage.setItem('bookList', JSON.stringify(list));
-
-        if (list.length > 0 && list[0].items && list[0].items.length > 0) {
-            let allBooks = list[0].items;
-            let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
-            let chosen = allBooks[randomChosen];
-            let chosenInfo = await bookApi.getBookInfo(chosen._id);
-            setFeatureData(chosenInfo);
-        }
-    };
-
     useEffect(() => {
+        const loadAll = async () => {
+            let list = await bookApi.getHomeList(); // Busca a lista de livros
+            setBookList(list);
+            
+            if (list.length > 0 && list[0].items && list[0].items.length > 0) {
+                let allBooks = list[0].items; // Pegando os itens do primeiro slug (categoria)
+                let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
+                let chosen = allBooks[randomChosen];
+                let chosenInfo = await bookApi.getBookInfo(chosen._id); // Obtendo informações detalhadas do livro escolhido
+                setFeatureData(chosenInfo);
+            }
+        };
+
         if (isAuthenticated) {
-            loadAll();
+            loadAll(); // Carrega os dados quando o usuário está autenticado
         }
     }, [isAuthenticated]);
 
     const memoizedBookList = useMemo(() => {
-        return bookList.map((item, key) => {
-            console.log(`Rendering MV for: ${item.title}`);
-            return <MV key={key} title={item.title} items={item.items} />;
-        });
+        return bookList.map((item, key) => (
+            <MV key={key} title={item.title} items={item.items} />
+        ));
     }, [bookList]);
 
     const handleLogout = () => {
