@@ -8,6 +8,11 @@ import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
+// Adicionando as importações que estavam faltando
+const Fm = lazy(() => import('./components/Fm')); // Certifique-se de que o caminho esteja correto
+const BookDetails = lazy(() => import('./components/BookDetails')); // Certifique-se de que o caminho esteja correto
+const Login = lazy(() => import('./components/Login')); // Certifique-se de que o caminho esteja correto
+
 const API_BASE = 'https://back-bookflix.vercel.app/api/books';
 
 const App = () => {
@@ -43,14 +48,12 @@ const App = () => {
         }
     };
 
-    // Use o useEffect para chamar a função loadAll quando o componente for montado
     useEffect(() => {
         if (isAuthenticated) {
             loadAll();
         }
     }, [isAuthenticated]);
 
-    // Restante do código do App.js (Não modifique)
     const memoizedBookList = useMemo(() => {
         return bookList.map((item, key) => {
             console.log(`Rendering MV for: ${item.title}`);
