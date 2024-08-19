@@ -10,8 +10,8 @@ const Header = ({ black, onLogout }) => {
                     <img src={bookflixLogo} alt="bookflix" />
                 </a>
             </div>
-            <div className="user">
-                <a href="/" onClick={onLogout}>
+            <div className="user" onClick={onLogout}>
+                <a href="#">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="UserImage" />
                 </a>
             </div>
