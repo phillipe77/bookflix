@@ -83,3 +83,33 @@ header {
     height: auto; /* Mantém a proporção da imagem */
     border-radius: 5px; /* Mantém o estilo de borda arredondada */
 }
+
+@media (max-width: 768px) {
+    header {
+        padding: 0 20px; /* Reduz o padding lateral */
+    }
+
+    .logo {
+        height: 40px; /* Reduz o tamanho do logo */
+    }
+
+    .user {
+        height: 40px;
+        width: 40px; /* Reduz o tamanho do avatar do usuário */
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0 10px; /* Reduz ainda mais o padding lateral */
+    }
+
+    .logo {
+        height: 35px; /* Reduz ainda mais o tamanho do logo */
+    }
+
+    .user {
+        height: 35px;
+        width: 35px; /* Reduz ainda mais o tamanho do avatar do usuário */
+    }
+}

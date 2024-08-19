@@ -86,3 +86,39 @@
 body {
     overflow-x: hidden; /* Esconde a barra de rolagem horizontal da página */
 }
+
+@media (max-width: 768px) {
+    .MV h2 {
+        font-size: 24px; /* Ajuste do tamanho do título */
+    }
+
+    .MV--item {
+        width: 120px;
+        height: 180px; /* Reduz o tamanho das miniaturas */
+    }
+
+    .MV--list {
+        padding-left: 10px; /* Diminui o padding em telas menores */
+    }
+
+    .MV--left, .MV--right {
+        width: 30px;
+        height: 30px; /* Ajusta o tamanho dos botões de navegação */
+    }
+
+    .MV--left img, .MV--right img {
+        width: 18px;
+        height: 18px; /* Ajusta o tamanho das setas */
+    }
+}
+
+@media (max-width: 480px) {
+    .MV h2 {
+        font-size: 20px; /* Tamanho ainda menor para títulos */
+    }
+
+    .MV--item {
+        width: 100px;
+        height: 150px; /* Tamanho ainda menor para miniaturas */
+    }
+}

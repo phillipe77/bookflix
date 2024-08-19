@@ -64,3 +64,47 @@
     border-radius: 10px;
     overflow: hidden;
 }
+
+@media (max-width: 768px) {
+    .book-details {
+        padding: 20px;
+    }
+
+    .book-cover {
+        width: 200px; /* Reduz o tamanho da capa */
+    }
+
+    .book-info h1 {
+        font-size: 2rem;
+    }
+
+    .book-info p {
+        font-size: 1rem;
+    }
+
+    .pdf-viewer-container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .book-details {
+        padding: 15px;
+    }
+
+    .book-cover {
+        width: 150px; /* Reduz ainda mais o tamanho da capa */
+    }
+
+    .book-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .book-info p {
+        font-size: 0.9rem;
+    }
+
+    .pdf-viewer-container {
+        padding: 10px;
+    }
+}

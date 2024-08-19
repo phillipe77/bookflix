@@ -51,3 +51,43 @@ button {
 button:hover {
     background-color: #f61d20;
 }
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 20px;
+        width: 90%; /* Ajusta a largura para ocupar 90% da tela */
+    }
+
+    .login-logo {
+        width: 120px; /* Reduz o tamanho do logo */
+    }
+
+    input[type="text"], input[type="password"] {
+        padding: 8px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 14px; /* Reduz o tamanho da fonte do botão */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 15px;
+        width: 100%; /* Ajusta a largura para ocupar 100% da tela */
+    }
+
+    .login-logo {
+        width: 100px; /* Reduz ainda mais o tamanho do logo */
+    }
+
+    input[type="text"], input[type="password"] {
+        padding: 6px;
+    }
+
+    button {
+        padding: 6px;
+        font-size: 12px; /* Reduz ainda mais o tamanho da fonte do botão */
+    }
+}

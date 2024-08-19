@@ -36,4 +36,16 @@ footer {
   }
 }
 
+@media (max-width: 480px) {
+  .lists {
+    margin-top: -150px; /* Ajuste adicional para telas muito pequenas */
+  }
+
+  footer {
+    margin: 20px 0;
+    font-size: 16px; /* Reduzindo ainda mais o tamanho da fonte em dispositivos muito pequenos */
+  }
+}
+
+
 

@@ -122,3 +122,37 @@
         font-size: 15px;
     }
 }
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 24px; /* Reduz o tamanho do título */
+    }
+
+    .info {
+        font-size: 16px; /* Reduz o tamanho das informações */
+    }
+
+    .description {
+        max-width: 100%;
+        font-size: 16px; /* Ajusta a descrição para ocupar mais espaço em telas pequenas */
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 20px;
+    }
+
+    .info {
+        font-size: 14px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+
+    .buttons .playBtn, .addBtn {
+        font-size: 14px; /* Ajusta o tamanho dos botões */
+        padding: 10px 20px;
+    }
+}
