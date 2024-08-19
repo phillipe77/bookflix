@@ -10,7 +10,7 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('https://back-bookflix.vercel.app/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
