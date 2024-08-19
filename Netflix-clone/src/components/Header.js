@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './Header.css';
 import bookflixLogo from './bookflix.png';
 
-const Header = ({ black, onLogout }) => {
+const Header = ({ onLogout }) => {
+    const [black, setBlack] = useState(false);
+
+    // Função para monitorar a rolagem da página e ajustar a cor do cabeçalho
+    const handleScroll = useCallback(() => {
+        if (window.scrollY > 15) {
+            setBlack(true);
+        } else {
+            setBlack(false);
+        }
+    }, []);
+
+    // Adicionar e remover listener de rolagem
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
+
     return (
         <header className={black ? 'black' : ''}>
             <div className="logo">

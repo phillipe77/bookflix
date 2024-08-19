@@ -15,24 +15,29 @@ const Login = lazy(() => import('./components/Login'));
 const App = () => {
     const [bookList, setBookList] = useState([]); 
     const [featureData, setFeatureData] = useState([]);
-    const [blackHeader, setBlackHeader] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
 
-    // Carrega os dados dos livros uma vez
+    // Carrega os dados dos livros uma vez e usa cache
     useEffect(() => {
         if (isAuthenticated) {
-            const loadAll = async () => {
-                let list = await bookApi.getHomeList();
-                setBookList(list);
+            const cachedList = localStorage.getItem('bookList');
+            if (cachedList) {
+                setBookList(JSON.parse(cachedList));
+            } else {
+                const loadAll = async () => {
+                    let list = await bookApi.getHomeList();
+                    setBookList(list);
+                    localStorage.setItem('bookList', JSON.stringify(list));
 
-                let allBooks = list[0].items;
-                let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
-                let chosen = allBooks[randomChosen];
-                let chosenInfo = await bookApi.getBookInfo(chosen._id);
+                    let allBooks = list[0].items;
+                    let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
+                    let chosen = allBooks[randomChosen];
+                    let chosenInfo = await bookApi.getBookInfo(chosen._id);
 
-                setFeatureData(chosenInfo);
-            };
-            loadAll();
+                    setFeatureData(chosenInfo);
+                };
+                loadAll();
+            }
         }
     }, [isAuthenticated]);
 
@@ -42,22 +47,6 @@ const App = () => {
             <MV key={key} title={item.title} items={item.items} />
         ));
     }, [bookList]);
-
-    // Usa callback memoizada para o listener de scroll
-    const handleScroll = useCallback(() => {
-        if (window.scrollY > 15) {
-            setBlackHeader(true);
-        } else {
-            setBlackHeader(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [handleScroll]);
 
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
@@ -75,7 +64,7 @@ const App = () => {
                 <div className="page">
                     {isAuthenticated ? (
                         <>
-                            <Header black={blackHeader} onLogout={handleLogout} />
+                            <Header onLogout={handleLogout} />
                             <Routes>
                                 <Route path="/" element={
                                     <Suspense fallback={<div>Loading...</div>}>
