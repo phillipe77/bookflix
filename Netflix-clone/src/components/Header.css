@@ -26,8 +26,8 @@ header {
 }
 
 .user {
-    height: 50px; /* Garantindo que a altura seja igual à do logo */
-    width: 50px; /* Mantendo a proporção quadrada */
+    height: 60px; /* Garantindo que a altura seja igual à do logo */
+    width: 60px; /* Mantendo a proporção quadrada */
     cursor: pointer;
     position: relative;
 }
@@ -49,7 +49,6 @@ header {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #e50914;
     color: #fff;
     padding: 5px;
     border-radius: 5px;
