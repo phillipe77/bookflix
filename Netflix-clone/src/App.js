@@ -72,7 +72,6 @@ const App = () => {
                                     Desenvolvido por Phillipe Linhares<br />
                                     GitHub: https://github.com/phillipe77<br />
                                     Direito de imagem para Netflix<br />
-                                    Dados dos livros retirados da API Local
                                 </footer>
                                 {bookList.length <= 0 && (
                                     <div className="loading">
