@@ -6,12 +6,30 @@ const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (username === 'solascriptura' && password === 'Hagionlogos@') {
-            onLogin(true);
-        } else {
-            alert('Usuário ou senha incorretos');
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Armazene o token no localStorage
+                localStorage.setItem('token', data.token);
+                onLogin(true);
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Erro ao fazer login:', error);
+            alert('Erro ao tentar fazer login.');
         }
     };
 

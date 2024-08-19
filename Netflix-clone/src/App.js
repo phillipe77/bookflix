@@ -6,7 +6,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import { SpeedInsights } from '@vercel/speed-insights/react';  // Importando SpeedInsights
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Lazy loading para os componentes
 const BookDetails = lazy(() => import('./components/BookDetails'));
@@ -16,7 +16,7 @@ const Login = lazy(() => import('./components/Login'));
 const App = () => {
     const [bookList, setBookList] = useState([]); 
     const [featureData, setFeatureData] = useState([]);
-    const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
     // Carrega os dados dos livros uma vez e usa cache
     useEffect(() => {
@@ -26,7 +26,19 @@ const App = () => {
                 setBookList(JSON.parse(cachedList));
             } else {
                 const loadAll = async () => {
-                    let list = await bookApi.getHomeList();
+                    const token = localStorage.getItem('token'); // Obtém o token JWT
+                    const response = await fetch('/api/books', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`, // Envia o token no cabeçalho
+                        },
+                    });
+
+                    if (!response.ok) {
+                        console.error("Erro ao buscar livros:", response.statusText);
+                        return;
+                    }
+
+                    const list = await response.json();
                     setBookList(list);
                     localStorage.setItem('bookList', JSON.stringify(list));
 
@@ -50,12 +62,11 @@ const App = () => {
     }, [bookList]);
 
     const handleLogout = () => {
-        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('token'); // Remove o token JWT ao deslogar
         setIsAuthenticated(false);
     };
 
     const handleLogin = () => {
-        localStorage.setItem('isAuthenticated', 'true');
         setIsAuthenticated(true);
     };
 
@@ -107,7 +118,7 @@ const App = () => {
                             <Route path="*" element={<Navigate to="/login" />} />
                         </Routes>
                     )}
-                    <SpeedInsights /> {/* Adiciona o componente SpeedInsights */}
+                    <SpeedInsights />
                 </div>
             </Router>
         </Worker>
