@@ -9,7 +9,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Adicionando as importações que estavam faltando
-const Fm = lazy(() => import('./components/Fm')); // Certifique-se de que o caminho esteja correto
+const Fm = lazy(() => import('./components/fm')); // Certifique-se de que o caminho esteja correto
 const BookDetails = lazy(() => import('./components/BookDetails')); // Certifique-se de que o caminho esteja correto
 const Login = lazy(() => import('./components/Login')); // Certifique-se de que o caminho esteja correto
 
