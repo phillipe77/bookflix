@@ -14,7 +14,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [viewMode, setViewMode] = useState(null); // Adiciona o estado para alternar entre os modos de visualização
+    const [isMobileView, setIsMobileView] = useState(false); // Estado para alternar entre visualizações
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -34,7 +34,7 @@ const BookDetails = () => {
                                 <Search />
                                 <Print />
                                 <Download />
-                                <FullScreen />
+                                <FullScreen /> {/* Botão de Fullscreen */}
                             </div>
                         );
                     }}
@@ -49,7 +49,6 @@ const BookDetails = () => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
-
                 if (bookData && bookData.pdfUrl) {
                     setBook(bookData);
                 } else {
@@ -65,8 +64,14 @@ const BookDetails = () => {
         fetchBook();
     }, [id]);
 
-    const handleViewMode = (mode) => {
-        setViewMode(mode);
+    const handleMobileView = () => {
+        setIsMobileView(true);
+        const url = book.pdfUrl;
+        window.open(url, '_blank'); // Abre o PDF diretamente em modo de visualização para mobile
+    };
+
+    const handleComputerView = () => {
+        setIsMobileView(false); // Reseta para visualização normal no computador
     };
 
     if (loading) {
@@ -90,13 +95,11 @@ const BookDetails = () => {
                 <p><strong>Descrição:</strong> {book.description}</p>
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
-
             <div className="view-buttons">
-                <button onClick={() => handleViewMode('desktop')} className="view-button">Leitura no Computador</button>
-                <button onClick={() => handleViewMode('mobile')} className="view-button">Leitura no Celular</button>
+                <button onClick={handleComputerView} className="view-button">Leitura no Computador</button>
+                <button onClick={handleMobileView} className="view-button">Leitura no Celular</button>
             </div>
-
-            {viewMode === 'desktop' && (
+            {!isMobileView && (
                 <div className="pdf-viewer-section">
                     <h2>Leia o Livro:</h2>
                     <div className="pdf-viewer-container">
@@ -114,15 +117,6 @@ const BookDetails = () => {
                         </div>
                     </div>
                 </div>
-            )}
-
-            {viewMode === 'mobile' && (
-                <iframe
-                    src={book.pdfUrl}
-                    title="PDF Viewer"
-                    className="mobile-pdf-viewer"
-                    allowFullScreen
-                ></iframe>
             )}
         </div>
     );

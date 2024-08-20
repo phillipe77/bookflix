@@ -45,20 +45,21 @@
 }
 
 .view-button {
-    background-color: #333;
-    color: #fff;
-    border: none;
     padding: 10px 20px;
     margin: 0 10px;
+    border: none;
+    background-color: #444;
+    color: white;
+    font-size: 1rem;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .view-button:hover {
-    background-color: #555;
+    background-color: #666;
 }
+
 
 .pdf-viewer-section {
     width: 100%;
