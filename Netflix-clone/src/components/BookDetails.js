@@ -14,7 +14,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isMobileView, setIsMobileView] = useState(false); // Estado para alternar entre visualizações
+    const [showPdfViewer, setShowPdfViewer] = useState(false); // Controla a exibição do PDF
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -64,14 +64,14 @@ const BookDetails = () => {
         fetchBook();
     }, [id]);
 
-    const handleMobileView = () => {
-        setIsMobileView(true);
-        const url = book.pdfUrl;
-        window.open(url, '_blank'); // Abre o PDF diretamente em modo de visualização para mobile
+    const handleComputerView = () => {
+        setShowPdfViewer(true);
     };
 
-    const handleComputerView = () => {
-        setIsMobileView(false); // Reseta para visualização normal no computador
+    const handleMobileView = () => {
+        if (book && book.pdfUrl) {
+            window.open(book.pdfUrl, '_blank'); // Abre o PDF diretamente no visualizador do navegador
+        }
     };
 
     if (loading) {
@@ -99,7 +99,7 @@ const BookDetails = () => {
                 <button onClick={handleComputerView} className="view-button">Leitura no Computador</button>
                 <button onClick={handleMobileView} className="view-button">Leitura no Celular</button>
             </div>
-            {!isMobileView && (
+            {showPdfViewer && (
                 <div className="pdf-viewer-section">
                     <h2>Leia o Livro:</h2>
                     <div className="pdf-viewer-container">
