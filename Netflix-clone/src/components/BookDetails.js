@@ -14,9 +14,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    // Verifica se o ID está sendo capturado corretamente
-    console.log("Captured ID:", id);
+    const [viewMode, setViewMode] = useState(null); // Adiciona o estado para alternar entre os modos de visualização
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -36,7 +34,7 @@ const BookDetails = () => {
                                 <Search />
                                 <Print />
                                 <Download />
-                                <FullScreen /> {/* Botão de Fullscreen */}
+                                <FullScreen />
                             </div>
                         );
                     }}
@@ -51,9 +49,6 @@ const BookDetails = () => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
-                
-                // Verifica os dados retornados da API
-                console.log("Book Data:", bookData);
 
                 if (bookData && bookData.pdfUrl) {
                     setBook(bookData);
@@ -62,7 +57,6 @@ const BookDetails = () => {
                 }
                 setLoading(false);
             } catch (err) {
-                console.error("Fetch Book Error:", err);
                 setError('Erro ao buscar informações do livro');
                 setLoading(false);
             }
@@ -70,6 +64,10 @@ const BookDetails = () => {
 
         fetchBook();
     }, [id]);
+
+    const handleViewMode = (mode) => {
+        setViewMode(mode);
+    };
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -92,23 +90,40 @@ const BookDetails = () => {
                 <p><strong>Descrição:</strong> {book.description}</p>
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
-            <div className="pdf-viewer-section">
-                <h2>Leia o Livro:</h2>
-                <div className="pdf-viewer-container">
-                    <div className="pdf-viewer">
-                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                            <Viewer
-                                fileUrl={book.pdfUrl}
-                                defaultScale={1.0}
-                                scrollMode={ScrollMode.Vertical}
-                                viewMode={ViewMode.SinglePage}
-                                plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance]}
-                                theme="dark"
-                            />
-                        </Worker>
+
+            <div className="view-buttons">
+                <button onClick={() => handleViewMode('desktop')} className="view-button">Leitura no Computador</button>
+                <button onClick={() => handleViewMode('mobile')} className="view-button">Leitura no Celular</button>
+            </div>
+
+            {viewMode === 'desktop' && (
+                <div className="pdf-viewer-section">
+                    <h2>Leia o Livro:</h2>
+                    <div className="pdf-viewer-container">
+                        <div className="pdf-viewer">
+                            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                                <Viewer
+                                    fileUrl={book.pdfUrl}
+                                    defaultScale={1.0}
+                                    scrollMode={ScrollMode.Vertical}
+                                    viewMode={ViewMode.SinglePage}
+                                    plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance]}
+                                    theme="dark"
+                                />
+                            </Worker>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
+            {viewMode === 'mobile' && (
+                <iframe
+                    src={book.pdfUrl}
+                    title="PDF Viewer"
+                    className="mobile-pdf-viewer"
+                    allowFullScreen
+                ></iframe>
+            )}
         </div>
     );
 };
