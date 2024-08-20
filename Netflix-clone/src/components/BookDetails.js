@@ -13,6 +13,9 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Verifica se o ID está sendo capturado corretamente
+    console.log("Captured ID:", id);
+
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
             renderToolbar: (Toolbar) => (
@@ -44,7 +47,7 @@ const BookDetails = () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
                 
-                // Verifique o que está vindo na resposta
+                // Verifica os dados retornados da API
                 console.log("Book Data:", bookData);
 
                 if (bookData && bookData.pdfUrl) {
@@ -54,7 +57,7 @@ const BookDetails = () => {
                 }
                 setLoading(false);
             } catch (err) {
-                console.error(err);
+                console.error("Fetch Book Error:", err);
                 setError('Erro ao buscar informações do livro');
                 setLoading(false);
             }

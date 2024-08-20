@@ -42,7 +42,19 @@ const bookApi = {
                 title: 'Adoração',
                 items: await basicFetch('/?category=Adoração')
             },
-            // Adicione outras categorias conforme necessário
+            {
+                slug: 'sermon',
+                title: 'Sermão',
+                items: await basicFetch('/?category=Sermão')
+            },
+            
+            {
+                slug: 'Crucial Questions',
+                title: 'Questões Cruciais',
+                items: await basicFetch('/?category=Questões Cruciais')
+            },
+            
+           
         ];
     },
     getBookInfo: async(bookId) => { 
