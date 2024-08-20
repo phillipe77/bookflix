@@ -15,8 +15,9 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Verifica se o ID está sendo capturado corretamente
     console.log("Captured ID:", id);
-    
+
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
             renderToolbar: (Toolbar) => (
@@ -24,7 +25,7 @@ const BookDetails = () => {
                     {(props) => {
                         const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage, FullScreen } = props;
                         return (
-                            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <GoToFirstPage />
                                 <GoToPreviousPage />
                                 <PageNumber />
@@ -35,7 +36,7 @@ const BookDetails = () => {
                                 <Search />
                                 <Print />
                                 <Download />
-                                <FullScreen />
+                                <FullScreen /> {/* Botão de Fullscreen */}
                             </div>
                         );
                     }}
@@ -44,22 +45,16 @@ const BookDetails = () => {
         },
     });
 
-    const fullScreenPluginInstance = fullScreenPlugin({
-        onEnterFullScreen: (zoom) => {
-            // Ajusta o zoom para preencher a tela no modo full screen
-            zoom(1.5);
-        },
-        onExitFullScreen: (zoom) => {
-            // Redefine o zoom quando sair do modo full screen
-            zoom(1.0);
-        },
-    });
+    const fullScreenPluginInstance = fullScreenPlugin();
 
     useEffect(() => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
                 
+                // Verifica os dados retornados da API
+                console.log("Book Data:", bookData);
+
                 if (bookData && bookData.pdfUrl) {
                     setBook(bookData);
                 } else {
