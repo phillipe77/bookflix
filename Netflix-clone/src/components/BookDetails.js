@@ -1,49 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
-import { Viewer, Worker, ScrollMode, ViewMode } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
-import '@react-pdf-viewer/full-screen/lib/styles/index.css';
 import './BookDetails.css';
 
 const BookDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showPdfViewer, setShowPdfViewer] = useState(false);
-
-    const defaultLayoutPluginInstance = defaultLayoutPlugin({
-        toolbarPlugin: {
-            renderToolbar: (Toolbar) => (
-                <Toolbar>
-                    {(props) => {
-                        const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage, FullScreen } = props;
-                        return (
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <GoToFirstPage />
-                                <GoToPreviousPage />
-                                <PageNumber />
-                                <GoToNextPage />
-                                <GoToLastPage />
-                                <ZoomOut />
-                                <ZoomIn />
-                                <Search />
-                                <Print />
-                                <Download />
-                                <FullScreen />
-                            </div>
-                        );
-                    }}
-                </Toolbar>
-            ),
-        },
-    });
-
-    const fullScreenPluginInstance = fullScreenPlugin();
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -64,14 +29,9 @@ const BookDetails = () => {
         fetchBook();
     }, [id]);
 
-    const handleComputerView = () => {
-        setShowPdfViewer(true);
-    };
-
-    const handleMobileView = () => {
+    const handleReadNow = () => {
         if (book && book.pdfUrl) {
-            // Usando Google Docs Viewer para abrir em tela cheia no celular
-            window.open(`https://docs.google.com/viewer?url=${book.pdfUrl}&embedded=true`, '_blank');
+            navigate(`/read/${id}`);
         }
     };
 
@@ -97,28 +57,8 @@ const BookDetails = () => {
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
             <div className="view-buttons">
-                <button onClick={handleComputerView} className="view-button">Leitura no Computador</button>
-                <button onClick={handleMobileView} className="view-button">Leitura no Celular</button>
+                <button onClick={handleReadNow} className="view-button">Ler agora</button>
             </div>
-            {showPdfViewer && (
-                <div className="pdf-viewer-section">
-                    <h2>Leia o Livro:</h2>
-                    <div className="pdf-viewer-container">
-                        <div className="pdf-viewer">
-                            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                                <Viewer
-                                    fileUrl={book.pdfUrl}
-                                    defaultScale={1.0}
-                                    scrollMode={ScrollMode.Vertical}
-                                    viewMode={ViewMode.SinglePage}
-                                    plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance]}
-                                    theme="dark"
-                                />
-                            </Worker>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

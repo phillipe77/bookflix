@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import bookApi from '../bookApi';
-import './BookDetails.css';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
+import '@cyntler/react-doc-viewer/dist/index.css';
+import './ReadBook.css';  // Estilização específica para o leitor
 
-const BookDetails = () => {
+const ReadBook = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
-    const [book, setBook] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [book, setBook] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
@@ -29,12 +29,6 @@ const BookDetails = () => {
         fetchBook();
     }, [id]);
 
-    const handleReadNow = () => {
-        if (book && book.pdfUrl) {
-            navigate(`/read/${id}`);
-        }
-    };
-
     if (loading) {
         return <div>Carregando...</div>;
     }
@@ -48,19 +42,31 @@ const BookDetails = () => {
     }
 
     return (
-        <div className="book-details">
-            <div className="book-info">
-                <img src={book.coverUrl} alt={book.title} className="book-cover" />
-                <h1>{book.title}</h1>
-                <p><strong>Autor:</strong> {book.author}</p>
-                <p><strong>Descrição:</strong> {book.description}</p>
-                <p><strong>Categoria:</strong> {book.category}</p>
-            </div>
-            <div className="view-buttons">
-                <button onClick={handleReadNow} className="view-button">Ler agora</button>
-            </div>
+        <div className="pdf-reader">
+            <DocViewer
+                documents={[{ uri: book.pdfUrl }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                    pdfZoom: {
+                        defaultZoom: 1.1,
+                        zoomJump: 0.2,
+                    },
+                    header: {
+                        disableHeader: false,
+                        disableFileName: true,
+                    },
+                    theme: {
+                        primary: "#444",
+                        secondary: "#ffffff",
+                        tertiary: "#eeeeee",
+                        textPrimary: "#000000",
+                        textSecondary: "#333333",
+                        textTertiary: "#666666",
+                    },
+                }}
+            />
         </div>
     );
 };
 
-export default BookDetails;
+export default ReadBook;
