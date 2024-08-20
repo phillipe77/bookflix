@@ -7,6 +7,7 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
 import '@react-pdf-viewer/full-screen/lib/styles/index.css';
+import { Page, Text, View, Document, StyleSheet, PDFViewer } from '@react-pdf/renderer'; // Importando react-pdf
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -15,6 +16,7 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showPdfViewer, setShowPdfViewer] = useState(false);
+    const [showMobileViewer, setShowMobileViewer] = useState(false);
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -69,10 +71,7 @@ const BookDetails = () => {
     };
 
     const handleMobileView = () => {
-        if (book && book.pdfUrl) {
-            // Usando Google Docs Viewer para abrir em tela cheia no celular
-            window.open(`https://docs.google.com/viewer?url=${book.pdfUrl}&embedded=true`, '_blank');
-        }
+        setShowMobileViewer(true);
     };
 
     if (loading) {
@@ -119,8 +118,39 @@ const BookDetails = () => {
                     </div>
                 </div>
             )}
+            {showMobileViewer && (
+                <div className="pdf-viewer-section">
+                    <h2>Leitura no Celular</h2>
+                    <PDFViewer style={{ width: '100%', height: '100vh' }}>
+                        <Document>
+                            <Page size="A4" style={styles.page}>
+                                <View style={styles.section}>
+                                    <Text>{book.title}</Text>
+                                </View>
+                                <View style={styles.section}>
+                                    <Text>{book.description}</Text>
+                                </View>
+                            </Page>
+                        </Document>
+                    </PDFViewer>
+                </div>
+            )}
         </div>
     );
 };
+
+// Estilos para o componente PDF
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'column',
+        backgroundColor: '#E4E4E4',
+        padding: 10,
+    },
+    section: {
+        margin: 10,
+        padding: 10,
+        flexGrow: 1
+    }
+});
 
 export default BookDetails;
