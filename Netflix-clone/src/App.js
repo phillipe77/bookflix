@@ -12,6 +12,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 const BookDetails = lazy(() => import('./components/BookDetails')); 
 const Fm = lazy(() => import('./components/fm'));
 const Login = lazy(() => import('./components/Login'));
+const ReadBook = lazy(() => import('./components/ReadBook')); // Novo componente de visualização de PDF
 
 const App = () => {
     const [bookList, setBookList] = useState([]);
@@ -81,10 +82,17 @@ const App = () => {
                                     </Suspense>
                                 } />
                                 
-                                {/* Esta é a rota que você mencionou, que deve estar presente */}
+                                {/* Rota para exibir os detalhes do livro */}
                                 <Route path="/book/:id" element={
                                     <Suspense fallback={<div>Loading...</div>}>
                                         <BookDetails />
+                                    </Suspense>
+                                } />
+                                
+                                {/* Nova rota para exibir o visualizador de PDF */}
+                                <Route path="/read/:id" element={
+                                    <Suspense fallback={<div>Loading...</div>}>
+                                        <ReadBook />
                                     </Suspense>
                                 } />
 
