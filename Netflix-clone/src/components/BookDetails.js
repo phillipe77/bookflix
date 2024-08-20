@@ -7,7 +7,6 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
 import '@react-pdf-viewer/full-screen/lib/styles/index.css';
-import { Document, Page, PDFViewer } from '@react-pdf/renderer';
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -16,8 +15,6 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showPdfViewer, setShowPdfViewer] = useState(false);
-    const [showMobileViewer, setShowMobileViewer] = useState(false);
-    const [numPages, setNumPages] = useState(null);
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -72,11 +69,10 @@ const BookDetails = () => {
     };
 
     const handleMobileView = () => {
-        setShowMobileViewer(true);
-    };
-
-    const onDocumentLoadSuccess = ({ numPages }) => {
-        setNumPages(numPages);
+        if (book && book.pdfUrl) {
+            // Usando Google Docs Viewer para abrir em tela cheia no celular
+            window.open(`https://docs.google.com/viewer?url=${book.pdfUrl}&embedded=true`, '_blank');
+        }
     };
 
     if (loading) {
@@ -90,18 +86,6 @@ const BookDetails = () => {
     if (!book) {
         return <div>Livro não encontrado!</div>;
     }
-
-    // Documento PDF customizado para mobile
-    const MyDocument = () => (
-        <Document
-            file={book.pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-        >
-            {Array.from(new Array(numPages), (el, index) => (
-                <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-            ))}
-        </Document>
-    );
 
     return (
         <div className="book-details">
@@ -133,13 +117,6 @@ const BookDetails = () => {
                             </Worker>
                         </div>
                     </div>
-                </div>
-            )}
-            {showMobileViewer && (
-                <div className="pdf-viewer-section">
-                    <PDFViewer style={{ width: '100%', height: '100vh' }}>
-                        <MyDocument />
-                    </PDFViewer>
                 </div>
             )}
         </div>
