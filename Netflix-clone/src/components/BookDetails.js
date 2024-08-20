@@ -5,6 +5,8 @@ import { Viewer, Worker, ScrollMode, ViewMode } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
+import '@react-pdf-viewer/full-screen/lib/styles/index.css';
 import './BookDetails.css';
 
 const BookDetails = () => {
@@ -21,7 +23,7 @@ const BookDetails = () => {
             renderToolbar: (Toolbar) => (
                 <Toolbar>
                     {(props) => {
-                        const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage } = props;
+                        const { Download, Print, Search, ZoomIn, ZoomOut, PageNumber, GoToPreviousPage, GoToNextPage, GoToFirstPage, GoToLastPage, FullScreen } = props;
                         return (
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <GoToFirstPage />
@@ -34,6 +36,7 @@ const BookDetails = () => {
                                 <Search />
                                 <Print />
                                 <Download />
+                                <FullScreen /> {/* Botão de Fullscreen */}
                             </div>
                         );
                     }}
@@ -41,6 +44,8 @@ const BookDetails = () => {
             ),
         },
     });
+
+    const fullScreenPluginInstance = fullScreenPlugin();
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -97,7 +102,7 @@ const BookDetails = () => {
                                 defaultScale={1.0}
                                 scrollMode={ScrollMode.Vertical}
                                 viewMode={ViewMode.SinglePage}
-                                plugins={[defaultLayoutPluginInstance]}
+                                plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance]}
                                 theme="dark"
                             />
                         </Worker>
