@@ -14,7 +14,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showPdfViewer, setShowPdfViewer] = useState(false); // Controla a exibição do PDF
+    const [showPdfViewer, setShowPdfViewer] = useState(false);
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -34,7 +34,7 @@ const BookDetails = () => {
                                 <Search />
                                 <Print />
                                 <Download />
-                                <FullScreen /> {/* Botão de Fullscreen */}
+                                <FullScreen />
                             </div>
                         );
                     }}
@@ -70,7 +70,8 @@ const BookDetails = () => {
 
     const handleMobileView = () => {
         if (book && book.pdfUrl) {
-            window.open(book.pdfUrl, '_blank'); // Abre o PDF diretamente no visualizador do navegador
+            // Usando Google Docs Viewer para abrir em tela cheia no celular
+            window.open(`https://docs.google.com/viewer?url=${book.pdfUrl}&embedded=true`, '_blank');
         }
     };
 
