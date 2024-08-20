@@ -15,7 +15,6 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showPdfViewer, setShowPdfViewer] = useState(false);
-    const [showMobileReader, setShowMobileReader] = useState(false);
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         toolbarPlugin: {
@@ -67,12 +66,13 @@ const BookDetails = () => {
 
     const handleComputerView = () => {
         setShowPdfViewer(true);
-        setShowMobileReader(false);
     };
 
     const handleMobileView = () => {
-        setShowMobileReader(true);
-        setShowPdfViewer(false);
+        if (book && book.pdfUrl) {
+            // Usando Google Docs Viewer para abrir em tela cheia no celular
+            window.open(`https://docs.google.com/viewer?url=${book.pdfUrl}&embedded=true`, '_blank');
+        }
     };
 
     if (loading) {
@@ -115,24 +115,6 @@ const BookDetails = () => {
                                     theme="dark"
                                 />
                             </Worker>
-                        </div>
-                    </div>
-                </div>
-            )}
-            {showMobileReader && (
-                <div className="mobile-reader">
-                    {/* Implementação do leitor no estilo Kindle aqui */}
-                    <div id="ebook-reader">
-                        <div className="reader-header">
-                            <button id="prev-page" className="nav-button">◀</button>
-                            <button id="next-page" className="nav-button">▶</button>
-                        </div>
-                        <div id="book-content" className="book-content">
-                            {/* Conteúdo do livro será inserido aqui */}
-                        </div>
-                        <div className="reader-footer">
-                            <span id="page-info">Página 1</span>
-                            <button id="toggle-dark-mode" className="nav-button">Modo Escuro</button>
                         </div>
                     </div>
                 </div>
