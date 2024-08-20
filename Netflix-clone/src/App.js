@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useMemo, lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import bookApi from './bookApi';
 import MV from './components/MV';
 import Header from './components/Header';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
+// Lazy loading para os componentes
+const BookDetails = lazy(() => import('./components/BookDetails')); 
 const Fm = lazy(() => import('./components/fm'));
-const BookDetails = lazy(() => import('./components/BookDetails'));
 const Login = lazy(() => import('./components/Login'));
 
 const App = () => {
@@ -19,20 +20,20 @@ const App = () => {
 
     useEffect(() => {
         const loadAll = async () => {
-            let list = await bookApi.getHomeList(); // Busca a lista de livros
+            let list = await bookApi.getHomeList();
             setBookList(list);
-            
-            if (list.length > 0 && list[0].items && list[0].items.length > 0) {
-                let allBooks = list[0].items; // Pegando os itens do primeiro slug (categoria)
-                let randomChosen = Math.floor(Math.random() * (allBooks.length - 1));
+
+            if (list.length > 0 && list[0].items.length > 0) {
+                let allBooks = list[0].items;
+                let randomChosen = Math.floor(Math.random() * allBooks.length);
                 let chosen = allBooks[randomChosen];
-                let chosenInfo = await bookApi.getBookInfo(chosen._id); // Obtendo informações detalhadas do livro escolhido
+                let chosenInfo = await bookApi.getBookInfo(chosen._id);
                 setFeatureData(chosenInfo);
             }
         };
 
         if (isAuthenticated) {
-            loadAll(); // Carrega os dados quando o usuário está autenticado
+            loadAll();
         }
     }, [isAuthenticated]);
 
@@ -80,6 +81,7 @@ const App = () => {
                                     </Suspense>
                                 } />
                                 
+                                {/* Esta é a rota que você mencionou, que deve estar presente */}
                                 <Route path="/book/:id" element={
                                     <Suspense fallback={<div>Loading...</div>}>
                                         <BookDetails />
