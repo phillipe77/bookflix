@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
+import _ from 'lodash'; // Importando lodash para utilizar debounce
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -12,6 +13,7 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [zoom, setZoom] = useState(0.8); // Estado para controlar o zoom
 
     const fetchBook = useCallback(async () => {
         try {
@@ -37,6 +39,13 @@ const ReadBook = () => {
         setError(null);
         fetchBook();
     };
+
+    const handleZoomChange = (newZoom) => {
+        setZoom(newZoom);
+    };
+
+    // Função de debounce para aplicar o zoom
+    const debouncedZoom = useCallback(_.debounce(handleZoomChange, 300), []);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -69,10 +78,11 @@ const ReadBook = () => {
                         disableHeader: true,
                     },
                     pdfZoom: {
-                        defaultZoom: 0.8,
+                        defaultZoom: zoom,
                         zoomJump: 0.3,
                     },
                     pdfVerticalScrollByDefault: true,
+                    disableTextLayer: true,
                 }}
                 style={{
                     width: '100%',
@@ -84,7 +94,8 @@ const ReadBook = () => {
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                     overflowY: 'auto',
                 }}
-                requestHeaders={{ timeout: 10000 }}  // Adicionado tempo limite para requisição
+                onZoom={(newZoom) => debouncedZoom(newZoom)} // Aplicando debounce no zoom
+                requestHeaders={{ timeout: 10000 }}
             />
         </div>
     );
