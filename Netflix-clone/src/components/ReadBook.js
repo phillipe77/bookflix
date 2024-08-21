@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
-import _ from 'lodash'; // Importando lodash para utilizar throttle
+import _ from 'lodash'; // Importando lodash para utilizar debounce
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -13,7 +13,7 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(0.9); // Estado para controlar o zoom
+    const [zoom, setZoom] = useState(0.8); // Estado para controlar o zoom
 
     const fetchBook = useCallback(async () => {
         try {
@@ -44,8 +44,8 @@ const ReadBook = () => {
         setZoom(newZoom);
     };
 
-    // Função de throttle para aplicar o zoom
-    const throttledZoom = _.throttle(handleZoomChange, 300);
+    // Função de debounce para aplicar o zoom
+    const debouncedZoom = _.debounce(handleZoomChange, 300);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -68,14 +68,6 @@ const ReadBook = () => {
         <div className="pdf-viewer-container">
             <div className="logo-container" onClick={() => navigate('/')}>
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
-            </div>
-
-            {/* Adicionando controles de navegação */}
-            <div className="controls">
-                {/* Coloque aqui os botões de controle, como zoom, rotação etc. */}
-                <button onClick={() => throttledZoom(zoom + 0.1)}>Zoom In</button>
-                <button onClick={() => throttledZoom(zoom - 0.1)}>Zoom Out</button>
-                {/* Adicione botões de rotação ou outros controles conforme necessário */}
             </div>
 
             <DocViewer
@@ -101,9 +93,8 @@ const ReadBook = () => {
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                     overflowY: 'auto',
-                    overflowX: 'auto',  /* Permite rolagem horizontal */
                 }}
-                onZoom={(newZoom) => throttledZoom(newZoom)} // Aplicando throttle no zoom
+                onZoom={(newZoom) => debouncedZoom(newZoom)} // Aplicando debounce no zoom
                 requestHeaders={{ timeout: 10000 }}
             />
         </div>
