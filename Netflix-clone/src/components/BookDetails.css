@@ -146,17 +146,6 @@
         height: 100%;
     }
 
-    /* Substituir logo em dispositivos móveis */
-    .logo-icon {
-        content: url('/logo512.png');
-    }
-}
-
-@media (min-width: 769px) {
-    /* Substituir logo em dispositivos desktop */
-    .logo-icon {
-        content: url('/logo192.png');
-    }
 }
 
 @media (max-width: 480px) {
