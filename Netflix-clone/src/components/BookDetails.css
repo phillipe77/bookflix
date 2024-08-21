@@ -164,4 +164,15 @@
         text-transform: uppercase; /* Torna o texto em caixa alta */
     
 }
+.logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.logo-icon {
+    height: 50px; /* Ajuste conforme necessário */
+    width: auto;
+}
 }

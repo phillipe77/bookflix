@@ -9,6 +9,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [logoSrc, setLogoSrc] = useState('/logo192.png'); // Estado para a logo
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -28,6 +29,22 @@ const BookDetails = () => {
 
         fetchBook();
     }, [id]);
+
+    useEffect(() => {
+        // Detecta o tamanho da tela e ajusta a logo
+        const updateLogo = () => {
+            if (window.innerWidth <= 768) {
+                setLogoSrc('/logo512.png'); // Usa logo512.png para dispositivos móveis
+            } else {
+                setLogoSrc('/logo192.png'); // Usa logo192.png para desktops
+            }
+        };
+
+        updateLogo(); // Atualiza logo ao montar o componente
+        window.addEventListener('resize', updateLogo); // Atualiza logo ao redimensionar a tela
+
+        return () => window.removeEventListener('resize', updateLogo); // Limpa o evento ao desmontar
+    }, []);
 
     const handleReadNow = () => {
         if (book && book.pdfUrl) {
@@ -68,6 +85,9 @@ const BookDetails = () => {
 
     return (
         <div className="book-details">
+            <div className="logo-container" onClick={() => navigate('/')}>
+                <img src={logoSrc} alt="Logos" className="logo-icon" />
+            </div>
             <div className="book-info">
                 <img src={book.coverUrl} alt={book.title} className="book-cover" />
                 <h1>{book.title}</h1>
@@ -76,11 +96,11 @@ const BookDetails = () => {
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
             <div className="view-buttons">
-                <button onClick={handleReadNow} className="view-button">LER AGORA</button>
-                <button onClick={handleDownload} className="view-button">FAZER DOWNLOAD</button>
+                <button onClick={handleReadNow} className="view-button">Ler agora</button>
+                <button onClick={handleDownload} className="view-button">Fazer download</button>
             </div>
             <p className="book-note">
-                <strong>OBS:</strong> <strong>SE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DONWLOAD</strong>
+                <strong>OBS:</strong> <strong>SE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DOWNLOAD.</strong>
             </p>
         </div>
     );
