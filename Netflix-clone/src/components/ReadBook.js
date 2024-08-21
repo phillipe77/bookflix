@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
-import _ from 'lodash'; // Importando lodash para utilizar debounce
+import _ from 'lodash'; 
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -13,7 +13,7 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(0.9); // Estado para controlar o zoom
+    const [zoom, setZoom] = useState(0.9); 
 
     const fetchBook = useCallback(async () => {
         try {
@@ -44,7 +44,6 @@ const ReadBook = () => {
         setZoom(newZoom);
     };
 
-    // Função de debounce para aplicar o zoom
     const debouncedZoom = _.debounce(handleZoomChange, 300);
 
     const handleTouchStart = (event) => {
@@ -52,11 +51,13 @@ const ReadBook = () => {
         const screenWidth = window.innerWidth;
         const touchX = touch.clientX;
 
+        console.log(`Touch detected at position: ${touchX}px`);
+
         if (touchX > screenWidth * 0.8) {
-            // Se o toque estiver no 20% direito da tela
+            console.log("Touch on the right side, moving to next page.");
             goToNextPage();
         } else if (touchX < screenWidth * 0.2) {
-            // Se o toque estiver no 20% esquerdo da tela
+            console.log("Touch on the left side, moving to previous page.");
             goToPreviousPage();
         }
     };
@@ -64,14 +65,20 @@ const ReadBook = () => {
     const goToNextPage = () => {
         const nextButton = document.querySelector(".btn-next");
         if (nextButton) {
+            console.log("Next button found, triggering click.");
             nextButton.click();
+        } else {
+            console.log("Next button not found.");
         }
     };
 
     const goToPreviousPage = () => {
         const prevButton = document.querySelector(".btn-prev");
         if (prevButton) {
+            console.log("Previous button found, triggering click.");
             prevButton.click();
+        } else {
+            console.log("Previous button not found.");
         }
     };
 
