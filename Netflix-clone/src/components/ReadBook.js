@@ -70,6 +70,14 @@ const ReadBook = () => {
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
             </div>
 
+            {/* Adicionando controles de navegação */}
+            <div className="controls">
+                {/* Coloque aqui os botões de controle, como zoom, rotação etc. */}
+                <button onClick={() => throttledZoom(zoom + 0.1)}>Zoom In</button>
+                <button onClick={() => throttledZoom(zoom - 0.1)}>Zoom Out</button>
+                {/* Adicione botões de rotação ou outros controles conforme necessário */}
+            </div>
+
             <DocViewer
                 documents={[{ uri: book.pdfUrl }]}
                 pluginRenderers={DocViewerRenderers}
@@ -93,6 +101,7 @@ const ReadBook = () => {
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                     overflowY: 'auto',
+                    overflowX: 'auto',  /* Permite rolagem horizontal */
                 }}
                 onZoom={(newZoom) => debouncedZoom(newZoom)} // Aplicando debounce no zoom
                 requestHeaders={{ timeout: 10000 }}
