@@ -96,8 +96,8 @@ const BookDetails = () => {
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
             <div className="view-buttons">
-                <button onClick={handleReadNow} className="view-button">Ler agora</button>
-                <button onClick={handleDownload} className="view-button">Fazer download</button>
+                <button onClick={handleReadNow} className="view-button">LER AGORA</button>
+                <button onClick={handleDownload} className="view-button">FAZER DOWNLOAD</button>
             </div>
             <p className="book-note">
                 <strong>OBS:</strong> SE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DOWNLOAD.

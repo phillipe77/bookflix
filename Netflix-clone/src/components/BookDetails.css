@@ -186,8 +186,7 @@ header {
     .book-note {
         margin-top: 50px; /* Aumenta o espaço acima da observação */
         font-size: 0.9em;
-        color: #666;
-        text-transform: uppercase; /* Texto em caixa alta */
+        color: #030303;
         text-align: center;
     }
 }
