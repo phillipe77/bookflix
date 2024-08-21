@@ -35,14 +35,22 @@ const BookDetails = () => {
         }
     };
 
-    const handleDownload = () => {
+    const handleDownload = async () => {
         if (book && book.pdfUrl) {
-            const link = document.createElement('a');
-            link.href = book.pdfUrl;
-            link.download = `${book.title}.pdf`;  // Define o nome do arquivo para download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            try {
+                const response = await fetch(book.pdfUrl);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${book.title}.pdf`;  // Nome do arquivo a ser baixado
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url); // Limpeza da URL do Blob
+            } catch (err) {
+                console.error('Falha ao baixar o PDF', err);
+            }
         }
     };
 
