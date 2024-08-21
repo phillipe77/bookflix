@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';  // Importa a biblioteca de swipe
 import bookApi from '../bookApi';
-import _ from 'lodash'; // Importando lodash para utilizar debounce
+import _ from 'lodash';
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -14,6 +15,7 @@ const ReadBook = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [zoom, setZoom] = useState(0.8); // Estado para controlar o zoom
+    const [currentPage, setCurrentPage] = useState(1); // Controla a página atual
 
     const fetchBook = useCallback(async () => {
         try {
@@ -47,6 +49,29 @@ const ReadBook = () => {
     // Função de debounce para aplicar o zoom
     const debouncedZoom = _.debounce(handleZoomChange, 300);
 
+    // Handlers de Swipe
+    const handleSwipeLeft = () => {
+        // Incrementa a página, se possível
+        if (book && currentPage < book.totalPages) {
+            setCurrentPage(prevPage => prevPage + 1);
+        }
+    };
+
+    const handleSwipeRight = () => {
+        // Decrementa a página, se possível
+        if (book && currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    };
+
+    // Configura os gestures de swipe
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: handleSwipeLeft,
+        onSwipedRight: handleSwipeRight,
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true,
+    });
+
     if (loading) {
         return <div>Carregando...</div>;
     }
@@ -65,7 +90,7 @@ const ReadBook = () => {
     }
 
     return (
-        <div className="pdf-viewer-container">
+        <div className="pdf-viewer-container" {...swipeHandlers}>
             <div className="logo-container" onClick={() => navigate('/')}>
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
             </div>
@@ -79,7 +104,7 @@ const ReadBook = () => {
                     },
                     pdfZoom: {
                         defaultZoom: zoom,
-                        zoomJump: 0.2,
+                        zoomJump: 0.3,
                     },
                     pdfVerticalScrollByDefault: true,
                     disableTextLayer: true,
@@ -94,7 +119,7 @@ const ReadBook = () => {
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                     overflowY: 'auto',
                 }}
-                onZoom={(newZoom) => debouncedZoom(newZoom)} // Aplicando debounce no zoom
+                onZoom={(newZoom) => debouncedZoom(newZoom)}
                 requestHeaders={{ timeout: 10000 }}
             />
         </div>
