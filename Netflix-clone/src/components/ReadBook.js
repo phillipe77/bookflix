@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -8,6 +8,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const ReadBook = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
 
@@ -38,6 +39,11 @@ const ReadBook = () => {
 
     return (
         <div className="pdf-viewer-container">
+            {/* Ícone Logos para retornar ao menu principal */}
+            <div className="logo-container" onClick={() => navigate('/')}>
+                <img src="/logo192.png" alt="Logos" className="logo-icon" />
+            </div>
+
             <DocViewer
                 documents={[{ uri: book.pdfUrl }]}
                 pluginRenderers={DocViewerRenderers}

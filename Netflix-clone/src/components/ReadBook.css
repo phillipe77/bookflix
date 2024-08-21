@@ -20,6 +20,18 @@
     overflow-y: auto;  
 }
 
+.logo-container {
+    position: fixed;
+    top: 10px; /* Posiciona o ícone mais acima */
+    left: 10px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.logo-icon {
+    width: 50px; /* Tamanho do ícone Logos */
+    height: auto;
+}
 @media (max-width: 768px) {
     .pdf-viewer-container {
         height: auto;
