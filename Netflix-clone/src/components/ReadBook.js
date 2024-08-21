@@ -47,6 +47,34 @@ const ReadBook = () => {
     // Função de debounce para aplicar o zoom
     const debouncedZoom = _.debounce(handleZoomChange, 300);
 
+    const handleTouchStart = (event) => {
+        const touch = event.touches[0];
+        const screenWidth = window.innerWidth;
+        const touchX = touch.clientX;
+
+        if (touchX > screenWidth * 0.8) {
+            // Se o toque estiver no 20% direito da tela
+            goToNextPage();
+        } else if (touchX < screenWidth * 0.2) {
+            // Se o toque estiver no 20% esquerdo da tela
+            goToPreviousPage();
+        }
+    };
+
+    const goToNextPage = () => {
+        const nextButton = document.querySelector(".btn-next");
+        if (nextButton) {
+            nextButton.click();
+        }
+    };
+
+    const goToPreviousPage = () => {
+        const prevButton = document.querySelector(".btn-prev");
+        if (prevButton) {
+            prevButton.click();
+        }
+    };
+
     if (loading) {
         return <div>Carregando...</div>;
     }
@@ -65,7 +93,7 @@ const ReadBook = () => {
     }
 
     return (
-        <div className="pdf-viewer-container">
+        <div className="pdf-viewer-container" onTouchStart={handleTouchStart}>
             <div className="logo-container" onClick={() => navigate('/')}>
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
             </div>
