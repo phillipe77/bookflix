@@ -44,7 +44,14 @@ const ReadBook = () => {
         setZoom(newZoom);
     }, []);
 
-    const debouncedZoom = useMemo(() => _.debounce(handleZoomChange, 300), [handleZoomChange]);
+    // Memoize the debounced function to avoid unnecessary re-creations
+    const debouncedZoom = useMemo(
+        () => _.debounce(handleZoomChange, 300),
+        [handleZoomChange]
+    );
+
+    // Memoize the book object to avoid unnecessary re-renders
+    const memoizedBook = useMemo(() => book, [book]);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -59,7 +66,7 @@ const ReadBook = () => {
         );
     }
 
-    if (!book) {
+    if (!memoizedBook) {
         return <div>Livro não encontrado!</div>;
     }
 
@@ -70,7 +77,7 @@ const ReadBook = () => {
             </div>
 
             <DocViewer
-                documents={[{ uri: book.pdfUrl }]}
+                documents={[{ uri: memoizedBook.pdfUrl }]}
                 pluginRenderers={DocViewerRenderers}
                 config={{
                     header: {
