@@ -3,22 +3,16 @@ import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
 import './ReadBook.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const ReadBook = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
-    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        
-        checkIfMobile();
-        window.addEventListener('resize', checkIfMobile);
-
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
@@ -33,10 +27,6 @@ const ReadBook = () => {
         };
 
         fetchBook();
-
-        return () => {
-            window.removeEventListener('resize', checkIfMobile);
-        };
     }, [id]);
 
     if (error) {
@@ -49,6 +39,7 @@ const ReadBook = () => {
 
     return (
         <div className="pdf-viewer-container">
+            {/* Ícone Logos para retornar ao menu principal */}
             <div className="logo-container" onClick={() => navigate('/')}>
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
             </div>
@@ -61,20 +52,20 @@ const ReadBook = () => {
                         disableHeader: true,
                     },
                     pdfZoom: {
-                        defaultZoom: isMobile ? 0.9 : 1.0, // Zoom padrão para mobile
-                        zoomJump: 0.1,
+                        defaultZoom: 1.5,
+                        zoomJump: 0.3,
                     },
-                    pdfVerticalScrollByDefault: true,
+                    pdfVerticalScrollByDefault: true, // Habilita a rolagem vertical por padrão
                 }}
                 style={{
-                    width: isMobile ? '100%' : '100%', // Responsivo para mobile
-                    height: isMobile ? '100vh' : '100vh',
-                    maxWidth: isMobile ? '100%' : '794px',
-                    maxHeight: isMobile ? 'auto' : '1122px',
+                    width: '100%',
+                    height: '100vh',
+                    maxWidth: '794px',  // Largura de uma folha A4 em pixels
+                    maxHeight: '1122px',  // Altura de uma folha A4 em pixels
                     margin: '0 auto',
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-                    overflowY: isMobile ? 'scroll' : 'auto', // Usar scroll para mobile
+                    overflowY: 'auto',  // Garante a rolagem vertical
                 }}
             />
         </div>
