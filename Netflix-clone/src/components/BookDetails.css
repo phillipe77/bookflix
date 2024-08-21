@@ -1,4 +1,7 @@
 /* src/components/BookDetails.css */
+header {
+    display: none !important;
+}
 
 .book-details {
     display: flex;
