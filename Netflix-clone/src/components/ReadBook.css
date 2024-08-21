@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow:auto;
 }
 
 .pdf-viewer-container .doc-viewer {
@@ -17,6 +17,7 @@
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;  
 }
 
 @media (max-width: 768px) {

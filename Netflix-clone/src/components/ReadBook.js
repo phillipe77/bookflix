@@ -44,19 +44,20 @@ const ReadBook = () => {
                         disableHeader: false,
                     },
                     pdfZoom: {
-                        defaultZoom: 0.75,  // Ajuste inicial de zoom mais adequado para leitura
+                        defaultZoom: 0.75,
                         zoomJump: 0.1,
                     },
-                    pdfVerticalScrollByDefault: true,
+                    pdfVerticalScrollByDefault: true, // Habilita a rolagem vertical por padrão
                 }}
                 style={{
                     width: '100%',
                     height: '100vh',
                     maxWidth: '794px',  // Largura de uma folha A4 em pixels
                     maxHeight: '1122px',  // Altura de uma folha A4 em pixels
-                    margin: '0 auto',  // Centraliza o PDF
+                    margin: '0 auto',
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
+                    overflowY: 'auto',  // Garante a rolagem vertical
                 }}
             />
         </div>
