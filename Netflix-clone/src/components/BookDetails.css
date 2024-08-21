@@ -158,7 +158,7 @@
     }
     
     .book-note {
-        margin-top: 40px; /* Aumenta o espaço acima da observação */
+        margin-top: 50px; /* Aumenta o espaço acima da observação */
         font-size: 0.9em;
         color: #666;
         text-transform: uppercase; /* Torna o texto em caixa alta */

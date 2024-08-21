@@ -80,7 +80,7 @@ const BookDetails = () => {
                 <button onClick={handleDownload} className="view-button">FAZER DONWLOAD</button>
             </div>
             <p className="book-note">
-                <strong>OBS:</strong> <strong>SSE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DONWLOAD</strong>
+                <strong>OBS:</strong> <strong>SE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DONWLOAD</strong>
             </p>
         </div>
     );
