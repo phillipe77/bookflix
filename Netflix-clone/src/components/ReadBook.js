@@ -3,6 +3,8 @@ import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
 import './ReadBook.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const ReadBook = () => {
     const { id } = useParams();
