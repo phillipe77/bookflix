@@ -41,18 +41,22 @@ const ReadBook = () => {
                 pluginRenderers={DocViewerRenderers}
                 config={{
                     header: {
-                        disableHeader: true, // Desativa o cabeçalho para mais espaço de visualização
+                        disableHeader: false,
                     },
                     pdfZoom: {
-                        defaultZoom: 1.0, // Ajuste de zoom padrão para leitura confortável
+                        defaultZoom: 0.75,  // Ajuste inicial de zoom mais adequado para leitura
                         zoomJump: 0.1,
                     },
-                    pdfVerticalScrollByDefault: true, // Rolar vertical por padrão no web
+                    pdfVerticalScrollByDefault: true,
                 }}
                 style={{
                     width: '100%',
                     height: '100vh',
-                    overflow: 'hidden', // Evita barra de rolagem branca embaixo
+                    maxWidth: '794px',  // Largura de uma folha A4 em pixels
+                    maxHeight: '1122px',  // Altura de uma folha A4 em pixels
+                    margin: '0 auto',  // Centraliza o PDF
+                    backgroundColor: '#f5f5f5',
+                    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                 }}
             />
         </div>
