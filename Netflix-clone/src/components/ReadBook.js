@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import './ReadBook.css'; // Vamos criar este arquivo CSS para os ajustes
+import bookApi from '../bookApi';
 
 const ReadBook = () => {
     const { id } = useParams();
