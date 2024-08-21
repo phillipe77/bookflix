@@ -11,7 +11,7 @@ header {
     align-items: center;
     justify-content: center;
     overflow: auto;
-    position: relative;
+    position: relative; /* Mantém o contexto de empilhamento para controles */
 }
 
 .pdf-viewer-container .doc-viewer {
@@ -24,7 +24,6 @@ header {
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    overflow-x: auto;  /* Permite rolagem horizontal */
 }
 
 .logo-container {
@@ -40,16 +39,16 @@ header {
     height: auto;
 }
 
-/* Adicionando estilos para os controles de navegação */
-.controls {
+/* Adicionando estilo para garantir que os controles do DocViewer sejam utilizáveis */
+.react-doc-viewer-header {
     position: fixed;
-    top: 10px;
     right: 10px;
+    top: 10px;
     z-index: 1000;
-    pointer-events: auto; /* Garante que os elementos sejam clicáveis */
+    pointer-events: auto;
 }
 
-/* Garantir que o conteúdo seja responsivo no mobile */
+/* Responsividade */
 @media only screen and (max-width: 768px) {
     .pdf-viewer-container {
         padding-top: 10px;
@@ -65,7 +64,7 @@ header {
         width: 40px;
     }
 
-    .controls {
+    .react-doc-viewer-header {
         top: 5px;
         right: 5px;
     }

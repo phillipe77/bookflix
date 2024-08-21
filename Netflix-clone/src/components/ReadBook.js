@@ -13,7 +13,7 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(0.8); // Estado para controlar o zoom
+    const [zoom, setZoom] = useState(0.9); // Estado para controlar o zoom
 
     const fetchBook = useCallback(async () => {
         try {
