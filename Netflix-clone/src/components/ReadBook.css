@@ -1,4 +1,9 @@
 /* ReadBook.css */
+
+header {
+    display: none !important;
+}
+
 .pdf-viewer-container {
     background-color: #000;
     height: 100vh;
