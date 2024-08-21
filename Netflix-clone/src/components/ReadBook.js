@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer"; // Certifique-se de que isso esteja incluído
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { useGesture } from 'react-use-gesture';
@@ -104,8 +105,8 @@ const ReadBook = () => {
                             disableHeader: true,
                         },
                         pdfZoom: {
-                            defaultZoom: 1,
-                            zoomJump: 0.3,
+                            defaultZoom: 0.9,
+                            zoomJump: 0.2,
                         },
                         pdfVerticalScrollByDefault: true,
                         disableTextLayer: true,
