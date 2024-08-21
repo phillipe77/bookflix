@@ -9,7 +9,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [logoSrc, setLogoSrc] = useState('/logo192.png'); // Estado para a logo
+    const [logoSrc, setLogoSrc] = useState('/logo192.png');
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -31,19 +31,18 @@ const BookDetails = () => {
     }, [id]);
 
     useEffect(() => {
-        // Detecta o tamanho da tela e ajusta a logo
         const updateLogo = () => {
             if (window.innerWidth <= 768) {
-                setLogoSrc('/logo512.png'); // Usa logo512.png para dispositivos móveis
+                setLogoSrc('/logo512.png');
             } else {
-                setLogoSrc('/logo192.png'); // Usa logo192.png para desktops
+                setLogoSrc('/logo192.png');
             }
         };
 
-        updateLogo(); // Atualiza logo ao montar o componente
-        window.addEventListener('resize', updateLogo); // Atualiza logo ao redimensionar a tela
+        updateLogo();
+        window.addEventListener('resize', updateLogo);
 
-        return () => window.removeEventListener('resize', updateLogo); // Limpa o evento ao desmontar
+        return () => window.removeEventListener('resize', updateLogo);
     }, []);
 
     const handleReadNow = () => {
@@ -60,11 +59,11 @@ const BookDetails = () => {
                 const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = `${book.title}.pdf`;  // Nome do arquivo a ser baixado
+                link.download = `${book.title}.pdf`;
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
-                window.URL.revokeObjectURL(url); // Limpeza da URL do Blob
+                window.URL.revokeObjectURL(url);
             } catch (err) {
                 console.error('Falha ao baixar o PDF', err);
             }

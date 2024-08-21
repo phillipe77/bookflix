@@ -94,6 +94,27 @@
     border: none;
 }
 
+.logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.logo-icon {
+    height: 50px; /* Ajuste conforme necessário */
+    width: auto;
+}
+
+.book-note {
+    margin-top: 30px; /* Ajuste conforme necessário */
+    font-size: 0.9em;
+    color: #666;
+    text-transform: uppercase; /* Texto em caixa alta */
+    text-align: center;
+}
+
+/* Ajustes para dispositivos móveis */
 @media (max-width: 768px) {
     .book-details {
         padding: 20px;
@@ -124,6 +145,18 @@
         max-width: 100%;
         height: 100%;
     }
+
+    /* Substituir logo em dispositivos móveis */
+    .logo-icon {
+        content: url('/logo512.png');
+    }
+}
+
+@media (min-width: 769px) {
+    /* Substituir logo em dispositivos desktop */
+    .logo-icon {
+        content: url('/logo192.png');
+    }
 }
 
 @media (max-width: 480px) {
@@ -151,6 +184,7 @@
         max-width: 100%;
         height: 100%;
     }
+
     .view-buttons {
         display: flex;
         gap: 10px;
@@ -161,18 +195,7 @@
         margin-top: 50px; /* Aumenta o espaço acima da observação */
         font-size: 0.9em;
         color: #666;
-        text-transform: uppercase; /* Torna o texto em caixa alta */
-    
-}
-.logo-container {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    cursor: pointer;
-}
-
-.logo-icon {
-    height: 50px; /* Ajuste conforme necessário */
-    width: auto;
-}
+        text-transform: uppercase; /* Texto em caixa alta */
+        text-align: center;
+    }
 }
