@@ -41,7 +41,7 @@ const ReadBook = () => {
                 pluginRenderers={DocViewerRenderers}
                 config={{
                     header: {
-                        disableHeader: false,
+                        disableHeader: true,
                     },
                     pdfZoom: {
                         defaultZoom: 0.75,
