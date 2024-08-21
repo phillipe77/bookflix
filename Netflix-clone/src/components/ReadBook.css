@@ -1,49 +1,28 @@
 /* ReadBook.css */
-
-.read-book-container {
-    width: 100%;
+.pdf-viewer-container {
+    background-color: #000; /* Define fundo preto para eliminar quebras brancas */
     height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    background-color: #f0f0f0; /* Ajuste a cor de fundo */
-    padding: 20px;
-    box-sizing: border-box;
+    justify-content: center;
+    overflow: hidden; /* Remove qualquer rolagem desnecessária */
 }
 
-/* Estilos específicos para versão web */
-@media (min-width: 768px) {
-    .read-book-container {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-    #react-doc-viewer #header-bar {
-        justify-content: space-between;
-    }
-
-    .doc-viewer__viewer {
-        height: 100%; 
-        overflow-y: auto;
-    }
+.pdf-viewer-container .doc-viewer {
+    max-width: 100%; /* Limita a largura máxima para o contêiner */
+    height: 100%; /* Ocupa a altura total */
+    overflow: hidden; /* Elimina barras de rolagem no contêiner */
 }
 
-/* Estilos específicos para versão mobile */
-@media (max-width: 767px) {
-    .read-book-container {
-        width: 100%;
-        height: 100vh;
+@media (max-width: 768px) {
+    /* Estilos específicos para mobile */
+    .pdf-viewer-container {
+        height: auto;
         padding: 10px;
     }
-
-    #react-doc-viewer #header-bar {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .doc-viewer__viewer {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch; /* Suavizar a rolagem no mobile */
+    .pdf-viewer-container .doc-viewer {
+        width: 100%;
+        max-height: 100%; /* Ajuste de altura para mobile */
+        overflow-x: scroll; /* Habilita swipe horizontal */
     }
 }

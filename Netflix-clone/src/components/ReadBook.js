@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import "@cyntler/react-doc-viewer/dist/index.css";
-import './ReadBook.css'; // Vamos criar este arquivo CSS para os ajustes
+import { useParams } from 'react-router-dom';
 import bookApi from '../bookApi';
+import './ReadBook.css';
 
 const ReadBook = () => {
     const { id } = useParams();
     const [book, setBook] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -20,19 +18,13 @@ const ReadBook = () => {
                 } else {
                     throw new Error("Informações do livro estão incompletas.");
                 }
-                setLoading(false);
             } catch (err) {
                 setError('Erro ao buscar informações do livro');
-                setLoading(false);
             }
         };
 
         fetchBook();
     }, [id]);
-
-    if (loading) {
-        return <div>Carregando...</div>;
-    }
 
     if (error) {
         return <div>{error}</div>;
@@ -43,21 +35,24 @@ const ReadBook = () => {
     }
 
     return (
-        <div className="read-book-container">
+        <div className="pdf-viewer-container">
             <DocViewer
                 documents={[{ uri: book.pdfUrl }]}
                 pluginRenderers={DocViewerRenderers}
                 config={{
                     header: {
-                        disableHeader: false,
-                        disableFileName: true,
-                        retainURLParams: false,
+                        disableHeader: true, // Desativa o cabeçalho para mais espaço de visualização
                     },
                     pdfZoom: {
-                        defaultZoom: 1.1, // Zoom padrão ajustado para mobile
-                        zoomJump: 0.2,
+                        defaultZoom: 1.0, // Ajuste de zoom padrão para leitura confortável
+                        zoomJump: 0.1,
                     },
-                    pdfVerticalScrollByDefault: true, // Rolagem vertical padrão
+                    pdfVerticalScrollByDefault: true, // Rolar vertical por padrão no web
+                }}
+                style={{
+                    width: '100%',
+                    height: '100vh',
+                    overflow: 'hidden', // Evita barra de rolagem branca embaixo
                 }}
             />
         </div>
