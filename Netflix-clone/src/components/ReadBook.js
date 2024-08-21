@@ -14,6 +14,7 @@ const ReadBook = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [zoom, setZoom] = useState(1.0);
+    const [logoSrc, setLogoSrc] = useState('/logo192.png'); // Estado para a logo
 
     const fetchBook = useCallback(async () => {
         try {
@@ -33,6 +34,22 @@ const ReadBook = () => {
     useEffect(() => {
         fetchBook();
     }, [fetchBook]);
+
+    useEffect(() => {
+        // Detecta o tamanho da tela e ajusta a logo
+        const updateLogo = () => {
+            if (window.innerWidth <= 768) {
+                setLogoSrc('/logo512.png'); // Usa logo512.png para dispositivos móveis
+            } else {
+                setLogoSrc('/logo192.png'); // Usa logo192.png para dispositivos desktop
+            }
+        };
+
+        updateLogo(); // Atualiza logo ao montar o componente
+        window.addEventListener('resize', updateLogo); // Atualiza logo ao redimensionar a tela
+
+        return () => window.removeEventListener('resize', updateLogo); // Limpa o evento ao desmontar
+    }, []);
 
     const handleRetry = useCallback(() => {
         setLoading(true);
@@ -73,7 +90,7 @@ const ReadBook = () => {
     return (
         <div className="pdf-viewer-container">
             <div className="logo-container" onClick={() => navigate('/')}>
-                <img src="/logo192.png" alt="Logos" className="logo-icon" />
+                <img src={logoSrc} alt="Logos" className="logo-icon" />
             </div>
 
             <DocViewer
