@@ -9,7 +9,7 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [logoSrc, setLogoSrc] = useState('/logo192.png');
+    const [logoSrc, setLogoSrc] = useState('/logo192.png'); // Estado para a logo
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -31,18 +31,19 @@ const BookDetails = () => {
     }, [id]);
 
     useEffect(() => {
+        // Detecta o tamanho da tela e ajusta a logo
         const updateLogo = () => {
             if (window.innerWidth <= 768) {
-                setLogoSrc('/logo512.png');
+                setLogoSrc('/logo512.png'); // Usa logo512.png para dispositivos móveis
             } else {
-                setLogoSrc('/logo192.png');
+                setLogoSrc('/logo192.png'); // Usa logo192.png para dispositivos desktop
             }
         };
 
-        updateLogo();
-        window.addEventListener('resize', updateLogo);
+        updateLogo(); // Atualiza logo ao montar o componente
+        window.addEventListener('resize', updateLogo); // Atualiza logo ao redimensionar a tela
 
-        return () => window.removeEventListener('resize', updateLogo);
+        return () => window.removeEventListener('resize', updateLogo); // Limpa o evento ao desmontar
     }, []);
 
     const handleReadNow = () => {
@@ -99,7 +100,7 @@ const BookDetails = () => {
                 <button onClick={handleDownload} className="view-button">Fazer download</button>
             </div>
             <p className="book-note">
-                <strong>OBS:</strong> <strong>SE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DOWNLOAD.</strong>
+                <strong>OBS:</strong> SE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DOWNLOAD.
             </p>
         </div>
     );
