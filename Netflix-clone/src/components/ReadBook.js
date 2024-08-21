@@ -79,7 +79,7 @@ const ReadBook = () => {
                     },
                     pdfZoom: {
                         defaultZoom: zoom,
-                        zoomJump: 0.3,
+                        zoomJump: 0.2,
                     },
                     pdfVerticalScrollByDefault: true,
                     disableTextLayer: true,
