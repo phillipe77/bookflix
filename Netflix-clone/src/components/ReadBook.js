@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
-import '@cyntler/react-doc-viewer/dist/index.css';
-import './ReadBook.css';  // Estilização específica para o leitor
-import bookApi from '../bookApi';
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import "@cyntler/react-doc-viewer/dist/index.css";
+import './ReadBook.css'; // Vamos criar este arquivo CSS para os ajustes
 
 const ReadBook = () => {
     const { id } = useParams();
-    const [book, setBook] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
-    const [error, setError] = React.useState(null);
+    const [book, setBook] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookApi.getBookInfo(id);
@@ -43,27 +42,21 @@ const ReadBook = () => {
     }
 
     return (
-        <div className="pdf-reader">
+        <div className="read-book-container">
             <DocViewer
                 documents={[{ uri: book.pdfUrl }]}
                 pluginRenderers={DocViewerRenderers}
                 config={{
-                    pdfZoom: {
-                        defaultZoom: 1.1,
-                        zoomJump: 0.2,
-                    },
                     header: {
                         disableHeader: false,
                         disableFileName: true,
+                        retainURLParams: false,
                     },
-                    theme: {
-                        primary: "#444",
-                        secondary: "#ffffff",
-                        tertiary: "#eeeeee",
-                        textPrimary: "#000000",
-                        textSecondary: "#333333",
-                        textTertiary: "#666666",
+                    pdfZoom: {
+                        defaultZoom: 1.1, // Zoom padrão ajustado para mobile
+                        zoomJump: 0.2,
                     },
+                    pdfVerticalScrollByDefault: true, // Rolagem vertical padrão
                 }}
             />
         </div>
