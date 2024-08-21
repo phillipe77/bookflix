@@ -76,11 +76,11 @@ const BookDetails = () => {
                 <p><strong>Categoria:</strong> {book.category}</p>
             </div>
             <div className="view-buttons">
-                <button onClick={handleReadNow} className="view-button">Ler agora</button>
-                <button onClick={handleDownload} className="view-button">Fazer download do livro</button>
+                <button onClick={handleReadNow} className="view-button">LER AGORA</button>
+                <button onClick={handleDownload} className="view-button">FAZER DONWLOAD</button>
             </div>
             <p className="book-note">
-                <strong>OBS:</strong> <strong>Alguns livros são escaneados, o que pode causar lentidão no carregamento das páginas ao ler online. Para uma melhor experiência, faça o download.</strong>
+                <strong>OBS:</strong> <strong>SSE VOCÊ NOTAR QUE O LIVRO ESTÁ DEMORANDO PARA CARREGAR, PODE SER PORQUE O LIVRO SEJA DO TIPO QUE FOI ESCANEADO E ISSO CAUSA LENTIDÃO. PARA UMA LEITURA MAIS TRANQUILA, EXPERIMENTE FAZER O DONWLOAD</strong>
             </p>
         </div>
     );

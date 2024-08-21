@@ -158,9 +158,10 @@
     }
     
     .book-note {
-        margin-top: 20px;
+        margin-top: 40px; /* Aumenta o espaço acima da observação */
         font-size: 0.9em;
         color: #666;
-    }
+        text-transform: uppercase; /* Torna o texto em caixa alta */
     
+}
 }
