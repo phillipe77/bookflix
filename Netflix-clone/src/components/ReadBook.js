@@ -45,7 +45,7 @@ const ReadBook = () => {
     };
 
     // Função de debounce para aplicar o zoom
-    const debouncedZoom = useCallback(_.debounce(handleZoomChange, 300), []);
+    const debouncedZoom = _.debounce(handleZoomChange, 300);
 
     if (loading) {
         return <div>Carregando...</div>;
