@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
-import _ from 'lodash'; // Importando lodash para utilizar debounce
+import _ from 'lodash'; // Importando lodash para utilizar throttle
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -44,8 +44,8 @@ const ReadBook = () => {
         setZoom(newZoom);
     };
 
-    // Função de debounce para aplicar o zoom
-    const debouncedZoom = _.debounce(handleZoomChange, 300);
+    // Função de throttle para aplicar o zoom
+    const throttledZoom = _.throttle(handleZoomChange, 300);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -103,7 +103,7 @@ const ReadBook = () => {
                     overflowY: 'auto',
                     overflowX: 'auto',  /* Permite rolagem horizontal */
                 }}
-                onZoom={(newZoom) => debouncedZoom(newZoom)} // Aplicando debounce no zoom
+                onZoom={(newZoom) => throttledZoom(newZoom)} // Aplicando throttle no zoom
                 requestHeaders={{ timeout: 10000 }}
             />
         </div>
