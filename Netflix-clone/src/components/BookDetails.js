@@ -35,6 +35,17 @@ const BookDetails = () => {
         }
     };
 
+    const handleDownload = () => {
+        if (book && book.pdfUrl) {
+            const link = document.createElement('a');
+            link.href = book.pdfUrl;
+            link.download = `${book.title}.pdf`;  // Define o nome do arquivo para download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    };
+
     if (loading) {
         return <div>Carregando...</div>;
     }
@@ -58,7 +69,11 @@ const BookDetails = () => {
             </div>
             <div className="view-buttons">
                 <button onClick={handleReadNow} className="view-button">Ler agora</button>
+                <button onClick={handleDownload} className="view-button">Fazer download do livro</button>
             </div>
+            <p className="book-note">
+                <strong>OBS:</strong> <strong>Alguns livros são escaneados, o que pode causar lentidão no carregamento das páginas ao ler online. Para uma melhor experiência, faça o download.</strong>
+            </p>
         </div>
     );
 };
