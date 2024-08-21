@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
@@ -11,26 +11,44 @@ const ReadBook = () => {
     const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchBook = async () => {
-            try {
-                const bookData = await bookApi.getBookInfo(id);
-                if (bookData && bookData.pdfUrl) {
-                    setBook(bookData);
-                } else {
-                    throw new Error("Informações do livro estão incompletas.");
-                }
-            } catch (err) {
-                setError('Erro ao buscar informações do livro');
+    const fetchBook = useCallback(async () => {
+        try {
+            const bookData = await bookApi.getBookInfo(id);
+            if (bookData && bookData.pdfUrl) {
+                setBook(bookData);
+            } else {
+                throw new Error("Informações do livro estão incompletas.");
             }
-        };
-
-        fetchBook();
+        } catch (err) {
+            setError('Erro ao buscar informações do livro');
+        } finally {
+            setLoading(false);
+        }
     }, [id]);
 
+    useEffect(() => {
+        fetchBook();
+    }, [fetchBook]);
+
+    const handleRetry = () => {
+        setLoading(true);
+        setError(null);
+        fetchBook();
+    };
+
+    if (loading) {
+        return <div>Carregando...</div>;
+    }
+
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div>
+                {error}
+                <button onClick={handleRetry}>Tentar novamente</button>
+            </div>
+        );
     }
 
     if (!book) {
@@ -39,7 +57,6 @@ const ReadBook = () => {
 
     return (
         <div className="pdf-viewer-container">
-            {/* Ícone Logos para retornar ao menu principal */}
             <div className="logo-container" onClick={() => navigate('/')}>
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
             </div>
@@ -55,18 +72,19 @@ const ReadBook = () => {
                         defaultZoom: 0.8,
                         zoomJump: 0.3,
                     },
-                    pdfVerticalScrollByDefault: true, // Habilita a rolagem vertical por padrão
+                    pdfVerticalScrollByDefault: true,
                 }}
                 style={{
                     width: '100%',
                     height: '100vh',
-                    maxWidth: '794px',  // Largura de uma folha A4 em pixels
-                    maxHeight: '1122px',  // Altura de uma folha A4 em pixels
+                    maxWidth: '794px',
+                    maxHeight: '1122px',
                     margin: '0 auto',
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-                    overflowY: 'auto',  // Garante a rolagem vertical
+                    overflowY: 'auto',
                 }}
+                requestHeaders={{ timeout: 10000 }}  // Adicionado tempo limite para requisição
             />
         </div>
     );
