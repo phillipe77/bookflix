@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
-import _ from 'lodash'; // Importando lodash para utilizar debounce
+import _ from 'lodash';
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -13,7 +13,7 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(0.9); // Estado para controlar o zoom
+    const [zoom, setZoom] = useState(0.9);
 
     const fetchBook = useCallback(async () => {
         try {
@@ -34,18 +34,17 @@ const ReadBook = () => {
         fetchBook();
     }, [fetchBook]);
 
-    const handleRetry = () => {
+    const handleRetry = useCallback(() => {
         setLoading(true);
         setError(null);
         fetchBook();
-    };
+    }, [fetchBook]);
 
-    const handleZoomChange = (newZoom) => {
+    const handleZoomChange = useCallback((newZoom) => {
         setZoom(newZoom);
-    };
+    }, []);
 
-    // Função de debounce para aplicar o zoom
-    const debouncedZoom = _.debounce(handleZoomChange, 300);
+    const debouncedZoom = useMemo(() => _.debounce(handleZoomChange, 300), [handleZoomChange]);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -101,6 +100,4 @@ const ReadBook = () => {
     );
 };
 
-export default ReadBook;
-
-
+export default React.memo(ReadBook);
