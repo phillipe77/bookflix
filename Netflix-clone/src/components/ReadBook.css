@@ -39,13 +39,13 @@ header {
     height: auto;
 }
 
-/* Adicionando estilo para garantir que os controles do DocViewer sejam utilizáveis */
+/* Garantir que os controles do DocViewer estejam visíveis e clicáveis */
 .react-doc-viewer-header {
     position: fixed;
     right: 10px;
     top: 10px;
-    z-index: 1000;
-    pointer-events: auto;
+    z-index: 1001; /* Garante que os controles estejam acima de outros elementos */
+    pointer-events: auto; /* Garante que os controles sejam clicáveis */
 }
 
 /* Responsividade */
