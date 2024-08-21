@@ -13,7 +13,7 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(0.9);
+    const [zoom, setZoom] = useState(1.0);
 
     const fetchBook = useCallback(async () => {
         try {
@@ -46,7 +46,7 @@ const ReadBook = () => {
 
     // Memoize the debounced function to avoid unnecessary re-creations
     const debouncedZoom = useMemo(
-        () => _.debounce(handleZoomChange, 300),
+        () => _.debounce(handleZoomChange, 500),
         [handleZoomChange]
     );
 
@@ -101,7 +101,7 @@ const ReadBook = () => {
                     overflowY: 'auto',
                 }}
                 onZoom={(newZoom) => debouncedZoom(newZoom)}
-                requestHeaders={{ timeout: 10000 }}
+                requestHeaders={{ timeout: 20000 }}
             />
         </div>
     );
