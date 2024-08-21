@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSwipeable } from 'react-swipeable';  // Importa a biblioteca de swipe
+import { useSpring, animated } from 'react-spring';
+import { useGesture } from 'react-use-gesture';
 import bookApi from '../bookApi';
-import _ from 'lodash';
 import './ReadBook.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -14,7 +13,6 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(0.8); // Estado para controlar o zoom
     const [currentPage, setCurrentPage] = useState(1); // Controla a página atual
 
     const fetchBook = useCallback(async () => {
@@ -42,34 +40,22 @@ const ReadBook = () => {
         fetchBook();
     };
 
-    const handleZoomChange = (newZoom) => {
-        setZoom(newZoom);
-    };
+    // Animação para a página
+    const [{ x }, set] = useSpring(() => ({ x: 0 }));
 
-    // Função de debounce para aplicar o zoom
-    const debouncedZoom = _.debounce(handleZoomChange, 300);
-
-    // Handlers de Swipe
-    const handleSwipeLeft = () => {
-        // Incrementa a página, se possível
-        if (book && currentPage < book.totalPages) {
-            setCurrentPage(prevPage => prevPage + 1);
+    // Gestos de swipe
+    const bind = useGesture({
+        onDrag: ({ down, movement: [mx], direction: [xDir], distance, cancel }) => {
+            if (down && distance > 100) {
+                if (xDir > 0 && currentPage > 1) {
+                    setCurrentPage(currentPage - 1); // Swipe para a direita
+                } else if (xDir < 0 && currentPage < book.totalPages) {
+                    setCurrentPage(currentPage + 1); // Swipe para a esquerda
+                }
+                cancel(); // Cancela o movimento para permitir a transição suave
+            }
+            set({ x: down ? mx : 0 });
         }
-    };
-
-    const handleSwipeRight = () => {
-        // Decrementa a página, se possível
-        if (book && currentPage > 1) {
-            setCurrentPage(prevPage => prevPage - 1);
-        }
-    };
-
-    // Configura os gestures de swipe
-    const swipeHandlers = useSwipeable({
-        onSwipedLeft: handleSwipeLeft,
-        onSwipedRight: handleSwipeRight,
-        preventDefaultTouchmoveEvent: true,
-        trackMouse: true,
     });
 
     if (loading) {
@@ -90,26 +76,15 @@ const ReadBook = () => {
     }
 
     return (
-        <div className="pdf-viewer-container" {...swipeHandlers}>
+        <div className="pdf-viewer-container">
             <div className="logo-container" onClick={() => navigate('/')}>
                 <img src="/logo192.png" alt="Logos" className="logo-icon" />
             </div>
 
-            <DocViewer
-                documents={[{ uri: book.pdfUrl }]}
-                pluginRenderers={DocViewerRenderers}
-                config={{
-                    header: {
-                        disableHeader: true,
-                    },
-                    pdfZoom: {
-                        defaultZoom: zoom,
-                        zoomJump: 0.3,
-                    },
-                    pdfVerticalScrollByDefault: true,
-                    disableTextLayer: true,
-                }}
+            <animated.div
+                {...bind()}
                 style={{
+                    transform: x.to(x => `translate3d(${x}px,0,0)`),
                     width: '100%',
                     height: '100vh',
                     maxWidth: '794px',
@@ -118,10 +93,31 @@ const ReadBook = () => {
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                     overflowY: 'auto',
+                    position: 'relative',
                 }}
-                onZoom={(newZoom) => debouncedZoom(newZoom)}
-                requestHeaders={{ timeout: 10000 }}
-            />
+            >
+                <DocViewer
+                    documents={[{ uri: book.pdfUrl }]}
+                    pluginRenderers={DocViewerRenderers}
+                    config={{
+                        header: {
+                            disableHeader: true,
+                        },
+                        pdfZoom: {
+                            defaultZoom: 1,
+                            zoomJump: 0.3,
+                        },
+                        pdfVerticalScrollByDefault: true,
+                        disableTextLayer: true,
+                        currentPage,
+                    }}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        overflowY: 'auto',
+                    }}
+                />
+            </animated.div>
         </div>
     );
 };
