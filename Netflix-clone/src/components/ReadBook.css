@@ -43,6 +43,8 @@ header {
         width: calc(100% - 250px);
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -54,17 +56,33 @@ header {
     justify-content: center;
     overflow: auto;
     position: relative;
+    padding: 20px;
 }
 
-.pdf-viewer-container .doc-viewer {
-    width: 100%;
-    height: auto;
-    max-width: 1500px;  /* Aumentado para duas páginas lado a lado */
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
+.pdf-document {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-page-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaço entre as duas páginas */
+    flex-direction: row;
+    transform: rotate(90deg); /* Rotaciona para visualização horizontal */
+    transform-origin: center;
+}
+
+.pdf-page-container canvas {
+    max-width: 50%; /* Garante que cada página ocupe metade da tela */
+}
+
+.navigation-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
 }
 
 .logo-container {
@@ -100,6 +118,16 @@ header {
         width: 100%;
     }
 
+    .pdf-page-container {
+        flex-direction: column;
+        gap: 10px;
+        transform: rotate(0); /* Remove rotação para dispositivos móveis */
+    }
+
+    .pdf-page-container canvas {
+        max-width: 100%; /* Página ocupa 100% da largura no mobile */
+    }
+
     .logo-container {
         top: 5px;
         left: 5px;
@@ -112,5 +140,10 @@ header {
     .react-doc-viewer-header {
         top: 5px;
         right: 5px;
+    }
+
+    .navigation-buttons {
+        width: 100%;
+        justify-content: space-around;
     }
 }

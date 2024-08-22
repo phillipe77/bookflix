@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Document, Page } from 'react-pdf';
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
-import _ from 'lodash';
 import './ReadBook.css';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const ReadBook = () => {
     const { id } = useParams();
@@ -13,8 +10,9 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoom, setZoom] = useState(1.0);
-    const [logoSrc, setLogoSrc] = useState('/logo192.png');
+    const [pageNumber, setPageNumber] = useState(1);
+    const [numPages, setNumPages] = useState(null);
+    const [width, setWidth] = useState(window.innerWidth);
 
     const fetchBook = useCallback(async () => {
         try {
@@ -36,36 +34,29 @@ const ReadBook = () => {
     }, [fetchBook]);
 
     useEffect(() => {
-        const updateLogo = () => {
-            if (window.innerWidth <= 768) {
-                setLogoSrc('/logo512.png');
-            } else {
-                setLogoSrc('/logo192.png');
-            }
+        const handleResize = () => {
+            setWidth(window.innerWidth);
         };
 
-        updateLogo();
-        window.addEventListener('resize', updateLogo);
-
-        return () => window.removeEventListener('resize', updateLogo);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const handleRetry = useCallback(() => {
-        setLoading(true);
-        setError(null);
-        fetchBook();
-    }, [fetchBook]);
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+    };
 
-    const handleZoomChange = useCallback((newZoom) => {
-        setZoom(newZoom);
-    }, []);
+    const handleNextPage = () => {
+        if (pageNumber < numPages - 1) {
+            setPageNumber(pageNumber + 2);
+        }
+    };
 
-    const debouncedZoom = useMemo(
-        () => _.debounce(handleZoomChange, 500),
-        [handleZoomChange]
-    );
-
-    const memoizedBook = useMemo(() => book, [book]);
+    const handlePrevPage = () => {
+        if (pageNumber > 1) {
+            setPageNumber(pageNumber - 2);
+        }
+    };
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -75,12 +66,12 @@ const ReadBook = () => {
         return (
             <div>
                 {error}
-                <button onClick={handleRetry}>Tentar novamente</button>
+                <button onClick={fetchBook}>Tentar novamente</button>
             </div>
         );
     }
 
-    if (!memoizedBook) {
+    if (!book) {
         return <div>Livro não encontrado!</div>;
     }
 
@@ -97,36 +88,33 @@ const ReadBook = () => {
 
             <div className="pdf-viewer-container">
                 <div className="logo-container" onClick={() => navigate('/')}>
-                    <img src={logoSrc} alt="Logos" className="logo-icon" />
+                    <img src={width > 768 ? '/logo192.png' : '/logo512.png'} alt="Logos" className="logo-icon" />
                 </div>
 
-                <DocViewer
-                    documents={[{ uri: memoizedBook.pdfUrl }]}
-                    pluginRenderers={DocViewerRenderers}
-                    config={{
-                        header: {
-                            disableHeader: true,
-                        },
-                        pdfZoom: {
-                            defaultZoom: zoom,
-                            zoomJump: 0.2,
-                        },
-                        pdfVerticalScrollByDefault: false, // Modificação para scroll horizontal
-                        disableTextLayer: true,
-                        pdfDisplayMode: 'dual', // Mostra duas páginas lado a lado
-                    }}
-                    style={{
-                        width: '100%',
-                        height: '100vh',
-                        maxWidth: '1500px', // Aumentado para duas páginas
-                        margin: '0 auto',
-                        backgroundColor: '#f5f5f5',
-                        boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-                        overflowX: 'auto', // Modificação para scroll horizontal
-                    }}
-                    onZoom={(newZoom) => debouncedZoom(newZoom)}
-                    requestHeaders={{ timeout: 20000 }}
-                />
+                <Document
+                    file={book.pdfUrl}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    className="pdf-document"
+                >
+                    <div className="pdf-page-container">
+                        <Page pageNumber={pageNumber} />
+                        {pageNumber + 1 <= numPages && (
+                            <Page pageNumber={pageNumber + 1} />
+                        )}
+                    </div>
+                </Document>
+
+                <div className="navigation-buttons">
+                    <button onClick={handlePrevPage} disabled={pageNumber <= 1}>
+                        Anterior
+                    </button>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={pageNumber >= numPages - 1}
+                    >
+                        Próximo
+                    </button>
+                </div>
             </div>
         </div>
     );
