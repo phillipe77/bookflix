@@ -4,21 +4,62 @@ header {
     display: none !important;
 }
 
+.readbook-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar para desktop */
+.sidebar {
+    display: none;
+    width: 250px;
+    background-color: #efefef;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Visível apenas em telas grandes */
+@media only screen and (min-width: 769px) {
+    .sidebar {
+        display: block;
+    }
+
+    .pdf-viewer-container {
+        width: calc(100% - 250px);
+    }
+}
+
 .pdf-viewer-container {
     background-color: #000;
-    height: 100vh;
+    flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: auto;
-    position: relative; /* Mantém o contexto de empilhamento para controles */
+    position: relative;
 }
 
 .pdf-viewer-container .doc-viewer {
     width: 100%;
     height: auto;
-    max-width: 794px;  /* A4 width */
-    max-height: 1122px; /* A4 height */
+    max-width: 794px;
+    max-height: 1122px;
     margin: 0 auto;
     background-color: #fff;
     padding: 20px;
@@ -35,24 +76,28 @@ header {
 }
 
 .logo-icon {
-    width: 50px; /* Tamanho do ícone Logos */
+    width: 50px;
     height: auto;
 }
 
-/* Garantir que os controles do DocViewer estejam visíveis e clicáveis */
 .react-doc-viewer-header {
     position: fixed;
     right: 10px;
     top: 10px;
-    z-index: 1001; /* Garante que os controles estejam acima de outros elementos */
-    pointer-events: auto; /* Garante que os controles sejam clicáveis */
+    z-index: 1001;
+    pointer-events: auto;
 }
 
 /* Responsividade */
 @media only screen and (max-width: 768px) {
+    .readbook-container {
+        flex-direction: column;
+    }
+
     .pdf-viewer-container {
         padding-top: 10px;
         overflow-y: auto;
+        width: 100%;
     }
 
     .logo-container {

@@ -36,19 +36,18 @@ const ReadBook = () => {
     }, [fetchBook]);
 
     useEffect(() => {
-        // Detecta o tamanho da tela e ajusta a logo
         const updateLogo = () => {
             if (window.innerWidth <= 768) {
-                setLogoSrc('/logo512.png'); // Usa logo512.png para dispositivos móveis
+                setLogoSrc('/logo512.png');
             } else {
-                setLogoSrc('/logo192.png'); // Usa logo192.png para dispositivos desktop
+                setLogoSrc('/logo192.png');
             }
         };
 
-        updateLogo(); // Atualiza logo ao montar o componente
-        window.addEventListener('resize', updateLogo); // Atualiza logo ao redimensionar a tela
+        updateLogo();
+        window.addEventListener('resize', updateLogo);
 
-        return () => window.removeEventListener('resize', updateLogo); // Limpa o evento ao desmontar
+        return () => window.removeEventListener('resize', updateLogo);
     }, []);
 
     const handleRetry = useCallback(() => {
@@ -61,13 +60,11 @@ const ReadBook = () => {
         setZoom(newZoom);
     }, []);
 
-    // Memoize the debounced function to avoid unnecessary re-creations
     const debouncedZoom = useMemo(
         () => _.debounce(handleZoomChange, 500),
         [handleZoomChange]
     );
 
-    // Memoize the book object to avoid unnecessary re-renders
     const memoizedBook = useMemo(() => book, [book]);
 
     if (loading) {
@@ -88,38 +85,51 @@ const ReadBook = () => {
     }
 
     return (
-        <div className="pdf-viewer-container">
-            <div className="logo-container" onClick={() => navigate('/')}>
-                <img src={logoSrc} alt="Logos" className="logo-icon" />
+        <div className="readbook-container">
+            <div className="sidebar">
+                {/* Exemplo de conteúdo da barra lateral */}
+                <h2>Sumário</h2>
+                <ul>
+                    <li>Capítulo 1</li>
+                    <li>Capítulo 2</li>
+                    <li>Capítulo 3</li>
+                    {/* Adicione links ou navegação aqui */}
+                </ul>
             </div>
 
-            <DocViewer
-                documents={[{ uri: memoizedBook.pdfUrl }]}
-                pluginRenderers={DocViewerRenderers}
-                config={{
-                    header: {
-                        disableHeader: true,
-                    },
-                    pdfZoom: {
-                        defaultZoom: zoom,
-                        zoomJump: 0.2,
-                    },
-                    pdfVerticalScrollByDefault: true,
-                    disableTextLayer: true,
-                }}
-                style={{
-                    width: '100%',
-                    height: '100vh',
-                    maxWidth: '794px',
-                    maxHeight: '1122px',
-                    margin: '0 auto',
-                    backgroundColor: '#f5f5f5',
-                    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-                    overflowY: 'auto',
-                }}
-                onZoom={(newZoom) => debouncedZoom(newZoom)}
-                requestHeaders={{ timeout: 20000 }}
-            />
+            <div className="pdf-viewer-container">
+                <div className="logo-container" onClick={() => navigate('/')}>
+                    <img src={logoSrc} alt="Logos" className="logo-icon" />
+                </div>
+
+                <DocViewer
+                    documents={[{ uri: memoizedBook.pdfUrl }]}
+                    pluginRenderers={DocViewerRenderers}
+                    config={{
+                        header: {
+                            disableHeader: true,
+                        },
+                        pdfZoom: {
+                            defaultZoom: zoom,
+                            zoomJump: 0.2,
+                        },
+                        pdfVerticalScrollByDefault: true,
+                        disableTextLayer: true,
+                    }}
+                    style={{
+                        width: '100%',
+                        height: '100vh',
+                        maxWidth: '794px',
+                        maxHeight: '1122px',
+                        margin: '0 auto',
+                        backgroundColor: '#f5f5f5',
+                        boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
+                        overflowY: 'auto',
+                    }}
+                    onZoom={(newZoom) => debouncedZoom(newZoom)}
+                    requestHeaders={{ timeout: 20000 }}
+                />
+            </div>
         </div>
     );
 };
