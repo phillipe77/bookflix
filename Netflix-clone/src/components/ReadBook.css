@@ -34,7 +34,6 @@ header {
     color: #555;
 }
 
-/* Visível apenas em telas grandes */
 @media only screen and (min-width: 769px) {
     .sidebar {
         display: block;
@@ -42,6 +41,8 @@ header {
 
     .pdf-viewer-container {
         width: calc(100% - 250px);
+        display: flex;
+        justify-content: center;
     }
 }
 
@@ -58,13 +59,12 @@ header {
 .pdf-viewer-container .doc-viewer {
     width: 100%;
     height: auto;
-    max-width: 794px;
-    max-height: 1122px;
+    max-width: 1500px;  /* Aumentado para duas páginas lado a lado */
     margin: 0 auto;
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .logo-container {
