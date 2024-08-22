@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Document, Page } from 'react-pdf';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useParams, useNavigate } from 'react-router-dom';
 import bookApi from '../bookApi';
+import _ from 'lodash';
 import './ReadBook.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const ReadBook = () => {
     const { id } = useParams();
@@ -10,9 +13,8 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [pageNumber, setPageNumber] = useState(1);
-    const [numPages, setNumPages] = useState(null);
-    const [width, setWidth] = useState(window.innerWidth);
+    const [zoom, setZoom] = useState(1.0);
+    const [logoSrc, setLogoSrc] = useState('/logo192.png'); // Estado para a logo
 
     const fetchBook = useCallback(async () => {
         try {
@@ -34,29 +36,39 @@ const ReadBook = () => {
     }, [fetchBook]);
 
     useEffect(() => {
-        const handleResize = () => {
-            setWidth(window.innerWidth);
+        // Detecta o tamanho da tela e ajusta a logo
+        const updateLogo = () => {
+            if (window.innerWidth <= 768) {
+                setLogoSrc('/logo512.png'); // Usa logo512.png para dispositivos móveis
+            } else {
+                setLogoSrc('/logo192.png'); // Usa logo192.png para dispositivos desktop
+            }
         };
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        updateLogo(); // Atualiza logo ao montar o componente
+        window.addEventListener('resize', updateLogo); // Atualiza logo ao redimensionar a tela
+
+        return () => window.removeEventListener('resize', updateLogo); // Limpa o evento ao desmontar
     }, []);
 
-    const onDocumentLoadSuccess = ({ numPages }) => {
-        setNumPages(numPages);
-    };
+    const handleRetry = useCallback(() => {
+        setLoading(true);
+        setError(null);
+        fetchBook();
+    }, [fetchBook]);
 
-    const handleNextPage = () => {
-        if (pageNumber < numPages - 1) {
-            setPageNumber(pageNumber + 2);
-        }
-    };
+    const handleZoomChange = useCallback((newZoom) => {
+        setZoom(newZoom);
+    }, []);
 
-    const handlePrevPage = () => {
-        if (pageNumber > 1) {
-            setPageNumber(pageNumber - 2);
-        }
-    };
+    // Memoize the debounced function to avoid unnecessary re-creations
+    const debouncedZoom = useMemo(
+        () => _.debounce(handleZoomChange, 500),
+        [handleZoomChange]
+    );
+
+    // Memoize the book object to avoid unnecessary re-renders
+    const memoizedBook = useMemo(() => book, [book]);
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -66,56 +78,48 @@ const ReadBook = () => {
         return (
             <div>
                 {error}
-                <button onClick={fetchBook}>Tentar novamente</button>
+                <button onClick={handleRetry}>Tentar novamente</button>
             </div>
         );
     }
 
-    if (!book) {
+    if (!memoizedBook) {
         return <div>Livro não encontrado!</div>;
     }
 
     return (
-        <div className="readbook-container">
-            <div className="sidebar">
-                <h2>Sumário</h2>
-                <ul>
-                    <li>Capítulo 1</li>
-                    <li>Capítulo 2</li>
-                    <li>Capítulo 3</li>
-                </ul>
+        <div className="pdf-viewer-container">
+            <div className="logo-container" onClick={() => navigate('/')}>
+                <img src={logoSrc} alt="Logos" className="logo-icon" />
             </div>
 
-            <div className="pdf-viewer-container">
-                <div className="logo-container" onClick={() => navigate('/')}>
-                    <img src={width > 768 ? '/logo192.png' : '/logo512.png'} alt="Logos" className="logo-icon" />
-                </div>
-
-                <Document
-                    file={book.pdfUrl}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    className="pdf-document"
-                >
-                    <div className="pdf-page-container">
-                        <Page pageNumber={pageNumber} />
-                        {pageNumber + 1 <= numPages && (
-                            <Page pageNumber={pageNumber + 1} />
-                        )}
-                    </div>
-                </Document>
-
-                <div className="navigation-buttons">
-                    <button onClick={handlePrevPage} disabled={pageNumber <= 1}>
-                        Anterior
-                    </button>
-                    <button
-                        onClick={handleNextPage}
-                        disabled={pageNumber >= numPages - 1}
-                    >
-                        Próximo
-                    </button>
-                </div>
-            </div>
+            <DocViewer
+                documents={[{ uri: memoizedBook.pdfUrl }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                    header: {
+                        disableHeader: true,
+                    },
+                    pdfZoom: {
+                        defaultZoom: zoom,
+                        zoomJump: 0.2,
+                    },
+                    pdfVerticalScrollByDefault: true,
+                    disableTextLayer: true,
+                }}
+                style={{
+                    width: '100%',
+                    height: '100vh',
+                    maxWidth: '794px',
+                    maxHeight: '1122px',
+                    margin: '0 auto',
+                    backgroundColor: '#f5f5f5',
+                    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
+                    overflowY: 'auto',
+                }}
+                onZoom={(newZoom) => debouncedZoom(newZoom)}
+                requestHeaders={{ timeout: 20000 }}
+            />
         </div>
     );
 };

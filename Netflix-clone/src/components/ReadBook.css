@@ -4,85 +4,26 @@ header {
     display: none !important;
 }
 
-.readbook-container {
-    display: flex;
-    height: 100vh;
-    background-color: #f4f4f4;
-}
-
-/* Sidebar para desktop */
-.sidebar {
-    display: none;
-    width: 250px;
-    background-color: #efefef;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar h2 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    margin-bottom: 10px;
-    color: #555;
-}
-
-@media only screen and (min-width: 769px) {
-    .sidebar {
-        display: block;
-    }
-
-    .pdf-viewer-container {
-        width: calc(100% - 250px);
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
 .pdf-viewer-container {
     background-color: #000;
-    flex-grow: 1;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: auto;
-    position: relative;
+    position: relative; /* Mantém o contexto de empilhamento para controles */
+}
+
+.pdf-viewer-container .doc-viewer {
+    width: 100%;
+    height: auto;
+    max-width: 794px;  /* A4 width */
+    max-height: 1122px; /* A4 height */
+    margin: 0 auto;
+    background-color: #fff;
     padding: 20px;
-}
-
-.pdf-document {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pdf-page-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* Espaço entre as duas páginas */
-    flex-direction: row;
-    transform: rotate(90deg); /* Rotaciona para visualização horizontal */
-    transform-origin: center;
-}
-
-.pdf-page-container canvas {
-    max-width: 50%; /* Garante que cada página ocupe metade da tela */
-}
-
-.navigation-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    width: 200px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
 }
 
 .logo-container {
@@ -94,38 +35,24 @@ header {
 }
 
 .logo-icon {
-    width: 50px;
+    width: 50px; /* Tamanho do ícone Logos */
     height: auto;
 }
 
+/* Garantir que os controles do DocViewer estejam visíveis e clicáveis */
 .react-doc-viewer-header {
     position: fixed;
     right: 10px;
     top: 10px;
-    z-index: 1001;
-    pointer-events: auto;
+    z-index: 1001; /* Garante que os controles estejam acima de outros elementos */
+    pointer-events: auto; /* Garante que os controles sejam clicáveis */
 }
 
 /* Responsividade */
 @media only screen and (max-width: 768px) {
-    .readbook-container {
-        flex-direction: column;
-    }
-
     .pdf-viewer-container {
         padding-top: 10px;
         overflow-y: auto;
-        width: 100%;
-    }
-
-    .pdf-page-container {
-        flex-direction: column;
-        gap: 10px;
-        transform: rotate(0); /* Remove rotação para dispositivos móveis */
-    }
-
-    .pdf-page-container canvas {
-        max-width: 100%; /* Página ocupa 100% da largura no mobile */
     }
 
     .logo-container {
@@ -140,10 +67,5 @@ header {
     .react-doc-viewer-header {
         top: 5px;
         right: 5px;
-    }
-
-    .navigation-buttons {
-        width: 100%;
-        justify-content: space-around;
     }
 }
