@@ -95,6 +95,7 @@ const ReadBook = () => {
                         flexDirection: 'row',
                         overflow: 'hidden',
                     }}
+                    onZoom={(newZoom) => debouncedZoom(newZoom)}
                     onDocumentLoad={(document) => setTotalPages(document.numPages)}
                     onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
                 />
