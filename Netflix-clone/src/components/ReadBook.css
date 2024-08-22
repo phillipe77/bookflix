@@ -8,13 +8,16 @@ header {
     background-color: #000;
     height: 100vh;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     overflow: auto;
     position: relative; /* Mantém o contexto de empilhamento para controles */
 }
 
+
 .pdf-viewer-container .doc-viewer {
+    flex: 1;
     width: 100%;
     height: auto;
     max-width: 794px;  /* A4 width */
@@ -25,6 +28,8 @@ header {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
 }
+
+
 
 .logo-container {
     position: fixed;
