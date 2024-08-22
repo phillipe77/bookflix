@@ -106,6 +106,7 @@ const ReadBook = () => {
                     },
                     pdfVerticalScrollByDefault: true,
                     disableTextLayer: true,
+                    pdfRenderAsync: true
                 }}
                 style={{
                     width: '100%',
