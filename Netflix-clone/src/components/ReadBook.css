@@ -1,35 +1,36 @@
 /* ReadBook.css */
 
-header {
-    display: none !important;
-}
-
 .pdf-viewer-container {
     background-color: #000;
     height: 100vh;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    overflow: auto;
-    position: relative; /* Mantém o contexto de empilhamento para controles */
+    position: relative;
 }
 
-
-.pdf-viewer-container .doc-viewer {
-    flex: 1;
+.doc-viewer-wrapper {
+    display: flex;
     width: 100%;
-    height: auto;
-    max-width: 794px;  /* A4 width */
-    max-height: 1122px; /* A4 height */
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
+    height: 100%;
+    flex-direction: row;
+    overflow: hidden;
 }
 
+.react-doc-viewer__viewer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+}
 
+.react-doc-viewer__page {
+    flex: 1;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
 
 .logo-container {
     position: fixed;
@@ -40,37 +41,47 @@ header {
 }
 
 .logo-icon {
-    width: 50px; /* Tamanho do ícone Logos */
+    width: 50px;
     height: auto;
 }
 
-/* Garantir que os controles do DocViewer estejam visíveis e clicáveis */
-.react-doc-viewer-header {
+.pagination-controls {
     position: fixed;
-    right: 10px;
-    top: 10px;
-    z-index: 1001; /* Garante que os controles estejam acima de outros elementos */
-    pointer-events: auto; /* Garante que os controles sejam clicáveis */
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    display: flex;
+    gap: 10px;
+}
+
+.nav-button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.nav-button:disabled {
+    background-color: #222;
+    cursor: not-allowed;
 }
 
 /* Responsividade */
 @media only screen and (max-width: 768px) {
-    .pdf-viewer-container {
-        padding-top: 10px;
-        overflow-y: auto;
+    .doc-viewer-wrapper {
+        flex-direction: column;
     }
 
-    .logo-container {
-        top: 5px;
-        left: 5px;
+    .react-doc-viewer__page {
+        width: 100%;
+        height: 50%;
     }
 
-    .logo-icon {
-        width: 40px;
-    }
-
-    .react-doc-viewer-header {
-        top: 5px;
-        right: 5px;
+    .pagination-controls {
+        bottom: 20px;
     }
 }
